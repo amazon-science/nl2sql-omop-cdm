@@ -1,4 +1,6 @@
 import sys
 import os
+from os import path as osp
 
-sys.path.append(0, os.path.abspath('./'))
+current_folder = osp.dirname(osp.abspath(__file__))
+sys.path.append(current_folder)
