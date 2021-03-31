@@ -33,7 +33,7 @@ def render_template_query(config, current_query, args_dict):
 
         # retrieve concept name
         idx = int(idx)
-        concept_name = args_dict[domain][idx]
+        concept_name = args_dict[domain][idx]["Query-arg"]
 
         # retrieve rendered sub-query
         sub_query = placeholder2templates[template_type](config.SCHEMA, concept_name)
@@ -57,7 +57,7 @@ def render_template_query(config, current_query, args_dict):
 
         # retrieve argument value
         idx = int(idx)
-        arg_value = args_dict[domain][idx]
+        arg_value = args_dict[domain][idx]["Query-arg"]
 
         # replace argument value in current-query
         current_query = current_query[:start] + arg_value +  current_query[end:]
