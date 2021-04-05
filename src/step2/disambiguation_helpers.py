@@ -1,23 +1,25 @@
 import boto3
 import re
+import json
+from os import path as osp
 # test
 from pprint import pprint
 
-CM_CLIENT = boto3.client('comprehendmedical')
 
+CM_CLIENT = boto3.client('comprehendmedical')
 ETHNICITY_P = re.compile("(?i)\\b(not)\\b")
 
-# TODO: fill dictionaries -- or use rematching?
-GENDER2STANDARD = [
-    # (OMOP CDM concept name, pattern that has to match)
-    ("FEMALE", re.compile("(?i)\\b(females?|wom(a|e)n)\\b")),
-    ("MALE", re.compile("(?i)\\b(males?|m(a|e)n)\\b"))
-]
-RACE2STANDARD = [
-    # (OMOP CDM concept name, pattern that has to match)
-    ("Black or African American", re.compile("(?i)\\b(black or african americans?|african americans?|blacks?)\\b")),
-    ("White", re.compile("(?i)\\b(whites?)\\b"))
-]
+
+def load_dict2pattern(filepath):
+    with open(filepath, 'r') as fp:
+        category2pattern = json.load(fp)
+        out = {category: re.compile(pattern) for category, pattern in category2pattern.items()}
+    return out
+
+current_folder = osp.dirname(osp.abspath(__file__))
+GENDER2STANDARD = load_dict2pattern(osp.join(current_folder, 'gender2pattern.json'))
+RACE2STANDARD = load_dict2pattern(osp.join(current_folder, 'race2pattern.json'))
+STATE2STANDARD = load_dict2pattern(osp.join(current_folder, 'state2pattern.json'))
 
 
 def _use_pattern_dict(name, standard2pattern):
@@ -31,9 +33,10 @@ def _use_pattern_dict(name, standard2pattern):
     
     
     '''
-    for standard, pattern in standard2pattern:
-        if re.search(pattern, name):
+    for standard, pattern in standard2pattern.items():
+        if re.match(pattern, name):
             return standard
+    return f'[NOT FOUND]-{name}'
     
     # Error handeling
     standards = ''.join([i[0] for i in standard2pattern])
@@ -66,6 +69,20 @@ def _race_name2standard(race_name):
     
     '''
     return _use_pattern_dict(race_name, RACE2STANDARD)
+    
+    
+def _state_name2standard(race_name):
+    '''
+    
+    
+    Args:
+    
+    
+    Returns:
+    
+    
+    '''
+    return _use_pattern_dict(race_name, STATE2STANDARD)
     
     
 def _ethnicity_name2standard(ethnicity_name):
@@ -147,6 +164,20 @@ def add_race_options(entities):
     
     '''
     return _use_function_for_options(entities, _race_name2standard)
+
+
+def add_state_options(entities):
+    '''
+    
+    
+    Args:
+    
+    
+    Returns:
+    
+    
+    '''
+    return _use_function_for_options(entities, _state_name2standard)
     
     
 def add_ethnicity_options(entities):
@@ -191,7 +222,7 @@ def add_time_options(entities):
     return _use_text_as_options(entities)
 
 
-def add_state_options(entities):
+def add_age_options(entities):
     '''
     
     

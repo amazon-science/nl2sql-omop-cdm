@@ -31,6 +31,8 @@ def add_drug_condition_time_dosage_entities(nlq, entities_by_category, seen_name
     entities_by_category["DRUG"] = []
     entities_by_category["CONDITION"] = []
     entities_by_category["DOSAGE"] = []
+    entities_by_category["AGE"] = []
+    entities_by_category["STATE"] = []
     
 
     # extract entities from main entities and attributes.

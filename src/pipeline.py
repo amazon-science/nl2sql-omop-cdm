@@ -19,11 +19,11 @@ class nlq2SqlTool(object):
         # open redshift connection and initialize ML object
         
         
-    def open_redshift_connection(self, ):
+    def _open_redshift_connection(self, ):
         self.conn = connect_to_db(self.config.REDSHIFT_PARM)
     
     
-    def close_redshift_connection(self, ):
+    def _close_redshift_connection(self, ):
         if not hasattr(self, 'conn'):
             raise AttributeError("Connection has to be opened before closing it")
             
@@ -76,8 +76,10 @@ class nlq2SqlTool(object):
     
     
     def execute_sql_query(self, sql_query):
+        self._open_redshift_connection()
         cursor = self.conn.cursor()
         out_df = execute_query(cursor, sql_query)
+        self._close_redshift_connection()
         return out_df
     
     

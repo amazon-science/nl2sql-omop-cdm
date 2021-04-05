@@ -6,6 +6,7 @@ from disambiguation_helpers import (
     add_ethnicity_options,
     add_dosage_options,
     add_time_options,
+    add_age_options,
     add_state_options
 )
 
@@ -18,7 +19,8 @@ def add_omop_disambiguation_options(entities):
     entities['RACE'] = add_race_options(entities['RACE'])
     entities['TIMEDAYS'] = add_time_options(entities['TIMEDAYS'])
     entities['TIMEYEARS'] = add_time_options(entities['TIMEYEARS'])
-#     entities['STATE'] = add_state_options(entities['STATE'])
+    entities['AGE'] = add_age_options(entities['AGE'])
+    entities['STATE'] = add_state_options(entities['STATE'])
     
     return entities
 

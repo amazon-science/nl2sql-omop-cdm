@@ -124,8 +124,6 @@ def _add_cm_entity(raw_entity, entities_by_category, seen_names):
         _update_time_category_with_cm_record(entity, 
                                              entities_by_category["TIMEDAYS"],
                                              seen_names)
-        
-        
 
     elif entity_category == "MEDICATION" and entity_type == "DOSAGE":
         _update_category_with_cm_record(entity, 
@@ -135,6 +133,16 @@ def _add_cm_entity(raw_entity, entities_by_category, seen_names):
     elif entity_category == "PROTECTED_HEALTH_INFORMATION" and entity_type == "DATE":
         _update_category_with_cm_record(entity, 
                                         entities_by_category["TIMEYEARS"], 
+                                        seen_names)
+        
+    elif entity_category == "PROTECTED_HEALTH_INFORMATION" and entity_type == "AGE":
+        _update_category_with_cm_record(entity, 
+                                        entities_by_category["AGE"], 
+                                        seen_names)
+        
+    elif entity_category == "PROTECTED_HEALTH_INFORMATION" and entity_type == "ADDRESS":
+        _update_category_with_cm_record(entity, 
+                                        entities_by_category["STATE"], 
                                         seen_names)
 
     elif entity_category == "MEDICATION" and (entity_type in ("GENERIC_NAME", "BRAND_NAME")):

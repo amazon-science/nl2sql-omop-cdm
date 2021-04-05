@@ -26,7 +26,7 @@ def render_condition_template(schema, condition_code):
         str: Rendered subquery with input arguments. 
     '''
 #     out = get_descendent_concepts_template_from_concept_name(schema, 'Condition', condition_name)
-    out = get_descendent_concepts_template_from_vocab_code(schema, 'ICD10', condition_code)
+    out = get_descendent_concepts_template_from_vocab_code(schema, 'ICD10CM', condition_code)
     return out
 
 
