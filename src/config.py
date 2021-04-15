@@ -14,7 +14,8 @@ from step5.rendering_functions import (
 
 
 # Step 1: 
-
+ENTITY_DETECTION_SCORE_THR = .7
+DRUG_RELATIONSHIP_SCORE_THR = .7
 
 
 # Step 2: 
