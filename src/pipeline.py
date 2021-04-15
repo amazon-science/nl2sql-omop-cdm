@@ -1,9 +1,6 @@
 from step1.entity_extraction import detect_entities
-# TODO: Test
 from step2.entity_processing import add_omop_disambiguation_options, add_placeholders
-# TODO: Test
 from step3.nlq_processing import replace_name_for_placeholder
-# TODO: implement module
 # step4: ml module -> ml class wrapped around saved model and method to do inference.
 from step5.sql_processing import render_template_query
 from utils.query_execution import connect_to_db, execute_query
@@ -14,7 +11,6 @@ class nlq2SqlTool(object):
         
         # initialize arguments
         self.config = config
-        
     
         # open redshift connection and initialize ML object
         
@@ -40,7 +36,8 @@ class nlq2SqlTool(object):
             
         
         '''
-        return detect_entities(nlq)
+        return detect_entities(nlq, self.config.ENTITY_DETECTION_SCORE_THR, 
+                               self.config.DRUG_RELATIONSHIP_SCORE_THR)
     
     def process_entities(self, entities):
         '''Process entiteis by adding disambiguation options to match OMOP CDM terminology & assign placeholder

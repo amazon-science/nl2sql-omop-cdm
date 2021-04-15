@@ -10,9 +10,10 @@ ETHNICITY_P = re.compile("(?i)\\b((not? +)?(hispanics? +or +latinos?|hispanics?|
 RACE_P = re.compile("(?i)\\b(black or african americans?|african americans?|blacks?|whites?)\\b")
 
 CM_CLIENT = boto3.client('comprehendmedical')
+DOSAGE_CM_CATEGS = set(('DOSAGE','STRENGTH'))
 
 
-def add_drug_condition_time_dosage_entities(nlq, entities_by_category, seen_names):
+def add_cm_entities(nlq, entities_by_category, seen_names, entity_detection_score_thr, drug_relationship_score_thr):
     '''
     
     
@@ -34,15 +35,30 @@ def add_drug_condition_time_dosage_entities(nlq, entities_by_category, seen_name
     entities_by_category["AGE"] = []
     entities_by_category["STATE"] = []
     
-
+    
     # extract entities from main entities and attributes.
     for entity in result['Entities']:
-        entities_by_category, seen_names = _add_cm_entity(entity,
-                                                          entities_by_category, seen_names)
-
+        dosage = None
+        
         for attribute in entity.get("Attributes", []):
-            entities_by_category, seen_names = _add_cm_entity(attribute,
-                                                              entities_by_category, seen_names)
+            if attribute['Score'] > entity_detection_score_thr:
+                if attribute['RelationshipType'] in DOSAGE_CM_CATEGS and attribute['RelationshipScore'] > drug_relationship_score_thr:
+                    dosage = attribute['Text']
+                    
+                else:
+                    entities_by_category, seen_names = _add_cm_entity(attribute, entities_by_category, 
+                                                                      seen_names)
+                
+        if entity['Score'] > entity_detection_score_thr:
+            
+            if dosage:
+                entity['Text'] = entity['Text'] + ' ' + dosage
+                entities_by_category, seen_names = _add_cm_entity(entity, entities_by_category, 
+                                                                  seen_names)
+                
+            else:
+                entities_by_category, seen_names = _add_cm_entity(entity, entities_by_category, 
+                                                                  seen_names)
 
         
     return entities_by_category, seen_names
@@ -106,7 +122,7 @@ def add_race_entities(nlq, entities_by_category, seen_names):
 
 
 # main function
-def detect_entities(nlq):
+def detect_entities(nlq, entity_detection_score_thr, drug_relationship_score_thr):
     '''
     
     
@@ -121,9 +137,9 @@ def detect_entities(nlq):
     seen_names = set()
     
     # Comprehend Medical NER
-    entities_by_category, seen_names = add_drug_condition_time_dosage_entities(nlq,
-                                                                               entities_by_category, 
-                                                                               seen_names)
+    entities_by_category, seen_names = add_cm_entities(nlq, entities_by_category, seen_names,
+                                                       entity_detection_score_thr, drug_relationship_score_thr
+                                                      )
 
     # regex NER
     entities_by_category, seen_names = add_gender_entities(nlq, entities_by_category, seen_names)
