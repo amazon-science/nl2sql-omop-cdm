@@ -2,4 +2,5 @@ ipywidgets
 pip 
 setuptools 
 wheel
-spacy
+spacy[cuda110]
+transformers
