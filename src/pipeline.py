@@ -80,13 +80,20 @@ class nlq2SqlTool(object):
         return out_df
     
     
-    def nlq2sql(self, nlq):
+    def get_nlq_entities(self, nlq):
         
         # step1: detect_entities
         entities = self.detect_entities(nlq)
         
         # step2: disambiguate to OMOP CDM ontology & assign placeholder
         entities = slef.process_entities(entities)
+        
+        return entities
+    
+    
+    def execute_nlq(self, nlq):
+        
+        entities = slef.process_entities()
         
         # step3: replace placeholder in nlq -> nlq2
         nlq2 = self.replace_name_for_placeholder(nlq, entities)
@@ -101,3 +108,4 @@ class nlq2SqlTool(object):
         result = self.execute_sql_query(final_sql)
         
         return result
+    

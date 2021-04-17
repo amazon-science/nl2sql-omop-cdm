@@ -1,0 +1,5 @@
+ipywidgets
+pip 
+setuptools 
+wheel
+spacy
