@@ -1,3 +1,7 @@
+import torch
+import random
+import numpy as np
+
 import time
 import torch
 import numpy as np
@@ -229,3 +233,12 @@ class T5FineTuner(pl.LightningModule):
         test_dataset = get_dataset(tokenizer=self.tokenizer, data_split="test", num_samples=n_samples, args=self.hparams)
         
         return DataLoader(test_dataset, batch_size=self.hparams.eval_batch_size, num_workers=4)
+    
+    
+def set_seed(seed):
+    """Seed random seed if needed."""
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
