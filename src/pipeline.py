@@ -1,25 +1,51 @@
 from step1.entity_extraction import detect_entities
 from step2.entity_processing import add_omop_disambiguation_options, add_placeholders
 from step3.nlq_processing import replace_name_for_placeholder
-# step4: ml module -> ml class wrapped around saved model and method to do inference.
+from step4.ml_inference import Inferencer
 from step5.sql_processing import render_template_query
 from utils.query_execution import connect_to_db, execute_query
+from copy import deepcopy
 
 class nlq2SqlTool(object):
     
     def __init__(self, config):
+        '''Comment
         
-        # initialize arguments
+        Args:
+            
+            
+        Returns:
+            
+        
+        '''
+        
         self.config = config
-    
-        # open redshift connection and initialize ML object
+        self.model = Inferencer()
         
         
     def _open_redshift_connection(self, ):
+        '''Comment
+        
+        Args:
+            
+            
+        Returns:
+            
+        
+        '''
         self.conn = connect_to_db(self.config.REDSHIFT_PARM)
     
     
     def _close_redshift_connection(self, ):
+        '''Comment
+        
+        Args:
+            
+            
+        Returns:
+            
+        
+        '''
         if not hasattr(self, 'conn'):
             raise AttributeError("Connection has to be opened before closing it")
             
@@ -39,7 +65,8 @@ class nlq2SqlTool(object):
         return detect_entities(nlq, self.config.ENTITY_DETECTION_SCORE_THR, 
                                self.config.DRUG_RELATIONSHIP_SCORE_THR)
     
-    def process_entities(self, entities):
+    
+    def process_entities(self, entities, **kwargs):
         '''Process entiteis by adding disambiguation options to match OMOP CDM terminology & assign placeholder
         
         Args:
@@ -49,30 +76,66 @@ class nlq2SqlTool(object):
             
         
         '''
+        entities = deepcopy(entities)
 #         TODO: Implement add_omop_disambiguation_options and add_placeholders
         entities = add_omop_disambiguation_options(entities)
         
-        entities = add_placeholders(entities)
+        entities = add_placeholders(entities, **kwargs)
         
         return entities
         
+        
     def replace_name_for_placeholder(self, nlq, entities):
-        #         TODO: Implement call model (inside funct: seq-foward + idx2token + concat)
+        '''Comment
+        
+        Args:
+            
+            
+        Returns:
+            
+        
+        '''
         nlq2 = replace_name_for_placeholder(nlq, entities)
         return nlq2
     
     
     def ml_call(self, nlq):
-#         TODO: Implement call model (inside funct: seq-foward + idx2token + concat)
-        raise NotImplemented()
+        '''Comment
+        
+        Args:
+            
+            
+        Returns:
+            
+        
+        '''
+        sql_query = self.model(nlq)
+        return sql_query
     
        
     def render_template_query(self, template_sql, entities):
+        '''Comment
         
+        Args:
+            
+            
+        Returns:
+            
+        
+        '''
         return render_template_query(self.config, template_sql, entities)
     
     
     def execute_sql_query(self, sql_query):
+        '''Comment
+        
+        Args:
+            
+            
+        Returns:
+            
+        
+        '''
         self._open_redshift_connection()
         cursor = self.conn.cursor()
         out_df = execute_query(cursor, sql_query)
@@ -80,20 +143,21 @@ class nlq2SqlTool(object):
         return out_df
     
     
-    def get_nlq_entities(self, nlq):
+    def __call__(self, nlq):
+        '''Comment
         
+        Args:
+            
+            
+        Returns:
+            
+        
+        '''
         # step1: detect_entities
         entities = self.detect_entities(nlq)
         
         # step2: disambiguate to OMOP CDM ontology & assign placeholder
         entities = slef.process_entities(entities)
-        
-        return entities
-    
-    
-    def execute_nlq(self, nlq):
-        
-        entities = slef.process_entities()
         
         # step3: replace placeholder in nlq -> nlq2
         nlq2 = self.replace_name_for_placeholder(nlq, entities)
@@ -108,4 +172,17 @@ class nlq2SqlTool(object):
         result = self.execute_sql_query(final_sql)
         
         return result
+    
+    
+if __name__=='__main__':
+    
+    import config
+    tool = nlq2SqlTool(config)
+    
+    query = 'How many people are taking Aspirin?'
+    
+    df = tool(query)
+    
+    print('Input :', query)
+    print('Output :', df)
     

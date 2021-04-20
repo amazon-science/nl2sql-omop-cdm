@@ -17,8 +17,5 @@ The pipeline has been tested in Amazon's SageMaker `pytorch_p36` environment. It
 Instructions to complete set up are as follows:
 
 ```bash
-$ cd ~/SageMaker/merck_nl2sql/
-$ source activate pytorch_p36
-(pytorch_p36)$ pip install -r requirements.txt
-(pytorch_p36)$ python -m spacy download en_core_web_sm
+$ /bin/bash set_up.sh
 ```

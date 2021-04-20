@@ -3,4 +3,6 @@ pip
 setuptools 
 wheel
 spacy[cuda110]
+sentencepiece
 transformers
+pytorch_lightning

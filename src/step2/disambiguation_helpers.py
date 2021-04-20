@@ -271,14 +271,16 @@ def add_drug_options(entities):
     
     '''
     for entity in entities:
-        response = CM_CLIENT.infer_rx_norm(Text = entity["Text"])
-        try:
-            result = response['Entities'][0]
-        except:
-            print(entity["Text"])
-            pprint(response)
-        entity["Options"] = result["RxNormConcepts"]
-        entity["Query-arg"] = entity["Options"][0]["Code"]
+        response = CM_CLIENT.infer_rx_norm(Text = entity["Text"])['Entities']
+        if response:
+            result = response[0]
+            options = result["RxNormConcepts"]
+            default = options[0]["Code"]
+        else:
+            options = [{"Score": -1., "Code": "-1", "Description": "N/A"}]
+            default = "N/A"
+        entity["Options"] = options
+        entity["Query-arg"] = default
     
     return entities
     
