@@ -31,7 +31,7 @@ def add_cm_entities(nlq, entities_by_category, seen_names, entity_detection_scor
     entities_by_category["TIMEYEARS"] = []
     entities_by_category["DRUG"] = []
     entities_by_category["CONDITION"] = []
-    entities_by_category["DOSAGE"] = []
+#     entities_by_category["DOSAGE"] = []
     entities_by_category["AGE"] = []
     entities_by_category["STATE"] = []
     
@@ -43,7 +43,7 @@ def add_cm_entities(nlq, entities_by_category, seen_names, entity_detection_scor
         for attribute in entity.get("Attributes", []):
             if attribute['Score'] > entity_detection_score_thr:
                 if attribute['RelationshipType'] in DOSAGE_CM_CATEGS and attribute['RelationshipScore'] > drug_relationship_score_thr:
-                    dosage = attribute['Text']
+                    dosage = attribute
                     
                 else:
                     entities_by_category, seen_names = _add_cm_entity(attribute, entities_by_category, 
@@ -52,7 +52,8 @@ def add_cm_entities(nlq, entities_by_category, seen_names, entity_detection_scor
         if entity['Score'] > entity_detection_score_thr:
             
             if dosage:
-                entity['Text'] = entity['Text'] + ' ' + dosage
+                entity['Text'] = entity['Text'] + ' ' + dosage['Text']
+                entity['EndOffset'] = max(entity['EndOffset'], dosage['EndOffset'])
                 entities_by_category, seen_names = _add_cm_entity(entity, entities_by_category, 
                                                                   seen_names)
                 
