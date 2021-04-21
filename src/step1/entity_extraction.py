@@ -10,7 +10,7 @@ ETHNICITY_P = re.compile("(?i)\\b((not? +)?(hispanics? +or +latinos?|hispanics?|
 RACE_P = re.compile("(?i)\\b(black or african americans?|african americans?|blacks?|whites?)\\b")
 
 CM_CLIENT = boto3.client('comprehendmedical')
-DOSAGE_CM_CATEGS = set(('DOSAGE','STRENGTH'))
+COMPLEMENT_CATEGS = set(('DOSAGE','STRENGTH', 'ACUITY'))
 
 
 def add_cm_entities(nlq, entities_by_category, seen_names, entity_detection_score_thr, drug_relationship_score_thr):
@@ -38,27 +38,31 @@ def add_cm_entities(nlq, entities_by_category, seen_names, entity_detection_scor
     
     # extract entities from main entities and attributes.
     for entity in result['Entities']:
-        dosage = None
+        complement = None
         
+        # TODO add logic to handle more than one attribute that should go into the name
         for attribute in entity.get("Attributes", []):
             if attribute['Score'] > entity_detection_score_thr:
-                if attribute['RelationshipType'] in DOSAGE_CM_CATEGS and attribute['RelationshipScore'] > drug_relationship_score_thr:
-                    dosage = attribute
+                if attribute['RelationshipType'] in COMPLEMENT_CATEGS and attribute['RelationshipScore'] > drug_relationship_score_thr:
+                    complement = attribute
                     
-                else:
-                    entities_by_category, seen_names = _add_cm_entity(attribute, entities_by_category, 
-                                                                      seen_names)
+            elif attribute['RelationshipType'] not in COMPLEMENT_CATEGS:
+                entities_by_category, seen_names = _add_cm_entity(attribute, entities_by_category, 
+                                                                  seen_names)
                 
         if entity['Score'] > entity_detection_score_thr:
             
-            if dosage:
-                entity['Text'] = entity['Text'] + ' ' + dosage['Text']
-                entity['EndOffset'] = max(entity['EndOffset'], dosage['EndOffset'])
-                entities_by_category, seen_names = _add_cm_entity(entity, entities_by_category, 
-                                                                  seen_names)
+            if complement:
+                if complement['BeginOffset'] < entity['BeginOffset']:
+                    entity['Text'] = complement['Text'] + ' ' + entity['Text'] 
+                    entity['BeginOffset'] = complement['BeginOffset']
                 
-            else:
-                entities_by_category, seen_names = _add_cm_entity(entity, entities_by_category, 
+                else:
+                    entity['Text'] = entity['Text'] + ' ' + complement['Text']
+                    entity['EndOffset'] = complement['EndOffset']
+                    
+                
+            entities_by_category, seen_names = _add_cm_entity(entity, entities_by_category, 
                                                                   seen_names)
 
         
