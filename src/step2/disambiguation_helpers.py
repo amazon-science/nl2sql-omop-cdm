@@ -250,12 +250,17 @@ def add_condition_options(entities):
     """
     
     for entity in entities:
-        response = CM_CLIENT.infer_icd10_cm(Text = entity["Text"])
-        result = response['Entities'][0]
-#         pprint(result)
-        entity["Options"] = result["ICD10CMConcepts"]
-        entity["Query-arg"] = entity["Options"][0]["Code"]
-    
+        response = CM_CLIENT.infer_icd10_cm(Text = entity["Text"])['Entities']
+        if response:
+            options = response[0]["ICD10CMConcepts"]
+            default = options[0]["Code"]
+        else:
+            options = [{"Score": -1., "Code": "-1", "Description": "N/A"}]
+            default = "N/A"
+            
+        entity["Options"] = options
+        entity["Query-arg"] = default
+        
     return entities
     
     
