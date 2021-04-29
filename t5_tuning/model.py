@@ -32,7 +32,29 @@ class T5FineTuner(pl.LightningModule):
             self.freeze_params(self.model.get_encoder())
             self.assert_all_frozen(self.model.get_encoder())
             
-            
+        self.new_special_tokens = ['<ARG-DRUG>',
+                                   '<ARG-CONDITION>',
+                                   '<ARG-GENDER>',
+                                   '<ARG-RACE>',
+                                   '<ARG-ETHNICITY>',
+                                   '<ARG-STATE>',
+                                   '<ARG-AGE>',
+                                   '<ARG-TIMEDAYS>',
+                                   '<ARG-TIMEYEARS>',
+                                   '<GENDER-TEMPLATE>', 
+                                   '<RACE-TEMPLATE>', 
+                                   '<ETHNICITY-TEMPLATE>', 
+                                   '<STATEID-TEMPLATE>', 
+                                   '<CONDITION-TEMPLATE>',
+                                   '<DRUG-TEMPLATE>',
+                                   '<ARG-CONDITION>', 
+                                   '<STATENAME-TEMPLATE>',
+                                   '<ARG-DRUG>', 
+                                   '<ARG-DAYS>'] + [f'<{i}>' for i in range(10)]
+        
+        additional_special_tokens = self.tokenizer.additional_special_tokens + self.new_special_tokens        
+        self.tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
+        
         n_observations_per_split = {
             "train": self.hparams.n_train,
             "validation": self.hparams.n_val,
@@ -140,6 +162,14 @@ class T5FineTuner(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         loss = self._step(batch)
+        
+        #Added to fix the empty training loss
+        optimizer = self.optimizers(use_pl_optimizer=True)
+
+        optimizer.zero_grad()
+        self.manual_backward(loss)#, optimizer=optimizer)
+        optimizer.step()
+        #End of Add
 
         tensorboard_logs = {"train_loss": loss}
         return {"loss": loss, "log": tensorboard_logs}
@@ -167,6 +197,11 @@ class T5FineTuner(pl.LightningModule):
         
         self.target_gen= []
         self.prediction_gen=[]
+        
+        # added start
+        self.log('val_loss', avg_loss)
+        # added ends
+        
         return {"avg_val_loss": avg_loss, 
                 "rouge1" : rouge_results['rouge1'],
                 "rougeL" : rouge_results['rougeL'],
@@ -191,15 +226,33 @@ class T5FineTuner(pl.LightningModule):
         self.opt = optimizer
         return [optimizer]
 
-    def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx, second_order_closure=None, using_native_amp=None): 
+#     def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx, second_order_closure=None, using_native_amp=None): 
 
-        if self.trainer.use_tpu:
-            xm.optimizer_step(optimizer)
-        else:
-          optimizer.step()
-        optimizer.zero_grad()
-        self.lr_scheduler.step()
-  
+#         print('TPU....', self.trainer.use_tpu)
+#         if self.trainer.use_tpu:
+#             xm.optimizer_step(optimizer)
+#         else:
+#           optimizer.step()
+#         optimizer.zero_grad()
+#         self.lr_scheduler.step()
+        
+    #Fixed the error "got an expected keyword on_tpu"
+    #From https://github.com/PyTorchLightning/pytorch-lightning/issues/5326#issuecomment-757589200
+    def optimizer_step(self,
+                        epoch=None,
+                        batch_idx=None,
+                        optimizer=None,
+                        optimizer_idx=None,
+                        optimizer_closure=None,
+                        on_tpu=None,
+                        using_native_amp=None,
+                        using_lbfgs=None):
+
+            optimizer.step() # remove 'closure=optimizer_closure' here
+            optimizer.zero_grad()
+            self.lr_scheduler.step()
+
+    
     def get_tqdm_dict(self):
 
         tqdm_dict = {"loss": "{:.3f}".format(self.trainer.avg_loss), "lr": self.lr_scheduler.get_last_lr()[-1]}

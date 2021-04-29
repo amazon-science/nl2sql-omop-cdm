@@ -19,7 +19,7 @@ class NL2SQLDataset(Dataset):
         self.data_split = data_split
         #self.dataset =  load_dataset('wikisql', 'all', data_dir='data/', split=data_split)
         if num_samples:
-            self.dataset = self.dataset.select(list(range(0, num_samples)))
+            self.dataset[data_split] = self.dataset[data_split].select(list(range(0, num_samples)))
         self.input_length = input_length
         self.tokenizer = tokenizer
         self.output_length = output_length
