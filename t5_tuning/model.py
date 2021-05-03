@@ -24,13 +24,13 @@ class T5FineTuner(pl.LightningModule):
         self.hparams = hparams        
         self.model = T5ForConditionalGeneration.from_pretrained(hparams.model_name)
         self.tokenizer = T5Tokenizer.from_pretrained(hparams.tokenizer_name)
-        self.rouge_metric = load_metric('rouge')
         
         if self.hparams.freeze_embeds:
             self.freeze_embeds()
         if self.hparams.freeze_encoder:
             self.freeze_params(self.model.get_encoder())
             self.assert_all_frozen(self.model.get_encoder())
+            
             
         self.new_special_tokens = ['<ARG-DRUG>',
                                    '<ARG-CONDITION>',
@@ -54,6 +54,7 @@ class T5FineTuner(pl.LightningModule):
         
         additional_special_tokens = self.tokenizer.additional_special_tokens + self.new_special_tokens        
         self.tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
+        
         
         n_observations_per_split = {
             "train": self.hparams.n_train,
@@ -155,7 +156,7 @@ class T5FineTuner(pl.LightningModule):
         base_metrics = {'val_loss': loss}
         summ_len = np.mean(self.lmap(len, generated_ids))
         base_metrics.update(gen_time=gen_time, gen_len=summ_len, preds=preds, target=target)
-        self.rouge_metric.add_batch(preds, target)
+
         
         return base_metrics
     
@@ -163,22 +164,11 @@ class T5FineTuner(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         loss = self._step(batch)
         
-        #Added to fix the empty training loss
-        optimizer = self.optimizers(use_pl_optimizer=True)
+        self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
 
-        optimizer.zero_grad()
-        self.manual_backward(loss)#, optimizer=optimizer)
-        optimizer.step()
-        #End of Add
-
-        tensorboard_logs = {"train_loss": loss}
-        return {"loss": loss, "log": tensorboard_logs}
+        tensorboard_logs = {"loss": loss}
+        return loss # {"loss": loss, "log": tensorboard_logs}
   
-    def training_epoch_end(self, outputs):
-        print("\n")
-        avg_train_loss = torch.stack([x["loss"] for x in outputs]).mean()
-        tensorboard_logs = {"avg_train_loss": avg_train_loss}
-        return {"avg_train_loss": avg_train_loss, "log": tensorboard_logs, 'progress_bar': tensorboard_logs}
 
     def validation_step(self, batch, batch_idx):
         
@@ -189,24 +179,15 @@ class T5FineTuner(pl.LightningModule):
 
         avg_loss = torch.stack([x["val_loss"] for x in outputs]).mean()
         tensorboard_logs = {"val_loss": avg_loss}
-        
-        rouge_results = self.rouge_metric.compute() 
-        rouge_dict = self.parse_score(rouge_results)
-    
-        tensorboard_logs.update(rouge1=rouge_dict['rouge1'], rougeL=rouge_dict['rougeL'])
-        
+                
         self.target_gen= []
         self.prediction_gen=[]
         
-        # added start
-        self.log('val_loss', avg_loss)
-        # added ends
+        self.log('val_loss', avg_loss, on_epoch=True, prog_bar=True)
         
-        return {"avg_val_loss": avg_loss, 
-                "rouge1" : rouge_results['rouge1'],
-                "rougeL" : rouge_results['rougeL'],
-                "log": tensorboard_logs, 'progress_bar': tensorboard_logs}
+        return None
 
+    
     def configure_optimizers(self):
 
         "Prepare optimizer and schedule (linear warmup and decay)"
@@ -226,43 +207,10 @@ class T5FineTuner(pl.LightningModule):
         self.opt = optimizer
         return [optimizer]
 
-#     def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx, second_order_closure=None, using_native_amp=None): 
-
-#         print('TPU....', self.trainer.use_tpu)
-#         if self.trainer.use_tpu:
-#             xm.optimizer_step(optimizer)
-#         else:
-#           optimizer.step()
-#         optimizer.zero_grad()
-#         self.lr_scheduler.step()
-        
-    #Fixed the error "got an expected keyword on_tpu"
-    #From https://github.com/PyTorchLightning/pytorch-lightning/issues/5326#issuecomment-757589200
-    def optimizer_step(self,
-                        epoch=None,
-                        batch_idx=None,
-                        optimizer=None,
-                        optimizer_idx=None,
-                        optimizer_closure=None,
-                        on_tpu=None,
-                        using_native_amp=None,
-                        using_lbfgs=None):
-
-            optimizer.step() # remove 'closure=optimizer_closure' here
-            optimizer.zero_grad()
-            self.lr_scheduler.step()
-
-    
-    def get_tqdm_dict(self):
-
-        tqdm_dict = {"loss": "{:.3f}".format(self.trainer.avg_loss), "lr": self.lr_scheduler.get_last_lr()[-1]}
-        return tqdm_dict
-
-    
     def train_dataloader(self):   
         n_samples = self.n_obs['train']
         train_dataset = get_dataset(tokenizer=self.tokenizer, data_split="train", num_samples=n_samples, args=self.hparams)
-        dataloader = DataLoader(train_dataset, batch_size=self.hparams.train_batch_size, drop_last=True, shuffle=True, num_workers=4)
+        dataloader = DataLoader(train_dataset, batch_size=self.hparams.train_batch_size, drop_last=True, shuffle=True, num_workers=24)
         t_total = (
             (len(dataloader.dataset) // (self.hparams.train_batch_size * max(1, self.hparams.n_gpu)))
             // self.hparams.gradient_accumulation_steps
@@ -278,14 +226,14 @@ class T5FineTuner(pl.LightningModule):
         n_samples = self.n_obs['validation']
         validation_dataset = get_dataset(tokenizer=self.tokenizer, data_split="validation", num_samples=n_samples, args=self.hparams)
         
-        return DataLoader(validation_dataset, batch_size=self.hparams.eval_batch_size, num_workers=4)
+        return DataLoader(validation_dataset, batch_size=self.hparams.eval_batch_size, num_workers=24)
     
     
     def test_dataloader(self):
         n_samples = self.n_obs['test']
         test_dataset = get_dataset(tokenizer=self.tokenizer, data_split="test", num_samples=n_samples, args=self.hparams)
         
-        return DataLoader(test_dataset, batch_size=self.hparams.eval_batch_size, num_workers=4)
+        return DataLoader(test_dataset, batch_size=self.hparams.eval_batch_size, num_workers=24)
     
     
 def set_seed(seed):
