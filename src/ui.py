@@ -292,7 +292,7 @@ class UI(object):
                 break
         
         self._visualize_drug_info()
-        self.main_display()
+        self._display_main()
         
         
     def _condition_update(self, b):
@@ -302,7 +302,7 @@ class UI(object):
                 break
         
         self._visualize_condition_info()
-        self.main_display()
+        self._display_main()
     
     
     def _initialize_mapped_values(self,):

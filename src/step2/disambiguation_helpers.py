@@ -36,7 +36,7 @@ def _use_pattern_dict(name, standard2pattern):
     for standard, pattern in standard2pattern.items():
         if re.match(pattern, name):
             return standard
-    return f'[NOT FOUND]-{name}'
+    return f'NA'
     
     # Error handeling
     standards = ''.join([i[0] for i in standard2pattern])
