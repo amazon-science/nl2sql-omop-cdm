@@ -52,8 +52,11 @@ class T5FineTuner(pl.LightningModule):
                                    '<ARG-DRUG>', 
                                    '<ARG-DAYS>'] + [f'<{i}>' for i in range(10)]
         
-        additional_special_tokens = self.tokenizer.additional_special_tokens + self.new_special_tokens        
-        self.tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
+#         additional_special_tokens = self.tokenizer.additional_special_tokens + self.new_special_tokens        
+#         self.tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
+
+        num_added_toks = self.tokenizer.add_special_tokens({'additional_special_tokens': self.new_special_tokens})
+        self.model.resize_token_embeddings(len(self.tokenizer))
         
         
         n_observations_per_split = {
@@ -127,7 +130,7 @@ class T5FineTuner(pl.LightningModule):
     
     def ids_to_clean_text(self, generated_ids):
         gen_text = self.tokenizer.batch_decode(
-            generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=True
+            generated_ids, skip_special_tokens=False, clean_up_tokenization_spaces=True
         )
         return self.lmap(str.strip, gen_text)
     
@@ -141,11 +144,11 @@ class T5FineTuner(pl.LightningModule):
             attention_mask=batch["source_mask"],
             use_cache=True,
             decoder_attention_mask=batch['target_mask'],
-            max_length=150, 
+            max_length=self.hparams.max_output_length, 
             num_beams=2,
             repetition_penalty=2.5, 
             length_penalty=1.0, 
-            early_stopping=True
+            early_stopping=self.hparams.early_stop_callback
         )
         preds = self.ids_to_clean_text(generated_ids)
         target = self.ids_to_clean_text(batch["target_ids"])
