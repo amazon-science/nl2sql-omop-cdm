@@ -33,6 +33,7 @@ class T5FineTuner(pl.LightningModule):
             
             
         self.new_special_tokens = ['<',
+                                   '>',
                                    '<ARG-DRUG>',
                                    '<ARG-CONDITION>',
                                    '<ARG-GENDER>',
