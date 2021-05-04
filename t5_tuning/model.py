@@ -32,7 +32,8 @@ class T5FineTuner(pl.LightningModule):
             self.assert_all_frozen(self.model.get_encoder())
             
             
-        self.new_special_tokens = ['<ARG-DRUG>',
+        self.new_special_tokens = ['<',
+                                   '<ARG-DRUG>',
                                    '<ARG-CONDITION>',
                                    '<ARG-GENDER>',
                                    '<ARG-RACE>',
