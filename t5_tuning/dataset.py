@@ -30,7 +30,9 @@ class NL2SQLDataset(Dataset):
 
     def convert_to_features(self, example_batch):
         input_ = "translate English to SQL: " + example_batch['question']
+        input_ = input_.replace('<', '[').replace('>', ']')
         target_ = example_batch['query']
+        target_ = target_.replace('<', '[').replace('>', ']')
 
         source = self.tokenizer.batch_encode_plus([input_], max_length=self.input_length, 
                                                      padding='max_length', truncation=True, return_tensors="pt")
