@@ -30,27 +30,21 @@ class T5FineTuner(pl.LightningModule):
         if self.hparams.freeze_encoder:
             self.freeze_params(self.model.get_encoder())
             self.assert_all_frozen(self.model.get_encoder())
-               
-        self.new_special_tokens = [
-                                   '[ARG-GENDER]',
-                                   '[ARG-RACE]',
-                                   '[ARG-ETHNICITY]',
-                                   '[ARG-STATE]',
-                                   '[ARG-AGE]',
-                                   '[ARG-TIMEDAYS]',
-                                   '[ARG-TIMEYEARS]',
-                                   '[GENDER-TEMPLATE]', 
-                                   '[RACE-TEMPLATE]', 
-                                   '[ETHNICITY-TEMPLATE]', 
-                                   '[STATEID-TEMPLATE]', 
-                                   '[CONDITION-TEMPLATE]',
-                                   '[DRUG-TEMPLATE]',
-                                   '[ARG-CONDITION]',
-                                   '[STATENAME-TEMPLATE]',
-                                   '[ARG-DRUG]',
-                                   '[ARG-DAYS]'
-                                  ] + [f'[{i}]' for i in range(10)]
-        
+              
+        self.new_special_tokens = ['drug_exposure_start_date', 'ethnicity_concept_id', '[STATENAME-TEMPLATE]',
+                                   'condition_start_date', 'condition_concept_id', 'condition_occurrence', 
+                                   '[ETHNICITY-TEMPLATE]', '[CONDITION-TEMPLATE]', '[STATEID-TEMPLATE]', 
+                                   'number_of_patients', 'gender_concept_id', '[GENDER-TEMPLATE]', 
+                                   '[DRUG-TEMPLATE]', '[ARG-CONDITION]', 'race_concept_id', '[ARG-ETHNICITY]', 
+                                   '[ARG-TIMEYEARS]', 'drug_concept_id', '[RACE-TEMPLATE]', '[ARG-TIMEDAYS]', 
+                                   'min_start_date', 'DATE_PART_YEAR', 'year_of_birth', 'drug_exposure', 
+                                   '[ARG-GENDER]','state_temp1','location_id','[ARG-STATE]','[ARG-RACE]',
+                                   '[ARG-DRUG]','concept_id', 'ethnicity','person_id', '[ARG-AGE]', 'loc_temp1',
+                                   'gen_temp1','DATE_PART', 'eth_temp1','DATEDIFF','DISTINCT', 'location','GREATEST',
+                                   '[SCHEMA]', 'gender','person','year','SELECT', 'GROUP','LEAST','state','UNION',
+                                   'COUNT', 'WHERE','JOIN', 'loc1','con2', 'year','con1','con3','race', 
+                                   'FROM','con4','dr3', '[3]','[1]','dr4','[0]', 'dr1','dr2','[2]','ABS', 'MIN', 
+                                   'pe2', 'pe1','day', 'AND','AS','OR','BY','ON']
         
 #         additional_special_tokens = self.tokenizer.additional_special_tokens + self.new_special_tokens        
 #         self.tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
