@@ -41,7 +41,7 @@ def train(args):
     trainer.fit(model)
 
     # After model has been trained, save its state into output_data_dir
-    with open(os.path.join(args.output_data_dir, "model_{0}.pth".format(time.strftime("%Y%m%d-%H%M%S"))), 'wb') as f:
+    with open(os.path.join(args.output_dir, "model_{0}.pth".format(time.strftime("%Y%m%d-%H%M%S"))), 'wb') as f:
         torch.save(model.state_dict(), f)
 
 
