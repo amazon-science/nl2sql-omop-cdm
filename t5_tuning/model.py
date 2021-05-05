@@ -31,7 +31,7 @@ class T5FineTuner(pl.LightningModule):
         if self.hparams.freeze_encoder:
             self.freeze_params(self.model.get_encoder())
             self.assert_all_frozen(self.model.get_encoder())
-
+            
         self.new_special_tokens = ['[ARG-DRUG]',
                                    '[ARG-CONDITION]',
                                    '[ARG-GENDER]',
@@ -51,11 +51,11 @@ class T5FineTuner(pl.LightningModule):
                                    '[STATENAME-TEMPLATE]',
                                    '[ARG-DRUG]', 
                                    '[ARG-DAYS]'
-                                   ] + [f'[{i}]' for i in range(10)]
+                                  ] + [f'[{i}]' for i in range(10)]
         
+        additional_special_tokens = self.tokenizer.additional_special_tokens + self.new_special_tokens        
+        self.tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
         
-#         additional_special_tokens = self.tokenizer.additional_special_tokens + self.new_special_tokens        
-#         self.tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
 
         num_added_toks = self.tokenizer.add_special_tokens({'additional_special_tokens': self.new_special_tokens})
         self.model.resize_token_embeddings(len(self.tokenizer))
