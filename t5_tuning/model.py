@@ -41,17 +41,34 @@ class T5FineTuner(pl.LightningModule):
                                    '[ARG-AGE]',
                                    '[ARG-TIMEDAYS]',
                                    '[ARG-TIMEYEARS]',
-                                   '[GENDER-TEMPLATE]', 
-                                   '[RACE-TEMPLATE]', 
-                                   '[ETHNICITY-TEMPLATE]', 
-                                   '[STATEID-TEMPLATE]', 
+                                   '[GENDER-TEMPLATE]',
+                                   '[RACE-TEMPLATE]',
+                                   '[ETHNICITY-TEMPLATE]',
+                                   '[STATEID-TEMPLATE]',
                                    '[CONDITION-TEMPLATE]',
                                    '[DRUG-TEMPLATE]',
-                                   '[ARG-CONDITION]', 
+                                   '[ARG-CONDITION]',
                                    '[STATENAME-TEMPLATE]',
-                                   '[ARG-DRUG]', 
-                                   '[ARG-DAYS]'
-                                  ] + [f'[{i}]' for i in range(10)]
+                                   '[ARG-DRUG]',
+                                   '[ARG-DAYS]',
+                                   'DATEDIFF',
+                                   'DISTINCT',
+                                   'GREATEST',
+                                   '[SCHEMA]',
+                                   'SELECT',
+                                   'GROUP',
+                                   'LEAST',
+                                   'UNION',
+                                   'COUNT',
+                                   'WHERE',
+                                   'JOIN',
+                                   'FROM',
+                                   'AND',
+                                   'AS',
+                                   'OR',
+                                   'BY',
+                                   'ON'
+                                   ] + [f'[{i}]' for i in range(10)]
         
         additional_special_tokens = self.tokenizer.additional_special_tokens + self.new_special_tokens        
         self.tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
