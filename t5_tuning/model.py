@@ -11,6 +11,7 @@ from torch.utils.data import DataLoader
 from typing import Callable, Dict, Iterable, List, Tuple, Union
 from dataset import get_dataset
 
+
 from transformers import (
     AdamW,
     T5ForConditionalGeneration,
@@ -30,8 +31,9 @@ class T5FineTuner(pl.LightningModule):
         if self.hparams.freeze_encoder:
             self.freeze_params(self.model.get_encoder())
             self.assert_all_frozen(self.model.get_encoder())
-               
-        self.new_special_tokens = [
+
+        self.new_special_tokens = ['[ARG-DRUG]',
+                                   '[ARG-CONDITION]',
                                    '[ARG-GENDER]',
                                    '[ARG-RACE]',
                                    '[ARG-ETHNICITY]',
@@ -45,11 +47,11 @@ class T5FineTuner(pl.LightningModule):
                                    '[STATEID-TEMPLATE]', 
                                    '[CONDITION-TEMPLATE]',
                                    '[DRUG-TEMPLATE]',
-                                   '[ARG-CONDITION]',
+                                   '[ARG-CONDITION]', 
                                    '[STATENAME-TEMPLATE]',
-                                   '[ARG-DRUG]',
+                                   '[ARG-DRUG]', 
                                    '[ARG-DAYS]'
-                                  ] + [f'[{i}]' for i in range(10)]
+                                   ] + [f'[{i}]' for i in range(10)]
         
         
 #         additional_special_tokens = self.tokenizer.additional_special_tokens + self.new_special_tokens        
@@ -136,41 +138,22 @@ class T5FineTuner(pl.LightningModule):
     
     
     def _generative_step(self, batch) :
-        
-        t0 = time.time()
-        
-        generated_ids = self.model.generate(
-            batch["source_ids"],
-            attention_mask=batch["source_mask"],
-            use_cache=True,
-            decoder_attention_mask=batch['target_mask'],
-            max_length=self.hparams.max_output_length, 
-            num_beams=2,
-            repetition_penalty=2.5, 
-            length_penalty=1.0, 
-            early_stopping=self.hparams.early_stop_callback
-        )
-        preds = self.ids_to_clean_text(generated_ids)
-        target = self.ids_to_clean_text(batch["target_ids"])
-            
-        gen_time = (time.time() - t0) / batch["source_ids"].shape[0]  
     
         loss = self._step(batch)
         base_metrics = {'val_loss': loss}
-        summ_len = np.mean(self.lmap(len, generated_ids))
-        base_metrics.update(gen_time=gen_time, gen_len=summ_len, preds=preds, target=target)
-
         
         return base_metrics
+    
     
 
     def training_step(self, batch, batch_idx):
         loss = self._step(batch)
         
-        self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
+        self.log('train_loss', loss, on_step=True, on_epoch=True, sync_dist=True, prog_bar=True)
 
-        tensorboard_logs = {"loss": loss}
-        return loss # {"loss": loss, "log": tensorboard_logs}
+        tensorboard_logs = {"loss": loss.detach()}
+        
+        return {"loss": loss, "log": tensorboard_logs}
   
 
     def validation_step(self, batch, batch_idx):
@@ -186,9 +169,10 @@ class T5FineTuner(pl.LightningModule):
         self.target_gen= []
         self.prediction_gen=[]
         
-        self.log('val_loss', avg_loss, on_epoch=True, prog_bar=True)
+        self.log('val_loss', avg_loss, on_epoch=True, sync_dist=True, prog_bar=True)
+        tensor_board_logs = {"val_loss": avg_loss.detach()}
         
-        return None
+        return {"val_loss": avg_loss, "log": tensor_board_logs}
 
     
     def configure_optimizers(self):
@@ -212,8 +196,9 @@ class T5FineTuner(pl.LightningModule):
 
     def train_dataloader(self):   
         n_samples = self.n_obs['train']
+        
         train_dataset = get_dataset(tokenizer=self.tokenizer, data_split="train", num_samples=n_samples, args=self.hparams)
-        dataloader = DataLoader(train_dataset, batch_size=self.hparams.train_batch_size, drop_last=True, shuffle=True, num_workers=24)
+        dataloader = DataLoader(train_dataset, batch_size=self.hparams.train_batch_size, drop_last=True, shuffle=True, prefetch_factor=4, num_workers=96)
         t_total = (
             (len(dataloader.dataset) // (self.hparams.train_batch_size * max(1, self.hparams.n_gpu)))
             // self.hparams.gradient_accumulation_steps
@@ -229,7 +214,7 @@ class T5FineTuner(pl.LightningModule):
         n_samples = self.n_obs['validation']
         validation_dataset = get_dataset(tokenizer=self.tokenizer, data_split="validation", num_samples=n_samples, args=self.hparams)
         
-        return DataLoader(validation_dataset, batch_size=self.hparams.eval_batch_size, num_workers=24)
+        return DataLoader(validation_dataset, batch_size=self.hparams.eval_batch_size, prefetch_factor=4, num_workers=96)
     
     
     def test_dataloader(self):
