@@ -10,7 +10,7 @@ import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 from typing import Callable, Dict, Iterable, List, Tuple, Union
 from dataset import get_dataset
-
+from torch.optim.lr_scheduler import CosineAnnealingLR
 
 from transformers import (
     AdamW,
@@ -192,6 +192,25 @@ class T5FineTuner(pl.LightningModule):
         return {"val_loss": avg_loss, "log": tensor_board_logs}
 
     
+#     def configure_optimizers(self):
+
+#         "Prepare optimizer and schedule (linear warmup and decay)"
+#         model = self.model
+#         no_decay = ["bias", "LayerNorm.weight"]
+#         optimizer_grouped_parameters = [
+#             {
+#                 "params": [p for n, p in model.named_parameters() if not any(nd in n for nd in no_decay)],
+#                 "weight_decay": self.hparams.weight_decay,
+#             },
+#             {
+#                 "params": [p for n, p in model.named_parameters() if any(nd in n for nd in no_decay)],
+#                 "weight_decay": 0.0,
+#             },
+#         ]
+#         optimizer = AdamW(optimizer_grouped_parameters, lr=self.hparams.learning_rate, eps=self.hparams.adam_epsilon)
+#         self.opt = optimizer
+#         return [optimizer]
+
     def configure_optimizers(self):
 
         "Prepare optimizer and schedule (linear warmup and decay)"
@@ -209,8 +228,9 @@ class T5FineTuner(pl.LightningModule):
         ]
         optimizer = AdamW(optimizer_grouped_parameters, lr=self.hparams.learning_rate, eps=self.hparams.adam_epsilon)
         self.opt = optimizer
-        return [optimizer]
-
+        scheduler = CosineAnnealingLR(optimizer, T_max=100, eta_min=1e-5, last_epoch=-1, verbose=False)
+        return [optimizer], [scheduler]
+    
     def train_dataloader(self):   
         n_samples = self.n_obs['train']
         
