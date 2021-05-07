@@ -229,6 +229,7 @@ class T5FineTuner(pl.LightningModule):
         optimizer = AdamW(optimizer_grouped_parameters, lr=self.hparams.learning_rate, eps=self.hparams.adam_epsilon)
         self.opt = optimizer
         scheduler = CosineAnnealingLR(optimizer, T_max=100, eta_min=1e-5, last_epoch=-1, verbose=False)
+        
         return [optimizer], [scheduler]
     
     def train_dataloader(self):   

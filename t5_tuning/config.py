@@ -1,10 +1,10 @@
 model_params = {
-    "data_dir": "/home/ec2-user/SageMaker/efs/data/pilot_nl2sql_dev/t5_tuning2/input-level/100/data/",
-    "output_dir" : "/home/ec2-user/SageMaker/efs/data/pilot_nl2sql_dev/t5_tuning2/input-level/100/models-miguel/",
+    "data_dir": "/home/ec2-user/SageMaker/efs/data/pilot_nl2sql_dev/0506_final_data/02_splits/main/sample/",
+    "output_dir" : "/home/ec2-user/SageMaker/efs/data/pilot_nl2sql_dev/0506_models/main/t5_wikisql/",
     "model_name" : "mrm8488/t5-base-finetuned-wikiSQL",
     "tokenizer_name" : "mrm8488/t5-base-finetuned-wikiSQL",
     "max_input_length" : 128,
-    "max_output_length" : 512,
+    "max_output_length" : 750,
     "freeze_encoder" : False,
     "freeze_embeds" : False,
     "learning_rate" : 1e-3,
