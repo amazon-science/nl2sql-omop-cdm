@@ -62,4 +62,6 @@ REDSHIFT_PARM = {
     'cluster_id': 'ohdsi-mlsl-databasesstack-zur0dbb-redshiftcluster-1k8l8baxanql2',
     'url': 'ohdsi-mlsl-databasesstack-zur0dbb-redshiftcluster-1k8l8baxanql2.conbvq6av2ta.us-east-1.redshift.amazonaws.com',
     'region': 'us-east-1',
+    'DbUser': 'master',
+    'DbPassword': 'Password123!',
 }

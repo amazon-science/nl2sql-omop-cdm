@@ -1,24 +1,27 @@
 import logging
 import psycopg2
-import boto3
+#import boto3
+import psycopg2
 import pandas as pd
 
 
 def connect_to_db(redshift_parameters):
-    client = boto3.client('redshift',region_name=redshift_parameters['region'])
+#     client = boto3.client('redshift',region_name=redshift_parameters['region'])
 
-    cluster_creds = client.get_cluster_credentials(DbUser=redshift_parameters['user'],
-                                                DbName=redshift_parameters['database'],
-                                                ClusterIdentifier=redshift_parameters['cluster_id'],
-                                                AutoCreate=False)
+#     cluster_creds = client.get_cluster_credentials(DbUser=redshift_parameters['user'],
+#                                                 DbName=redshift_parameters['database'],
+#                                                 ClusterIdentifier=redshift_parameters['cluster_id'],
+#                                                 AutoCreate=False)
 
     try:
         conn = psycopg2.connect(
-         host=redshift_parameters['url'],
-         port=redshift_parameters['port'],
-         user=cluster_creds['DbUser'],
-         password=cluster_creds['DbPassword'],
-         database=redshift_parameters['database']
+            host=redshift_parameters['url'],
+            port=redshift_parameters['port'],
+#             user=cluster_creds['DbUser'],
+#             password=cluster_creds['DbPassword'],            
+            user=redshift_parameters['DbUser'],
+            password=redshift_parameters['DbPassword'],
+            database=redshift_parameters['database']
         )
 
         return conn

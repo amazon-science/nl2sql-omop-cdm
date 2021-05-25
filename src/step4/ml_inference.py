@@ -3,7 +3,7 @@ import re
 # from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from os import path as osp
 import argparse
-from model import T5FineTuner
+from model.model import T5FineTuner
 import torch
 
 PAD_P = re.compile('<pad> |</s>')
