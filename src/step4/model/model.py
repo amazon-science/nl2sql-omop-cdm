@@ -9,9 +9,9 @@ from nlp import load_metric
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 from typing import Callable, Dict, Iterable, List, Tuple, Union
-from dataset import get_dataset
+from model.dataset import get_dataset
 from torch.optim.lr_scheduler import CosineAnnealingLR
-import config
+import model.config as config
 
 from transformers import (
     AdamW,

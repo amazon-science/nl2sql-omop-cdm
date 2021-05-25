@@ -1,4 +1,4 @@
-
+from os import path as osp
 from step5.template_definitions import (
     get_state_name_template,
     get_concept_name_template
@@ -11,6 +11,8 @@ from step5.rendering_functions import (
     render_condition_template,
     render_drug_template,
 )
+
+_current_file_dir = osp.dirname(osp.realpath(__file__))
 
 
 # Step 1: 
@@ -27,7 +29,8 @@ DRUG_RELATIONSHIP_SCORE_THR = .7
 
 
 # Step 4: 
-
+# MODEL_PATH = osp.join(_current_file_dir, 'step4/model/0506_wikisql_all_v1e4.ckpt')
+MODEL_PATH = '/home/ec2-user/SageMaker/efs/deliverable_models/0506_wikisql_all_v1e4.ckpt'
 
 
 # Step 5: Render ML output
@@ -40,7 +43,8 @@ placeholder2template = {
         '<ETHNICITY-TEMPLATE>': render_ethnicity_template,
         '<STATEID-TEMPLATE>': render_state_template,
         '<CONDITION-TEMPLATE>': render_condition_template,
-        '<DRUG-TEMPLATE>': render_drug_template
+        '<DRUG-TEMPLATE>': render_drug_template,
+        '<STATENAME-TEMPLATE>': render_state_template
     },
     'with_no_arg': {
         '<GENDER-TEMPLATE>': get_concept_name_template(SCHEMA, 'Gender'),

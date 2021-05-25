@@ -20,7 +20,7 @@ class nlq2SqlTool(object):
         '''
         
         self.config = config
-        self.model = Inferencer()
+        self.model = Inferencer(config.MODEL_PATH)
         
         
     def _open_redshift_connection(self, ):

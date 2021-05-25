@@ -8,6 +8,7 @@ from model import T5FineTuner, set_seed
 from callback import LoggingCallback, logger
 from config import model_params
 
+
 def train(args):
 
     model = T5FineTuner(args)
@@ -49,7 +50,6 @@ if __name__ == "__main__":
     if model_params["seed"]:
         set_seed(model_params["seed"])
     args = argparse.Namespace(**model_params)
-
     train(args)
     
  

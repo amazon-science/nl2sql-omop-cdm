@@ -14,6 +14,7 @@ def get_descendent_concepts_template_from_concept_name(schema, domain, concept_n
     Returns:
         str: Rendered subquery with input arguments. 
     '''
+    
     out = f" ( \
 SELECT c1.concept_id \
 from {schema}.CONCEPT c1 \
@@ -53,20 +54,28 @@ AND standard_concept='S' )\
     return out
 
 
-def get_descendent_concepts_template_from_vocab_code(schema, vocab, concept_code):
+def get_descendent_concepts_template_from_vocab_code(schema, vocab, concept_codes):
     '''
+    Assumption: ICD10 codes don't have ";"
+    
     Example args
-    schema = cmsdesynpuf23m
-    vocab = ICD10
-    concept_code = A97
+    
+        schema = cmsdesynpuf23m
+        vocab = ICD10
+        concept_code = A97
+    
     '''
+    concept_codes_conditions = [f"concept_code='{concept_code.strip()}'" 
+                                for concept_code in concept_codes.split(';')]
+    
+    join_codes_condition = "( " + " OR ".join(concept_codes_conditions) + " )"
     
     out = f"( SELECT descendant_concept_id AS concept_id FROM \
 (SELECT * FROM \
 (SELECT concept_id_2 FROM \
 ( \
 (SELECT concept_id FROM  \
-{schema}.concept WHERE vocabulary_id='{vocab}' AND concept_code='{concept_code}') \
+{schema}.concept WHERE vocabulary_id='{vocab}' AND {concept_codes_condition}) \
 JOIN  \
 ( SELECT concept_id_1, concept_id_2 FROM  \
 {schema}.concept_relationship WHERE relationship_id='Maps to' )  \
@@ -74,6 +83,20 @@ ON concept_id=concept_id_1) \
 ) JOIN {schema}.concept ON concept_id_2=concept_id) \
 JOIN {schema}.concept_ancestor ON concept_id=ancestor_concept_id \
 ) "
+    
+#     out = f"( SELECT descendant_concept_id AS concept_id FROM \
+# (SELECT * FROM \
+# (SELECT concept_id_2 FROM \
+# ( \
+# (SELECT concept_id FROM  \
+# {schema}.concept WHERE vocabulary_id='{vocab}' AND concept_code='{concept_code}') \
+# JOIN  \
+# ( SELECT concept_id_1, concept_id_2 FROM  \
+# {schema}.concept_relationship WHERE relationship_id='Maps to' )  \
+# ON concept_id=concept_id_1) \
+# ) JOIN {schema}.concept ON concept_id_2=concept_id) \
+# JOIN {schema}.concept_ancestor ON concept_id=ancestor_concept_id \
+# ) "
     return out
 
 
