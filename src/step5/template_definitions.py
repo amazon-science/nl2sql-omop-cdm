@@ -75,7 +75,7 @@ def get_descendent_concepts_template_from_vocab_code(schema, vocab, concept_code
 (SELECT concept_id_2 FROM \
 ( \
 (SELECT concept_id FROM  \
-{schema}.concept WHERE vocabulary_id='{vocab}' AND {concept_codes_condition}) \
+{schema}.concept WHERE vocabulary_id='{vocab}' AND {join_codes_condition}) \
 JOIN  \
 ( SELECT concept_id_1, concept_id_2 FROM  \
 {schema}.concept_relationship WHERE relationship_id='Maps to' )  \

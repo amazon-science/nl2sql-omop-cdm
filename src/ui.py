@@ -135,14 +135,14 @@ class UI(object):
 
     def _display_main(self):
         self.main_display.clear_output()
-        
-        self.main_display.append_stdout('\n The following key entities have been detected:')
         html_detected_entities = self.visualize_entities(self.entities, raw_converter)
-        self.main_display.append_display_data(html_detected_entities)
-        
-        self.main_display.append_stdout('\n Drugs and Conditions will be respectively replaced by the following RxNorm & ICD10 codes:')
         html_replaced_entities = self.visualize_entities(self.proc_entities, proc_converter)
-        self.main_display.append_display_data(html_replaced_entities)
+        
+        with self.main_display:
+            print('\n The following key entities have been detected:')
+            display(html_detected_entities)
+            print('\n Drugs and Conditions will be respectively replaced by the following RxNorm & ICD10 codes:')
+            display(html_replaced_entities)
     
     
     def _helper_detect_button(self, b):

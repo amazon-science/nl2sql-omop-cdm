@@ -3,7 +3,7 @@ import re
 # from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from os import path as osp
 import argparse
-from model import T5FineTuner
+from model.model import T5FineTuner
 import torch
 
 PAD_P = re.compile('<pad> |</s>')
@@ -38,16 +38,22 @@ class Inferencer(object):
                                   padding='max_length', 
                                   truncation=True,
                                   return_tensors='pt')
+        print('features')
+        print(features)
         
 
-        output = self.model.generate(input_ids=features['input_ids'], 
+        output = self.model.model.generate(input_ids=features['input_ids'], 
                                      attention_mask=features['attention_mask'],
                                      max_length=756, 
                                      num_beams=2,
                                      repetition_penalty=2.5, 
                                      length_penalty=1.0)
+        print('output')
+        print(output)
         
         output = self.tokenizer.decode(output[0])
+        print('output')
+        print(output)
         
         # generic sql post-processing
         output = re.sub(PAD_P, '', output)

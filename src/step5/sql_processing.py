@@ -33,6 +33,7 @@ def render_template_query(config, current_query, args_dict):
 
         # retrieve concept name
         idx = int(idx)
+        print(domain, args_dict[domain])
         concept_name = args_dict[domain][idx]["Query-arg"]
 
         # retrieve rendered sub-query
