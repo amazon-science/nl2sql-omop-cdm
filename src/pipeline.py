@@ -26,10 +26,14 @@ class nlq2SqlTool(object):
         self._user = user
         self._password = password
         
+        # test connection
+        test_conn = connect_to_db(self.config.REDSHIFT_PARM, self._user, self._password)
+        test_conn.close()
     
-    def clear_credentials(self,):
-        del self._user
-        del self._password
+    def clear_credentials(self):
+        if self.credentials_exist():
+            del self._user
+            del self._password
         
         
     def credentials_exist(self,):

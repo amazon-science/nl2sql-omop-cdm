@@ -1,5 +1,5 @@
 import ipywidgets as widgets
-from ipywidgets import Layout, Text, Textarea, Dropdown, Combobox, Button, Output, HBox, VBox, Tab, Password, RadioButtons
+from ipywidgets import Layout, Text, Textarea, Dropdown, Combobox, Button, Output, HBox, VBox, Tab, Password, RadioButtons, Accordion
 import re
 from spacy import displacy
 import config
@@ -156,7 +156,9 @@ class UI(object):
         self.set_credentials_button = Button(description="Set Data Credentials")
         self.set_credentials_button.on_click(self._record_db_credentials)
         
-        self.credentials_box = HBox([self.widget_db_user, self.widget_db_password, self.white_space1, self.set_credentials_button], layout=MAIN_CREDENTIALS_LAYOUT)
+        self._credentials_box = HBox([self.widget_db_user, self.widget_db_password, self.white_space1, self.set_credentials_button])#, layout=MAIN_CREDENTIALS_LAYOUT)
+        self.credentials_box = Accordion(children=[self._credentials_box])
+        self.credentials_box.set_title(0, 'DB Credentials')
         
         
     def _clear_output(self, b):
@@ -182,6 +184,9 @@ class UI(object):
             
     def _clear_credentials(self, b):
         self.tool.clear_credentials()
+        self.widget_db_user.value = ''
+        self.widget_db_password.value = ''
+        self.white_space1.clear_output()
     
     
     def _initialize_feedback_box(self):
@@ -209,10 +214,17 @@ class UI(object):
         
         
     def _record_db_credentials(self, b):
-        
-        db_user = self.widget_db_user.value
-        db_password = self.widget_db_password.value
-        self.tool.set_db_credentials(db_user, db_password)
+        self.white_space1.clear_output()
+        try:
+            db_user = self.widget_db_user.value
+            db_password = self.widget_db_password.value
+            self.tool.set_db_credentials(db_user, db_password)
+            with self.white_space1:
+                print('✅ Credentials successfully recorded')
+        except:
+            with self.white_space1:
+                print('⛔️ Unable to access the DB. Make sure your credentials are correct')
+
     
     
     def visualize_entities(self, entities, converter):
