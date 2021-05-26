@@ -1,5 +1,5 @@
 import ipywidgets as widgets
-from ipywidgets import Layout, Text, Textarea, Dropdown, Combobox, Button, Output, HBox, VBox, Tab
+from ipywidgets import Layout, Text, Textarea, Dropdown, Combobox, Button, Output, HBox, VBox, Tab, Password, RadioButtons
 import re
 from spacy import displacy
 import config
@@ -8,10 +8,16 @@ from copy import deepcopy
 import time
 import pandas as pd
 from pprint import pprint
+import os
+from os import path as osp
+import json
+import datetime
 
-MAIN_BOX_LAYOUT = Layout(flex='1 1 auto', height='800px', min_height='50px', width='auto')
-MAIN_INTERFACE_LAYOUT = Layout(height='45%', width='90%')# flex='0 1 auto',
-MAIN_DISPLAY_LAYOUT = Layout(flex='0 1 auto', height='55%', width='90%', border='1px solid black')
+MAIN_BOX_LAYOUT = Layout(flex='1 1 auto', height='1200px', min_height='50px', width='auto')
+MAIN_CREDENTIALS_LAYOUT = Layout(height='5%', width='90%')
+MAIN_INTERFACE_LAYOUT = Layout(height='30%', width='90%')# flex='0 1 auto',
+MAIN_DISPLAY_LAYOUT = Layout(flex='0 1 auto', height='50%', width='90%', border='1px solid black')
+MAIN_FEEDBACK_LAYOUT = Layout(flex='0 1 auto', height='5%', width='90%')#, border='1px solid black')
 
 INPUT_BOX_LAYOUT = Layout(flex='1 1 auto', height='100%', min_height='50px', width='auto')
 INPUT_TEXT_LAYOUT = Layout(height='90%', width='90%')# flex='0 1 auto',
@@ -40,6 +46,13 @@ RENDERER.colors = {
 #     'LANGUAGE': '#ff8197',
 #     'WORK_OF_ART': '#f0d0ff'
 }
+
+# create logs folder if it does not exist
+if not osp.exists('.logs'):
+    os.makedirs('.logs')
+    
+# today_fn = datetime.date.today().strftime("%Y_%m_%d") + '.txt'
+# today_fp = osp.join('.logs', today_fn)
 
 def reformat_raw_entities(entities):
     out = [{
@@ -110,11 +123,16 @@ class UI(object):
         
         self.tool = tool
         
+        # initialize widgets
+        self._initialize_credentials_box()
         self._initialize_inputs()
         self._initialize_add_detection()
         self._initialize_mapped_values()
+        self._initialize_feedback_box()
         
+        self._structure_main_layout()
         
+    def _structure_main_layout(self):
         
         children = [self.input_disp_box, self.detection_box, self.disambiguate_box]
         self.tab = Tab(layout=MAIN_INTERFACE_LAYOUT)
@@ -123,12 +141,80 @@ class UI(object):
         self.tab.set_title(1, 'Correct detection')
         self.tab.set_title(2, 'Correct code map')
         
+        
         self.main_display = Output(layout=MAIN_DISPLAY_LAYOUT)
         
-        self.main_ui = VBox([self.tab, self.main_display], layout = MAIN_BOX_LAYOUT)
+        
+        self.main_ui = VBox([self.credentials_box, self.tab, self.main_display, self.feedback_box], layout = MAIN_BOX_LAYOUT)
         
         
+    def _initialize_credentials_box(self):
         
+        self.widget_db_user = Text(description='User:', layout={'width': '30%'})
+        self.widget_db_password = Password(description='Password:', layout={'width': '30%'})
+        self.white_space1 = Output(layout={'width': '25%'})
+        self.set_credentials_button = Button(description="Set Data Credentials")
+        self.set_credentials_button.on_click(self._record_db_credentials)
+        
+        self.credentials_box = HBox([self.widget_db_user, self.widget_db_password, self.white_space1, self.set_credentials_button], layout=MAIN_CREDENTIALS_LAYOUT)
+        
+        
+    def _clear_output(self, b):
+        self.main_display.clear_output()
+        self.mapped_out.clear_output()
+    
+    
+    def _log_feedback(self, b):
+        
+        now = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S_%f")
+        record = {
+            'time': now,
+            'input': self.nlq,
+            'args original': self.original_proc_entities, # make a copy on "detect"
+            'args corrected': self.proc_entities, # last version of args
+            'correct': True if self.feedback_options.value=='Successful' else False
+        }
+        
+        file_path = osp.join('.logs', now+'.txt')
+        with open(file_path, 'a') as fp:
+            json.dump(record, fp)
+            
+            
+    def _clear_credentials(self, b):
+        self.tool.clear_credentials()
+    
+    
+    def _initialize_feedback_box(self):
+        
+        self.clear_output_button = Button(description="Clear Output")
+        self.clear_output_button.on_click(self._clear_output)
+        
+        self.clear_credentials_button = Button(description="Forget Credentials")
+        self.clear_credentials_button.on_click(self._clear_credentials)
+        
+        self.processing_flag = Output(layout={'width': '30%'})
+        
+        self.feedback_options = RadioButtons(
+            value='Successful',
+            options=['Successful', 'Unsuccessful'],
+            description='Feedback:',
+            layout={'width': '25%'}
+        )
+        
+        self.submit_button = Button(description="Submit feedback")
+        self.submit_button.on_click(self._log_feedback)
+        
+        
+        self.feedback_box = HBox([self.clear_output_button, self.clear_credentials_button,  self.processing_flag, self.feedback_options, self.submit_button], layout=MAIN_FEEDBACK_LAYOUT)
+        
+        
+    def _record_db_credentials(self, b):
+        
+        db_user = self.widget_db_user.value
+        db_password = self.widget_db_password.value
+        self.tool.set_db_credentials(db_user, db_password)
+    
+    
     def visualize_entities(self, entities, converter):
         parsed = [converter(self.nlq, entities)]
         html = RENDERER.render(parsed, page=False, minify=False).strip()
@@ -141,12 +227,12 @@ class UI(object):
         html_replaced_entities = self.visualize_entities(self.proc_entities, proc_converter)
         
         with self.main_display:
-            print("\n•The following key entities have been detected:")
+            print("\n• The following key entities have been detected:")
             display(html_detected_entities)
-            print("\n•Drugs and Conditions will be respectively replaced by the following RxNorm & ICD10 codes:")
+            print("\n• Drugs and Conditions will be respectively replaced by the following RxNorm & ICD10 codes:")
             display(html_replaced_entities)
             if isinstance(results, pd.DataFrame):
-                print("\n•Request results:")
+                print("\n• Request run successfully ✅. Results in the following table:")
                 display(results)
             elif isinstance(results, str):
                 print(results)
@@ -156,26 +242,34 @@ class UI(object):
         self.nlq = self.input_box.value
         self.entities = self.tool.detect_entities(self.nlq)
         self.proc_entities = self.tool.process_entities(self.entities)
+        self.original_proc_entities = deepcopy(self.proc_entities)
         
         self._display_main()
         self._update_options()
         
         
     def _helper_execute_button(self, b):
-        nlq_w_placeholders = self.tool.replace_name_for_placeholder(self.nlq, self.proc_entities)
-        sql_query = self.tool.ml_call(nlq_w_placeholders)
+        if self.tool.credentials_exist():
         
+            with self.processing_flag:
+                print("🕝 Processing ....")
+
+            nlq_w_placeholders = self.tool.replace_name_for_placeholder(self.nlq, self.proc_entities)
+            sql_query = self.tool.ml_call(nlq_w_placeholders)
+
+
+            try:
+                rendered_sql_query = self.tool.render_template_query(sql_query, self.proc_entities)
+                output = self.tool.execute_sql_query(rendered_sql_query)
+            except:
+                output = '\n•An error ocurred. We apologise for the inconvenience. Please try to re-formulate your query.'
         
-        try:
-            rendered_sql_query = self.tool.render_template_query(sql_query, self.proc_entities)
-            df = self.tool.execute_sql_query(rendered_sql_query)
-        except:
-            df = 'An error ocurred. We apologise for the inconvenience. Please try to re-formulate your query.'
+        else:
+            output = "\n⛔️ Please set your data credentials to execute the query."
         
-        self._display_main(df)
-#         self.main_display.clear_output()
-#         with self.main_display:
-#             display(df)
+        self._display_main(output)
+        
+        self.processing_flag.clear_output()
             
     
     def _initialize_inputs(self):
@@ -344,33 +438,49 @@ class UI(object):
         # display
         self._display_name_info(text)
         
+    def _triger_no_input_warning(self):
+        self.main_display.clear_output()
+        with self.main_display:
+            print("\n⛔️ Please provide a valid query in 'Main' and click 'Detect' before using this functionality")
+    
     
     def _drug_info(self, b):
-        self._visualize_drug_info()
+        if hasattr(self, 'nlq'):
+            self._visualize_drug_info()
+        else:
+            self._triger_no_input_warning()
         
     
     def _condition_info(self, b):
-        self._visualize_condition_info()
+        if hasattr(self, 'nlq'):
+            self._visualize_condition_info()
+        else:
+            self._triger_no_input_warning()
         
     
     def _drug_update(self, b):
-        for d in self.proc_entities['DRUG']:
-            if d['Text'] == self.mapped_drug_category.value:
-                d['Query-arg'] = self.mapped_update_drug_text.value
-                break
-        
-        self._visualize_drug_info()
-        self._display_main()
-        
+        if hasattr(self, 'nlq'):
+            for d in self.proc_entities['DRUG']:
+                if d['Text'] == self.mapped_drug_category.value:
+                    d['Query-arg'] = self.mapped_update_drug_text.value
+                    break
+
+            self._visualize_drug_info()
+            self._display_main()
+        else:
+            self._triger_no_input_warning()
         
     def _condition_update(self, b):
-        for d in self.proc_entities['CONDITION']:
-            if d['Text'] == self.mapped_condition_category.value:
-                d['Query-arg'] = self.mapped_update_condition_text.value
-                break
-        
-        self._visualize_condition_info()
-        self._display_main()
+        if hasattr(self, 'nlq'):
+            for d in self.proc_entities['CONDITION']:
+                if d['Text'] == self.mapped_condition_category.value:
+                    d['Query-arg'] = self.mapped_update_condition_text.value
+                    break
+
+            self._visualize_condition_info()
+            self._display_main()
+        else:
+            self._triger_no_input_warning()
     
     
     def _initialize_mapped_values(self,):

@@ -22,7 +22,20 @@ class nlq2SqlTool(object):
         self.config = config
         self.model = Inferencer(config.MODEL_PATH)
         
+    def set_db_credentials(self, user, password):
+        self._user = user
+        self._password = password
         
+    
+    def clear_credentials(self,):
+        del self._user
+        del self._password
+        
+        
+    def credentials_exist(self,):
+        return hasattr(self, '_user') and hasattr(self, '_password')
+        
+    
     def _open_redshift_connection(self, ):
         '''Comment
         
@@ -33,7 +46,7 @@ class nlq2SqlTool(object):
             
         
         '''
-        self.conn = connect_to_db(self.config.REDSHIFT_PARM)
+        self.conn = connect_to_db(self.config.REDSHIFT_PARM, self._user, self._password)
     
     
     def _close_redshift_connection(self, ):

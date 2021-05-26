@@ -58,8 +58,6 @@ placeholder2template = {
 # SQL query executing
 REDSHIFT_PARM = {
     'port': '5439',
-    'user': 'master',
-    'password': 'Password123!',
     'database': 'mycdm',
     'cluster_id': 'ohdsi-mlsl-databasesstack-zur0dbb-redshiftcluster-1k8l8baxanql2',
     'url': 'ohdsi-mlsl-databasesstack-zur0dbb-redshiftcluster-1k8l8baxanql2.conbvq6av2ta.us-east-1.redshift.amazonaws.com',

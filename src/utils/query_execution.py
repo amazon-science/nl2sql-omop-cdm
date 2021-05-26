@@ -4,7 +4,7 @@ import psycopg2
 import pandas as pd
 
 
-def connect_to_db(redshift_parameters):
+def connect_to_db(redshift_parameters, user, password):
 #     client = boto3.client('redshift',region_name=redshift_parameters['region'])
 
 #     cluster_creds = client.get_cluster_credentials(DbUser=redshift_parameters['user'],
@@ -18,8 +18,8 @@ def connect_to_db(redshift_parameters):
             port=redshift_parameters['port'],
 #             user=cluster_creds['DbUser'],
 #             password=cluster_creds['DbPassword'],            
-            user=redshift_parameters['user'],
-            password=redshift_parameters['password'],
+            user=user,
+            password=password,
             database=redshift_parameters['database']
         )
 
