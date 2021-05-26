@@ -18,8 +18,8 @@ def connect_to_db(redshift_parameters):
             port=redshift_parameters['port'],
 #             user=cluster_creds['DbUser'],
 #             password=cluster_creds['DbPassword'],            
-            user=redshift_parameters['DbUser'],
-            password=redshift_parameters['DbPassword'],
+            user=redshift_parameters['user'],
+            password=redshift_parameters['password'],
             database=redshift_parameters['database']
         )
 
