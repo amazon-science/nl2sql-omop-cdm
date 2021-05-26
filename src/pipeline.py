@@ -109,11 +109,7 @@ class nlq2SqlTool(object):
             
         
         '''
-        print('ML call using')
-        print(nlq)
         sql_query = self.model(nlq)
-        print('ML call returns')
-        print(sql_query)
         return sql_query
     
        
@@ -127,9 +123,6 @@ class nlq2SqlTool(object):
             
         
         '''
-        print('Rendering uses:')
-        print(template_sql)
-        print(entities)
         return render_template_query(self.config, template_sql, entities)
     
     

@@ -38,8 +38,6 @@ class Inferencer(object):
                                   padding='max_length', 
                                   truncation=True,
                                   return_tensors='pt')
-        print('features')
-        print(features)
         
 
         output = self.model.model.generate(input_ids=features['input_ids'], 
@@ -48,12 +46,8 @@ class Inferencer(object):
                                      num_beams=2,
                                      repetition_penalty=2.5, 
                                      length_penalty=1.0)
-        print('output')
-        print(output)
         
         output = self.tokenizer.decode(output[0])
-        print('output')
-        print(output)
         
         # generic sql post-processing
         output = re.sub(PAD_P, '', output)

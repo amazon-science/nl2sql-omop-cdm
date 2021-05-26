@@ -66,7 +66,7 @@ def get_descendent_concepts_template_from_vocab_code(schema, vocab, concept_code
     
     '''
     concept_codes_conditions = [f"concept_code='{concept_code.strip()}'" 
-                                for concept_code in concept_codes.split(';')]
+                                for concept_code in concept_codes.split(';') if concept_code.strip()]
     
     join_codes_condition = "( " + " OR ".join(concept_codes_conditions) + " )"
     

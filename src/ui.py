@@ -6,6 +6,7 @@ import config
 from IPython.core.display import display, HTML
 from copy import deepcopy
 import time
+import pandas as pd
 from pprint import pprint
 
 MAIN_BOX_LAYOUT = Layout(flex='1 1 auto', height='800px', min_height='50px', width='auto')
@@ -16,7 +17,8 @@ INPUT_BOX_LAYOUT = Layout(flex='1 1 auto', height='100%', min_height='50px', wid
 INPUT_TEXT_LAYOUT = Layout(height='90%', width='90%')# flex='0 1 auto',
 # INPUT_DISPLAY_LAYOUT = Layout(flex='0 1 auto', height='70%', width='90%', border='1px solid black')
 
-DETECT_BOX_LAYOUT = Layout(flex='1 1 auto', height='40%', min_height='50px', width='auto')
+SUB_DETECT_BOX_LAYOUT = Layout(flex='1 1 auto', height='40%', min_height='50px', width='auto')
+DETECT_BOX_LAYOUT = Layout(flex='1 1 auto', height='auto', min_height='50px', width='auto')
 INFO_BOX_LAYOUT =  Layout(flex='1 1 auto', height='100%', min_height='50px', width='auto')
 # INPUT_TEXT_LAYOUT = Layout(flex='0 1 auto', height='95%', width='90%')
 
@@ -114,7 +116,7 @@ class UI(object):
         
         
         
-        children = [self.input_disp_box, self.add_detection_box, self.disambiguate_box]#, self.add_detection_box]
+        children = [self.input_disp_box, self.detection_box, self.disambiguate_box]
         self.tab = Tab(layout=MAIN_INTERFACE_LAYOUT)
         self.tab.children = children
         self.tab.set_title(0, 'Main')
@@ -133,16 +135,21 @@ class UI(object):
         return HTML('<span class="tex2jax_ignore">{}</span>'.format(html))
 
 
-    def _display_main(self):
+    def _display_main(self, results=None):
         self.main_display.clear_output()
         html_detected_entities = self.visualize_entities(self.entities, raw_converter)
         html_replaced_entities = self.visualize_entities(self.proc_entities, proc_converter)
         
         with self.main_display:
-            print('\n The following key entities have been detected:')
+            print("\n•The following key entities have been detected:")
             display(html_detected_entities)
-            print('\n Drugs and Conditions will be respectively replaced by the following RxNorm & ICD10 codes:')
+            print("\n•Drugs and Conditions will be respectively replaced by the following RxNorm & ICD10 codes:")
             display(html_replaced_entities)
+            if isinstance(results, pd.DataFrame):
+                print("\n•Request results:")
+                display(results)
+            elif isinstance(results, str):
+                print(results)
     
     
     def _helper_detect_button(self, b):
@@ -151,20 +158,24 @@ class UI(object):
         self.proc_entities = self.tool.process_entities(self.entities)
         
         self._display_main()
-        
-        self.mapped_drug_category.options = [d['Text'] for d in self.entities['DRUG']]
-        self.mapped_condition_category.options = [d['Text'] for d in self.entities['CONDITION']]
+        self._update_options()
         
         
     def _helper_execute_button(self, b):
         nlq_w_placeholders = self.tool.replace_name_for_placeholder(self.nlq, self.proc_entities)
         sql_query = self.tool.ml_call(nlq_w_placeholders)
-        rendered_sql_query = self.tool.render_template_query(sql_query, self.proc_entities)
-        df = self.tool.execute_sql_query(rendered_sql_query)
         
-        self.main_display.clear_output()
-        with self.main_display:
-            display(df)
+        
+        try:
+            rendered_sql_query = self.tool.render_template_query(sql_query, self.proc_entities)
+            df = self.tool.execute_sql_query(rendered_sql_query)
+        except:
+            df = 'An error ocurred. We apologise for the inconvenience. Please try to re-formulate your query.'
+        
+        self._display_main(df)
+#         self.main_display.clear_output()
+#         with self.main_display:
+#             display(df)
             
     
     def _initialize_inputs(self):
@@ -184,49 +195,80 @@ class UI(object):
         self.input_disp_box = VBox([self.input_box, self.main_buttons], layout=INPUT_BOX_LAYOUT)
         
     
+    def _update_options(self):
+        self.mapped_drug_category.options = [d['Text'] for d in self.entities['DRUG']]
+        self.mapped_condition_category.options = [d['Text'] for d in self.entities['CONDITION']]
+        self.remove_name.options = ["{:s} (category: {:s})".format(d['Text'], cat_name) for cat_name, cat_dict in self.entities.items() for d in cat_dict]
+        
+    
     def _record_name(self, b):
-        p = re.compile(f"(?i)\\b{self.name.value}\\b")
+        name = self.add_name.value
+        category = self.add_category.value
+        
+        p = re.compile(f"(?i)\\b{name}\\b")
         # current entities set
-        current_names = set([d['Text'] for d in self.entities[self.category.value]])
-        if self.name.value not in current_names:
+        current_names = set([d['Text'] for d in self.entities[category]])
+        if name not in current_names:
             for match in re.finditer(p, self.nlq):
                 detected_entity = {
                         'BeginOffset': match.start(),
                         'EndOffset': match.end(),
-                        'Text': self.name.value
+                        'Text': name
                 }
-                self.entities[self.category.value].append(
+                
+                # add to raw entities
+                self.entities[category].append(
                     deepcopy(detected_entity)
                 )
                 
                 # process & add to proc entities
                 placeholder_idx_strat = {
-                    self.category.value: len(self.proc_entities[self.category.value])
+                    category: len(self.proc_entities[category])
                 }
                 proc_detected_entity = self.tool.process_entities(
-                    {self.category.value: [deepcopy(detected_entity)]}, 
+                    {category: [deepcopy(detected_entity)]}, 
                     start_indices=placeholder_idx_strat
                 )
-                self.proc_entities[self.category.value].append(
-                    proc_detected_entity[self.category.value][0]
-                )
+                self.proc_entities[category].append(
+                    proc_detected_entity[category][0]
+                )   
+        self._display_main()
+        self._update_options()
+        
+    def _remove_name(self, b):
+        # do removing
+        remove_name_category = self.remove_name.value
+        name, category = remove_name_category.split(' (category: ')
+        category = category[:-1]
+        
+        # remove from entities
+        for i in range(len(self.entities[category])):
+            if self.entities[category][i]['Text']==name:
+                del self.entities[category][i]
+                break
+        
+        # remove from proc_entities
+        for i in range(len(self.proc_entities[category])):
+            if self.proc_entities[category][i]['Text']==name:
+                del self.proc_entities[category][i]
+                break
                 
         self._display_main()
-        self.mapped_drug_category.options = [d['Text'] for d in self.entities['DRUG']]
-        self.mapped_condition_category.options = [d['Text'] for d in self.entities['CONDITION']]
+        self._update_options()
         
-    
     
     def _initialize_add_detection(self):
         
+        self.add_sub_title_1 = Output()
+        self.add_sub_title_1.append_stdout("Add detection")
         
-        self.name = Text(
+        self.add_name = Text(
             placeholder='Aspirin 30Mg',
             description='Write name',
 #             layout=TEXT_LAYOUT,
             disabled=False
         )
-        self.category = Dropdown(
+        self.add_category = Dropdown(
             # value='John',
             placeholder='Choose entity',
             options=['DRUG', 'CONDITION', 'AGE', 'STATE', 'ETHNICITY', 'RACE', 'TIMEDAYS', 'TIMEYEARS', 'GENDER'],
@@ -234,11 +276,37 @@ class UI(object):
             ensure_option=True,
             disabled=False
         )
-        self.detect_button = Button(description="Highlight")
-        self.detect_button.on_click(self._record_name)
+        self.add_button = Button(description="Highlight")
+        self.add_button.on_click(self._record_name)
         
-        self.add_detection_box = HBox([self.name, self.category, self.detect_button], layout=DETECT_BOX_LAYOUT)
+        self.add_box = HBox([self.add_name, self.add_category, self.add_button], layout=SUB_DETECT_BOX_LAYOUT)
+        
+        self.remove_sub_title_2 = Output()
+        self.remove_sub_title_2.append_stdout("Remove detection")
+        
+        self.remove_name = Dropdown(
+            # value='John',
+            placeholder='',
+            options=[],
+            description='Name:',
+            ensure_option=True,
+            disabled=False
+        )
+        self.remove_button = Button(description="Remove")
+        self.remove_button.on_click(self._remove_name)
+        
+        self.remove_box = HBox([self.remove_name, self.remove_button], layout=SUB_DETECT_BOX_LAYOUT)
+        
+        self.detection_box = VBox([self.add_sub_title_1, self.add_box, self.remove_sub_title_2, self.remove_box], 
+                                  layout=DETECT_BOX_LAYOUT)
            
+    
+    def _display_name_info(self, text):
+        self.mapped_out.clear_output()
+        with self.mapped_out:
+            print(text)
+    
+    
     
     def _visualize_drug_info(self,):
     
@@ -255,8 +323,9 @@ class UI(object):
         text = '\n'.join(lines)
         
         # display
-        self.mapped_out.clear_output()
-        self.mapped_out.append_stdout(text)
+        self._display_name_info(text)
+#         self.mapped_out.clear_output()
+#         self.mapped_out.append_stdout(text)
         
         
     def _visualize_condition_info(self,):
@@ -273,8 +342,7 @@ class UI(object):
         text = '\n'.join(lines)
         
         # display
-        self.mapped_out.clear_output()
-        self.mapped_out.append_stdout(text)
+        self._display_name_info(text)
         
     
     def _drug_info(self, b):
@@ -292,7 +360,7 @@ class UI(object):
                 break
         
         self._visualize_drug_info()
-        self.main_display()
+        self._display_main()
         
         
     def _condition_update(self, b):
@@ -302,7 +370,7 @@ class UI(object):
                 break
         
         self._visualize_condition_info()
-        self.main_display()
+        self._display_main()
     
     
     def _initialize_mapped_values(self,):
@@ -358,18 +426,5 @@ class UI(object):
         
     def main(self):
         display(self.main_ui)
-        time.sleep(1)
-        
-        self.main_display.append_stdout('.')
-        self.main_display.clear_output()
-        self.main_display.append_stdout('.')
-        time.sleep(1)
-        self.main_display.clear_output()
-        
-        self.mapped_out.append_stdout('.')
-        self.mapped_out.clear_output()
-        self.mapped_out.append_stdout('.')
-        time.sleep(1)
-        self.mapped_out.clear_output()
         
         
