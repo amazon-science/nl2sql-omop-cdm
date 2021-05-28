@@ -5,4 +5,5 @@ wheel
 spacy[cuda110]
 sentencepiece
 transformers
-pytorch_lightning
+nlp
+pytorch_lightning==1.2.10
