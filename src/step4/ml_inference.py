@@ -13,7 +13,11 @@ MODEL_PATH = osp.join(file_dir, 'step4/model/0506_wikisql_all_v1e4.ckpt')
 
 def load_model(fp):
     #import pdb; pdb.set_trace()
-    checkpoint = torch.load(fp)
+    if torch.cuda.is_available():
+        checkpoint = torch.load(fp)
+    else:
+        checkpoint = torch.load(fp, map_location=torch.device('cpu'))
+        
     args = argparse.Namespace(**checkpoint['hyper_parameters'])
     model = T5FineTuner(args)
     model.load_state_dict(checkpoint['state_dict'])
