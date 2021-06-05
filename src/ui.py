@@ -233,7 +233,7 @@ class UI(object):
         return HTML('<span class="tex2jax_ignore">{}</span>'.format(html))
 
 
-    def _display_main(self, results=None):
+    def _display_main(self, results=None, sql_query=None, rendered_sql=None):
         self.main_display.clear_output()
         html_detected_entities = self.visualize_entities(self.entities, raw_converter)
         html_replaced_entities = self.visualize_entities(self.proc_entities, proc_converter)
@@ -243,6 +243,13 @@ class UI(object):
             display(html_detected_entities)
             print("\n• Drugs and Conditions will be respectively replaced by the following RxNorm & ICD10 codes:")
             display(html_replaced_entities)
+            
+            if sql_query:
+                print("\n• Predicted SQL query:")
+                display(sql_query)
+            if rendered_sql:
+                print("\n• Rendered SQL query:")
+                display(rendered_sql)
             if isinstance(results, pd.DataFrame):
                 print("\n• Request run successfully ✅. Results in the following table:")
                 display(results)
@@ -272,6 +279,10 @@ class UI(object):
 
             try:
                 rendered_sql_query = self.tool.render_template_query(sql_query, self.proc_entities)
+            except:
+                rendered_sql_query = None
+                
+            try:
                 output = self.tool.execute_sql_query(rendered_sql_query)
             except:
                 output = '\n•An error ocurred. We apologise for the inconvenience. Please try to re-formulate your query.'
@@ -279,7 +290,7 @@ class UI(object):
         else:
             output = "\n⛔️ Please set your data credentials to execute the query."
         
-        self._display_main(output)
+        self._display_main(output, sql_query, rendered_sql_query)
         
         self.processing_flag.clear_output()
             
