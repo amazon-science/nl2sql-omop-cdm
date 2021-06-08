@@ -6,7 +6,7 @@ from extraction_helpers import (
 )
 
 GENDER_P = re.compile("(?i)\\b((fe)?males?|(wo)?m(a|e)n)\\b")
-ETHNICITY_P = re.compile("(?i)\\b((not? +)?(hispanics? +or +latinos?|hispanics?|latinos?))\\b")
+ETHNICITY_P = re.compile("(?i)\\b((not? +)?(non ?-?)(hispanics? +or +latinos?|hispanics?|latinos?))\\b")
 RACE_P = re.compile("(?i)\\b(black or african americans?|african americans?|blacks?|whites?)\\b")
 
 CM_CLIENT = boto3.client('comprehendmedical')

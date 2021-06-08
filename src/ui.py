@@ -16,7 +16,7 @@ import datetime
 MAIN_BOX_LAYOUT = Layout(flex='1 1 auto', height='1200px', min_height='50px', width='auto')
 MAIN_CREDENTIALS_LAYOUT = Layout(height='5%', width='90%')
 MAIN_INTERFACE_LAYOUT = Layout(height='30%', width='90%')# flex='0 1 auto',
-MAIN_DISPLAY_LAYOUT = Layout(flex='0 1 auto', height='50%', width='90%', border='1px solid black')
+MAIN_DISPLAY_LAYOUT = Layout(flex='0 1 auto', height='50%', overflow_y='auto', width='90%', border='1px solid black')
 MAIN_FEEDBACK_LAYOUT = Layout(flex='0 1 auto', height='5%', width='90%')#, border='1px solid black')
 
 INPUT_BOX_LAYOUT = Layout(flex='1 1 auto', height='100%', min_height='50px', width='auto')
