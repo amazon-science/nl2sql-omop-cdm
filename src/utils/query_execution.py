@@ -31,7 +31,10 @@ def connect_to_db(redshift_parameters, user, password):
     
     
 def execute_query(cursor, query, limit=None):
-    cursor.execute(query)
+    try:
+        cursor.execute(query)
+    except:
+        return None
     
     columns = [c.name for c in cursor.description]
     results = cursor.fetchall()
