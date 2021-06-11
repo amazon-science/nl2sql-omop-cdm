@@ -36,6 +36,9 @@ def render_template_query(config, current_query, args_dict):
         concept_name = args_dict[domain][idx]["Query-arg"]
 
         # retrieve rendered sub-query
+        if template_type not in placeholder2templates.keys():
+            item = ''
+            continue
         sub_query = placeholder2templates[template_type](config.SCHEMA, concept_name)
 
         # replace in current query
@@ -75,6 +78,9 @@ def render_template_query(config, current_query, args_dict):
         place_holder = current_query[start:end]
 
         # extract metadata from placeholder
+        if place_holder not in placeholder2templates.keys():
+            item = ''
+            continue
         sub_query = placeholder2templates[place_holder]
         
         # replace argument value in current-query
