@@ -15,18 +15,16 @@ import datetime
 
 MAIN_BOX_LAYOUT = Layout(flex='1 1 auto', height='1200px', min_height='50px', width='auto')
 MAIN_CREDENTIALS_LAYOUT = Layout(height='5%', width='90%')
-MAIN_INTERFACE_LAYOUT = Layout(height='30%', width='90%')# flex='0 1 auto',
+MAIN_INTERFACE_LAYOUT = Layout(height='30%', width='90%')
 MAIN_DISPLAY_LAYOUT = Layout(flex='0 1 auto', height='50%', overflow_y='auto', width='90%', border='1px solid black')
 MAIN_FEEDBACK_LAYOUT = Layout(flex='0 1 auto', height='5%', width='90%')#, border='1px solid black')
 
 INPUT_BOX_LAYOUT = Layout(flex='1 1 auto', height='100%', min_height='50px', width='auto')
-INPUT_TEXT_LAYOUT = Layout(height='90%', width='90%')# flex='0 1 auto',
-# INPUT_DISPLAY_LAYOUT = Layout(flex='0 1 auto', height='70%', width='90%', border='1px solid black')
+INPUT_TEXT_LAYOUT = Layout(height='90%', width='90%')
 
 SUB_DETECT_BOX_LAYOUT = Layout(flex='1 1 auto', height='40%', min_height='50px', width='auto')
 DETECT_BOX_LAYOUT = Layout(flex='1 1 auto', height='auto', min_height='50px', width='auto')
 INFO_BOX_LAYOUT =  Layout(flex='1 1 auto', height='100%', min_height='50px', width='auto')
-# INPUT_TEXT_LAYOUT = Layout(flex='0 1 auto', height='95%', width='90%')
 
 RENDERER = displacy.EntityRenderer(options={})
 
@@ -40,33 +38,49 @@ RENDERER.colors = {
     'TIMEDAYS': '#bfe1d9',
     'TIMEYEARS': '#bfe1d9',
     'GENDER': '#e4e7d2',
-#     'FACILITY': '#9cc9cc',
-#     'EVENT': '#ffeb80',
-#     'LAW': '#ff8197',
-#     'LANGUAGE': '#ff8197',
-#     'WORK_OF_ART': '#f0d0ff'
 }
 
 # create logs folder if it does not exist
 if not osp.exists('.logs'):
     os.makedirs('.logs')
     
-# today_fn = datetime.date.today().strftime("%Y_%m_%d") + '.txt'
-# today_fp = osp.join('.logs', today_fn)
 
 def reformat_raw_entities(entities):
-    out = [{
-        'start': name_dict['BeginOffset'],
-        'end': name_dict['EndOffset'],
-        'label': category
-           } 
-           for category, name_dicts in entities.items() 
-           for name_dict in name_dicts
-          ]
+    '''Reformat raw entities into an orderd list of names based 
+    on starting position rather than ordered by category.
+    
+    
+    Args:
+        entities (dict): Detected entities in a NLQ.
+        
+    Returns:
+        list: List of dictionaries with entites information sorted by starting position.
+        
+    '''
+    out = [
+        {
+            'start': name_dict['BeginOffset'],
+            'end': name_dict['EndOffset'],
+            'label': category
+        } 
+        for category, name_dicts in entities.items() 
+        for name_dict in name_dicts
+    ]
     out = sorted(out, key=lambda x: x['start'])
     return out
 
-def raw_converter(text, entities):
+def prepare_visuazliation_input_for_raw_entities(text, entities):
+    ''' Prepares detected entities and text to be ingested into the HTML visualization feature.
+    
+    
+    Args:
+        text (str): Natural Language Query.
+        entities (dict): Detected entities in a NLQ.
+        
+    Returns:
+        dict: 
+        
+    '''
     ents = reformat_raw_entities(entities)
     out = {
         'text': text,
@@ -78,6 +92,17 @@ def raw_converter(text, entities):
 
 
 def get_reformatted_proc_entities(text, entities):
+    '''Reformat processed entities to be ingested in the HTML visualization feature. 
+    
+    
+    Args:
+        text (str): Natural Language Query with disambiguations replaced by original name. 
+        entities (dict): Processed entities in text.
+        
+    Returns:
+        list: List of positions of diambiguated names occur and their category sorted by starting position.
+        
+    '''
     out = []
     for category, name_dicts in entities.items():
         for name_dict in name_dicts:
@@ -94,6 +119,17 @@ def get_reformatted_proc_entities(text, entities):
 
 
 def get_reformatted_nlq(text, entities):
+    ''' Replace the `entities` names in `text` by their disambiguation option.
+    
+    
+    Args:
+        text (str): Natural Language Query
+        entities (dict): Detected entities in a NLQ.
+        
+    Returns:
+        str: Natural Language Query with replaced names by their disambiguation name.
+        
+    '''
     out_text = deepcopy(text)
     for cat_entities in entities.values():
         for entity in cat_entities:
@@ -104,7 +140,18 @@ def get_reformatted_nlq(text, entities):
     return out_text
 
 
-def proc_converter(text, entities):
+def prepare_visuazliation_input_for_processed_entities(text, entities):
+    '''Prepares processed entities and text to be ingested into the HTML visualization feature.
+    
+    
+    Args:
+        text (str): Natural Language Query
+        entities (dict): Processed entities in a NLQ.
+        
+    Returns:
+        dict: Processed entities input to the HTML visualization feature. 
+        
+    '''
     text2 = get_reformatted_nlq(text, entities)
     ents = get_reformatted_proc_entities(text2, entities)
     out = {
@@ -120,8 +167,20 @@ def proc_converter(text, entities):
 class UI(object):
     
     def __init__(self, tool):
+        '''Prepare UI objects. To initialize call the main method.
+        
+        Args:
+            tool (nlq2SqlTool): Instantiation of the Natural Language to SQL tool.
+
+        Returns:
+            None
+
+        '''
         
         self.tool = tool
+        self._set_up()
+        
+    def _set_up(self):
         
         # initialize widgets
         self._initialize_credentials_box()
@@ -132,7 +191,18 @@ class UI(object):
         
         self._structure_main_layout()
         
+    
+    
     def _structure_main_layout(self):
+        '''Structure the genarl UI layout: Credentail box, 
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         
         children = [self.input_disp_box, self.detection_box, self.disambiguate_box]
         self.tab = Tab(layout=MAIN_INTERFACE_LAYOUT)
@@ -149,6 +219,15 @@ class UI(object):
         
         
     def _initialize_credentials_box(self):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         
         self.widget_db_user = Text(description='User:', layout={'width': '30%'})
         self.widget_db_password = Password(description='Password:', layout={'width': '30%'})
@@ -161,12 +240,107 @@ class UI(object):
         self.credentials_box.set_title(0, 'DB Credentials')
         
         
+    def _initialize_inputs(self):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
+        
+        self.input_box = Textarea(
+            placeholder='e.g. Number of patients taking Aspirin',
+            description='Query:',
+            layout=INPUT_TEXT_LAYOUT,
+            disabled=False
+        )
+        self.detect_button = Button(description="Detect")
+        self.detect_button.on_click(self._helper_detect_button)
+        self.execute_button = Button(description="Execute")
+        self.execute_button.on_click(self._helper_execute_button)
+        
+        self.main_buttons = HBox([self.detect_button, self.execute_button])
+        self.input_disp_box = VBox([self.input_box, self.main_buttons], layout=INPUT_BOX_LAYOUT)
+        
+        
+    def _initialize_add_detection(self):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
+        
+        self.add_sub_title_1 = Output()
+        self.add_sub_title_1.append_stdout("Add detection")
+        
+        self.add_name = Text(
+            placeholder='Aspirin 30Mg',
+            description='Write name',
+            disabled=False
+        )
+        self.add_category = Dropdown(
+            # value='John',
+            placeholder='Choose entity',
+            options=['DRUG', 'CONDITION', 'AGE', 'STATE', 'ETHNICITY', 'RACE', 'TIMEDAYS', 'TIMEYEARS', 'GENDER'],
+            description='Category:',
+            ensure_option=True,
+            disabled=False
+        )
+        self.add_button = Button(description="Highlight")
+        self.add_button.on_click(self._record_name)
+        
+        self.add_box = HBox([self.add_name, self.add_category, self.add_button], layout=SUB_DETECT_BOX_LAYOUT)
+        
+        self.remove_sub_title_2 = Output()
+        self.remove_sub_title_2.append_stdout("Remove detection")
+        
+        self.remove_name = Dropdown(
+            placeholder='',
+            options=[],
+            description='Name:',
+            ensure_option=True,
+            disabled=False
+        )
+        self.remove_button = Button(description="Remove")
+        self.remove_button.on_click(self._remove_name)
+        
+        self.remove_box = HBox([self.remove_name, self.remove_button], layout=SUB_DETECT_BOX_LAYOUT)
+        
+        self.detection_box = VBox([self.add_sub_title_1, self.add_box, self.remove_sub_title_2, self.remove_box], 
+                                  layout=DETECT_BOX_LAYOUT)
+        
+        
     def _clear_output(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         self.main_display.clear_output()
         self.mapped_out.clear_output()
     
     
     def _log_feedback(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         
         now = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S_%f")
         record = {
@@ -183,6 +357,15 @@ class UI(object):
             
             
     def _clear_credentials(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         self.tool.clear_credentials()
         self.widget_db_user.value = ''
         self.widget_db_password.value = ''
@@ -190,6 +373,15 @@ class UI(object):
     
     
     def _initialize_feedback_box(self):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         
         self.clear_output_button = Button(description="Clear Output")
         self.clear_output_button.on_click(self._clear_output)
@@ -214,6 +406,15 @@ class UI(object):
         
         
     def _record_db_credentials(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         self.white_space1.clear_output()
         try:
             db_user = self.widget_db_user.value
@@ -228,15 +429,33 @@ class UI(object):
     
     
     def visualize_entities(self, entities, converter):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         parsed = [converter(self.nlq, entities)]
         html = RENDERER.render(parsed, page=False, minify=False).strip()
         return HTML('<span class="tex2jax_ignore">{}</span>'.format(html))
 
 
     def _display_main(self, results=None, sql_query=None, rendered_sql=None):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         self.main_display.clear_output()
-        html_detected_entities = self.visualize_entities(self.entities, raw_converter)
-        html_replaced_entities = self.visualize_entities(self.proc_entities, proc_converter)
+        html_detected_entities = self.visualize_entities(self.entities, prepare_visuazliation_input_for_raw_entities)
+        html_replaced_entities = self.visualize_entities(self.proc_entities, prepare_visuazliation_input_for_processed_entities)
         
         with self.main_display:
             print("\n• The following key entities have been detected:")
@@ -258,6 +477,15 @@ class UI(object):
     
     
     def _helper_detect_button(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         self.nlq = self.input_box.value
         self.entities = self.tool.detect_entities(self.nlq)
         self.proc_entities = self.tool.process_entities(self.entities)
@@ -268,6 +496,15 @@ class UI(object):
         
         
     def _helper_execute_button(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         if self.tool.credentials_exist():
         
             with self.processing_flag:
@@ -293,36 +530,38 @@ class UI(object):
         self._display_main(output, sql_query, rendered_sql_query)
         
         self.processing_flag.clear_output()
-            
-    
-    def _initialize_inputs(self):
-        
-        self.input_box = Textarea(
-            placeholder='e.g. Number of patients taking Aspirin',
-            description='Query:',
-            layout=INPUT_TEXT_LAYOUT,
-            disabled=False
-        )
-        self.detect_button = Button(description="Detect")
-        self.detect_button.on_click(self._helper_detect_button)
-        self.execute_button = Button(description="Execute")
-        self.execute_button.on_click(self._helper_execute_button)
-        
-        self.main_buttons = HBox([self.detect_button, self.execute_button])
-        self.input_disp_box = VBox([self.input_box, self.main_buttons], layout=INPUT_BOX_LAYOUT)
         
     
     def _update_options(self):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         self.mapped_drug_category.options = [d['Text'] for d in self.entities['DRUG']]
         self.mapped_condition_category.options = [d['Text'] for d in self.entities['CONDITION']]
         self.remove_name.options = ["{:s} (category: {:s})".format(d['Text'], cat_name) for cat_name, cat_dict in self.entities.items() for d in cat_dict]
         
     
     def _record_name(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         name = self.add_name.value
         category = self.add_category.value
         
         p = re.compile(f"(?i)\\b{name}\\b")
+        
         # current entities set
         current_names = set([d['Text'] for d in self.entities[category]])
         if name not in current_names:
@@ -353,6 +592,15 @@ class UI(object):
         self._update_options()
         
     def _remove_name(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         # do removing
         remove_name_category = self.remove_name.value
         name, category = remove_name_category.split(' (category: ')
@@ -372,53 +620,18 @@ class UI(object):
                 
         self._display_main()
         self._update_options()
-        
-    
-    def _initialize_add_detection(self):
-        
-        self.add_sub_title_1 = Output()
-        self.add_sub_title_1.append_stdout("Add detection")
-        
-        self.add_name = Text(
-            placeholder='Aspirin 30Mg',
-            description='Write name',
-#             layout=TEXT_LAYOUT,
-            disabled=False
-        )
-        self.add_category = Dropdown(
-            # value='John',
-            placeholder='Choose entity',
-            options=['DRUG', 'CONDITION', 'AGE', 'STATE', 'ETHNICITY', 'RACE', 'TIMEDAYS', 'TIMEYEARS', 'GENDER'],
-            description='Category:',
-            ensure_option=True,
-            disabled=False
-        )
-        self.add_button = Button(description="Highlight")
-        self.add_button.on_click(self._record_name)
-        
-        self.add_box = HBox([self.add_name, self.add_category, self.add_button], layout=SUB_DETECT_BOX_LAYOUT)
-        
-        self.remove_sub_title_2 = Output()
-        self.remove_sub_title_2.append_stdout("Remove detection")
-        
-        self.remove_name = Dropdown(
-            # value='John',
-            placeholder='',
-            options=[],
-            description='Name:',
-            ensure_option=True,
-            disabled=False
-        )
-        self.remove_button = Button(description="Remove")
-        self.remove_button.on_click(self._remove_name)
-        
-        self.remove_box = HBox([self.remove_name, self.remove_button], layout=SUB_DETECT_BOX_LAYOUT)
-        
-        self.detection_box = VBox([self.add_sub_title_1, self.add_box, self.remove_sub_title_2, self.remove_box], 
-                                  layout=DETECT_BOX_LAYOUT)
            
     
     def _display_name_info(self, text):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         self.mapped_out.clear_output()
         with self.mapped_out:
             print(text)
@@ -426,6 +639,15 @@ class UI(object):
     
     
     def _visualize_drug_info(self,):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
     
         # get dictionary of selected text
         entity_dict = [d for d in self.proc_entities['DRUG'] if d['Text'] == self.mapped_drug_category.value][0]
@@ -441,11 +663,18 @@ class UI(object):
         
         # display
         self._display_name_info(text)
-#         self.mapped_out.clear_output()
-#         self.mapped_out.append_stdout(text)
         
         
     def _visualize_condition_info(self,):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         # get dictionary of selected text
         entity_dict = [d for d in self.proc_entities['CONDITION'] if d['Text'] == self.mapped_condition_category.value][0]
         
@@ -462,12 +691,30 @@ class UI(object):
         self._display_name_info(text)
         
     def _triger_no_input_warning(self):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         self.main_display.clear_output()
         with self.main_display:
             print("\n⛔️ Please provide a valid query in 'Main' and click 'Detect' before using this functionality")
     
     
     def _drug_info(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         if hasattr(self, 'nlq'):
             self._visualize_drug_info()
         else:
@@ -475,6 +722,15 @@ class UI(object):
         
     
     def _condition_info(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         if hasattr(self, 'nlq'):
             self._visualize_condition_info()
         else:
@@ -482,6 +738,15 @@ class UI(object):
         
     
     def _drug_update(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         if hasattr(self, 'nlq'):
             for d in self.proc_entities['DRUG']:
                 if d['Text'] == self.mapped_drug_category.value:
@@ -494,6 +759,15 @@ class UI(object):
             self._triger_no_input_warning()
         
     def _condition_update(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         if hasattr(self, 'nlq'):
             for d in self.proc_entities['CONDITION']:
                 if d['Text'] == self.mapped_condition_category.value:
@@ -506,7 +780,16 @@ class UI(object):
             self._triger_no_input_warning()
     
     
-    def _initialize_mapped_values(self,):
+    def _initialize_mapped_values(self):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         
 #         DRUG
         drugs = [d['Text'] for d in self.entities['DRUG']] if hasattr(self, 'entities') else []
@@ -522,7 +805,6 @@ class UI(object):
         self.mapped_update_drug_text = Text(
             placeholder='RxNorm code',
             description='Map to',
-#             layout=TEXT_LAYOUT,
             disabled=False
         )
         self.mapped_update_drug_button = Button(description="Update drug")
@@ -541,8 +823,7 @@ class UI(object):
         self.mapped_condition_button.on_click(self._condition_info)
         self.mapped_update_condition_text = Text(
             placeholder='ICD10 code',
-            description='Map to',
-#             layout=TEXT_LAYOUT,
+            description='Map to', 
             disabled=False
         )
         self.mapped_update_condition_button = Button(description="Update condition")
@@ -558,6 +839,15 @@ class UI(object):
         
         
     def main(self):
+        ''' Method to layout and start the UI in a SageMaker Notebook.
+        
+        Args:
+            None
+
+        Returns:
+            None
+
+        '''
         display(self.main_ui)
         
         

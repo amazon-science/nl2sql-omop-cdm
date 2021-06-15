@@ -21,7 +21,7 @@ GENDER2STANDARD = load_dict2pattern(osp.join(current_folder, 'gender2pattern.jso
 RACE2STANDARD = load_dict2pattern(osp.join(current_folder, 'race2pattern.json'))
 STATE2STANDARD = load_dict2pattern(osp.join(current_folder, 'state2pattern.json'))
 
-identity = lambda x: x
+IDENTITY = lambda x: x
 
 
 def _use_pattern_dict(name, standard2pattern):
@@ -71,19 +71,6 @@ def _race_name2standard(race_name):
     return _use_pattern_dict(race_name, RACE2STANDARD)
     
     
-# def _state_name2standard(state_name):
-#     """Standarize state names
-    
-#     Args:
-#         gender_name (str): Non-standard gender name.
-    
-#     Returns:
-#         str: standard gender name
-    
-#     """
-#     return _use_pattern_dict(state_name, STATE2STANDARD)
-    
-    
 def _ethnicity_name2standard(ethnicity_name):
     """Standarize ethnicity names
     
@@ -98,8 +85,21 @@ def _ethnicity_name2standard(ethnicity_name):
         return "Not Hispanic or Latino"
     else:
         return "Hispanic or Latino"
+
+
+def _state_name2standard(state_name):
+    """Standarize state names
     
+    Args:
+        gender_name (str): Non-standard gender name.
     
+    Returns:
+        str: standard gender name
+    
+    """
+    return _use_pattern_dict(state_name, STATE2STANDARD)
+
+
 def _use_function_for_options(entities, fun=IDENTITY):
     """Creates disambiguation options and default disambiguation based on `fun` for names in `entities`.
     
