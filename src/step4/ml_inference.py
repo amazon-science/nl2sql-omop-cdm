@@ -1,9 +1,11 @@
-
+"""
+Module to load and infer query from the given input question.
+"""
 import re
 # from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from os import path as osp
 import argparse
-from model.model import T5FineTuner
+from model import T5FineTuner
 import torch
 
 PAD_P = re.compile('<pad> |</s>')
@@ -12,7 +14,15 @@ file_dir = osp.dirname(osp.realpath(__file__))
 MODEL_PATH = osp.join(file_dir, 'step4/model/0506_wikisql_all_v1e4.ckpt')
 
 def load_model(fp):
-    #import pdb; pdb.set_trace()
+    """
+    Loads trained T5 models from a checkpoint file.
+    
+    Args:
+        fp(str): Checkpoint file path.
+    
+    Returns:
+        T5FineTuner object with the loaded weights.
+    """
     if torch.cuda.is_available():
         checkpoint = torch.load(fp)
     else:
@@ -33,12 +43,12 @@ class Inferencer(object):
 #         self.tokenizer = AutoTokenizer.from_pretrained("mrm8488/t5-base-finetuned-wikiSQL")
 #         self.model = AutoModelForSeq2SeqLM.from_pretrained("mrm8488/t5-base-finetuned-wikiSQL")
 
-    def __call__(self, query):
+    def __call__(self, query, input_max_length=256, output_max_length=750):
         
         input_text = "translate English to SQL: %s </s>" % query
         
         features = self.tokenizer.batch_encode_plus([input_text], 
-                                  max_length=200,
+                                  max_length=input_max_length,
                                   padding='max_length', 
                                   truncation=True,
                                   return_tensors='pt')
@@ -46,7 +56,7 @@ class Inferencer(object):
 
         output = self.model.model.generate(input_ids=features['input_ids'], 
                                      attention_mask=features['attention_mask'],
-                                     max_length=756, 
+                                     max_length=output_max_length, 
                                      num_beams=2,
                                      repetition_penalty=2.5, 
                                      length_penalty=1.0)
@@ -63,10 +73,12 @@ class Inferencer(object):
 if __name__=="__main__":
     
     query = "How many people are taking Aspirin?"
+    input_max_length=256
+    output_max_length=750
     
     inferencer = Inferencer()
     
-    sql = inferencer.get_sql(query)
+    sql = inferencer.get_sql(query, input_max_length, output_max_length)
     
     print("Input: ", query)
     print("Output: ", sql)
