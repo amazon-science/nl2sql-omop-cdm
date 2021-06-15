@@ -1,3 +1,7 @@
+"""
+This module contains a function to fine-tune a T5-based pretrained model with a custom dataset.
+"""
+
 import argparse
 import torch
 import os
@@ -6,9 +10,18 @@ import pytorch_lightning as pl
 from pytorch_lightning import loggers as pl_loggers
 from model import T5FineTuner, set_seed
 from callback import LoggingCallback, logger
-from config import model_params
+from t5_config import model_params
 
 def train(args):
+    """
+    Fine-tunes a pretrained T5 models based on the given parameters.
+    
+    Args:
+        args(argparse.Namespace): Model parameters and other input arguments.
+    
+    Returns:
+        None
+    """
 
     model = T5FineTuner(args)
 

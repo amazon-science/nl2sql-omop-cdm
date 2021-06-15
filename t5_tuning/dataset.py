@@ -1,3 +1,10 @@
+"""
+The module implements a custom dataset class to prepare it for model training.
+
+Adapted from:
+    https://github.com/DorBernsohn/CodeLM/tree/main/SQLM
+"""
+
 import os
 import json
 import pandas as pd
@@ -7,17 +14,31 @@ from transformers import T5Tokenizer
 from torch.utils.data import Dataset
 
 class NL2SQLDataset(Dataset):
+    """
+    Class to implement a custom dataset class.
+    """
+    
     def __init__(self, data_dir: str,
                        data_split: str, 
                        input_length: int, 
                        output_length: int,
                        num_samples: int = None,
                        tokenizer = T5Tokenizer.from_pretrained('t5-small')) -> None:
-
+        """
+        It initialize the class object.
+        
+        Args:
+            data_dir(str): Directory where the data is located.
+            data_split(str): Dataset split name (train/validation/test).
+            input_length(int): Input sequence length of the model to be fine-tuned.
+            output_length(int): Output sequence length of the model.
+            num_samples(int): Number of samples used to create the dataset or all. Defaults to None for all.
+            tokenizer(T5Tokenizer): Pretrained Tokenizer to be loaded.        
+        """
+        
         data_path = os.path.join(data_dir, f'{data_split}.csv')
         self.dataset = load_dataset('csv', data_files={data_split: data_path})
         self.data_split = data_split
-        #self.dataset =  load_dataset('wikisql', 'all', data_dir='data/', split=data_split)
         if num_samples:
             self.dataset[data_split] = self.dataset[data_split].select(list(range(0, num_samples)))
         self.input_length = input_length
@@ -25,10 +46,22 @@ class NL2SQLDataset(Dataset):
         self.output_length = output_length
   
     def __len__(self) -> int:
+        """Gets the number of samples in the dataset."""
+        
         return self.dataset[self.data_split].shape[0]
     
 
     def convert_to_features(self, example_batch):
+        """
+        Encodes/tokenizes a single example (source and targets).
+        
+        Args:
+            example_batch(pd.Series): A single example of the dataset[at least two columns: unfolded_questions(source) & query(target)]
+            
+        Returns:
+            Tuple of source and targets (Tokenized/encoded versions).
+        """
+        
         input_ = "translate English to SQL: " + example_batch['unfolded_questions']
         input_ = input_.replace('<', '[').replace('>', ']')
         target_ = example_batch['query']
@@ -44,6 +77,16 @@ class NL2SQLDataset(Dataset):
         return source, targets
   
     def __getitem__(self, index: int) -> dict:
+        """
+        Gets a single tokenized example from the dataset.
+        
+        Args:
+            index(int): Example index in the dataset.
+        
+        Returns:
+            Dictionary of source token ids, source masks, target ids, and target masks.    
+        """
+        
         source, targets = self.convert_to_features(self.dataset[self.data_split][index])
         
         source_ids = source["input_ids"].squeeze()
@@ -56,15 +99,37 @@ class NL2SQLDataset(Dataset):
 
 
 def get_dataset(tokenizer, data_split: str, num_samples: int, args) -> NL2SQLDataset:
-      return NL2SQLDataset(data_dir=args.data_dir,
-                           data_split=data_split,
-                           num_samples=num_samples,  
-                           input_length=args.max_input_length, 
-                           output_length=args.max_output_length)
+    """
+    Creates NL2SQLDataset object.
+    
+    Args:
+        tokenizer(T5Tokenizer): Tokenizer object.
+        data_split(str): Dataset split name (train/validation/test).
+        num_samples(int): Number of samples selected (or None for all data).
+        
+    Returns:
+        NL2SQLDataset object.
+    """
+    
+    return NL2SQLDataset(data_dir=args.data_dir,
+                       data_split=data_split,
+                       num_samples=num_samples,  
+                       input_length=args.max_input_length, 
+                       output_length=args.max_output_length)
     
     
 def preprocess_data(json_path, csv_path):
-    """Loads data, cleans and saves it in csv format."""
+    """
+    Loads data, cleans and saves it in csv format.
+    
+    Args:
+        json_path(str): Path of the json data.
+        csv_data(str): Output path for the csv data.
+        
+    Returns:
+        Pandas Dataframe of the cleaned data.  
+    """
+    
     #Load json data
     with open(json_path, 'r') as fp:
         data = json.load(fp)
@@ -86,7 +151,18 @@ def preprocess_data(json_path, csv_path):
     
     
 def split_data(csv_path, output_dir, val_size=0.1, test_size=0.1):
-    """Splits data into train/validation/test."""
+    """Splits data into train/validation/test.
+    
+    Args:
+        csv_path(str): Path of the csv data.
+        output_dir(str): Output directory for the split data.
+        val_size(float): Validation set split size. Defaults to 0.1.
+        test_size(float): Test set split size. Defaults to 0.1.
+        
+    Returns:
+        Tuple of train, validation and test dataframes.
+    """
+    
     #Load data
     df = pd.read_csv(csv_path)
     
