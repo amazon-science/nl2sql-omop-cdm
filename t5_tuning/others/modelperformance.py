@@ -103,6 +103,7 @@ def acc_ex(gt_col, pred_col, entites):
 
 
 def arganalysis(arg_col):
+    """Analyzes query args"""
     if isinstance(arg_col,pd.core.series.Series):
         arg_col = arg_col.values
     predefined_dict = {"ARG-DRUG":0,"ARG-CONDITION":0,"ARG- DOSAGE":0,"ARG-GENDER":0,"ARG-STATE":0,

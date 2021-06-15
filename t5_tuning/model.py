@@ -1,3 +1,10 @@
+"""
+The module creates a class to fine-tune T5-based pretrained model.
+
+Adapted from:
+    https://github.com/DorBernsohn/CodeLM/tree/main/SQLM
+"""
+
 import torch
 import random
 import numpy as np
@@ -11,7 +18,7 @@ from torch.utils.data import DataLoader
 from typing import Callable, Dict, Iterable, List, Tuple, Union
 from dataset import get_dataset
 from torch.optim.lr_scheduler import CosineAnnealingLR
-import config
+import t5_config
 
 from transformers import (
     AdamW,
@@ -21,7 +28,18 @@ from transformers import (
 )
 
 class T5FineTuner(pl.LightningModule):
+    """
+    Class to create T5-based fine-tuner object.
+    """
+    
     def __init__(self, hparams) -> None:
+        """
+        Creates fine-tuner object.
+        
+        Args:
+            hparams(argparse.Namespace): Hyperparamters of the model object to be created.
+        """
+        
         super(T5FineTuner, self).__init__()
         self.hparams = hparams        
         self.model = T5ForConditionalGeneration.from_pretrained(hparams.model_name)
@@ -33,7 +51,7 @@ class T5FineTuner(pl.LightningModule):
             self.freeze_params(self.model.get_encoder())
             self.assert_all_frozen(self.model.get_encoder())
             
-        self.new_special_tokens = config.ADDED_TOKENS
+        self.new_special_tokens = t5_config.ADDED_TOKENS
         
         additional_special_tokens = self.tokenizer.additional_special_tokens + self.new_special_tokens        
         self.tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
@@ -52,6 +70,11 @@ class T5FineTuner(pl.LightningModule):
         
     
     def freeze_params(self, model):
+        """Freezes model paramters.
+        
+        Args:
+            model(T5ForConditionalGeneration): T5ForConditionalGeneration model object.
+        """
         for par in model.parameters():
             par.requires_grad = False
             
@@ -73,21 +96,25 @@ class T5FineTuner(pl.LightningModule):
         return list(map(f, x))
 
     def assert_all_frozen(self, model):
+        """Check all model frozen params."""
         model_grads: List[bool] = list(self.grad_status(model))
         n_require_grad = sum(self.lmap(int, model_grads))
         npars = len(model_grads)
         assert not any(model_grads), f"{n_require_grad/npars:.1%} of {npars} weights require grad"
 
     def is_logger(self):
+        """Check model copy used for logging."""
         return self.trainer.global_rank  <= 0
     
     
     def parse_score(self, result):
+        """Parses all scores and rounds the values."""
         return {k: round(v.mid.fmeasure * 100, 4) for k, v in result.items()}
         
     def forward(
       self, input_ids, attention_mask=None, decoder_input_ids=None, decoder_attention_mask=None, labels=None
   ):
+        """Wrapper for model's forward method."""
         return self.model(
             input_ids,
             attention_mask=attention_mask,
@@ -97,6 +124,14 @@ class T5FineTuner(pl.LightningModule):
     )
 
     def _step(self, batch):
+        """
+        Get loss for a given train step.
+        
+        Args:
+            batch(dict): Batch of examples.
+        Returns:
+            Model loss.
+        """
         labels = batch["target_ids"]
         labels[labels[:, :] == self.tokenizer.pad_token_id] = -100
 
@@ -113,13 +148,32 @@ class T5FineTuner(pl.LightningModule):
     
     
     def ids_to_clean_text(self, generated_ids):
+        """
+        Get text from the generated token ids.
+        
+        Args:
+            generated_ids(Tensor): Token ids.
+            
+        Returns:
+            Corresponding text.
+        """
+        
         gen_text = self.tokenizer.batch_decode(
             generated_ids, skip_special_tokens=False, clean_up_tokenization_spaces=True
         )
         return self.lmap(str.strip, gen_text)
     
     
-    def _generative_step(self, batch) :
+    def _generative_step(self, batch):
+        """
+        Get metrics(val_loss) from a given step
+        
+        Args:
+            batch(dict): Batch of examples.
+        
+        Returns:
+            dictionary of metric values (validation loss)
+        """
     
         loss = self._step(batch)
         base_metrics = {'val_loss': loss}
@@ -129,6 +183,15 @@ class T5FineTuner(pl.LightningModule):
     
 
     def training_step(self, batch, batch_idx):
+        """
+        Get loss and tensorboard logs from a training step.
+        
+        Args:
+            batch(dict): Dictionary of batch examples.
+            
+        Returns:
+            Training loss and tensorboard logs.
+        """
         loss = self._step(batch)
         
         self.log('train_loss', loss, on_step=True, on_epoch=True, sync_dist=True, prog_bar=True)
@@ -139,11 +202,29 @@ class T5FineTuner(pl.LightningModule):
   
 
     def validation_step(self, batch, batch_idx):
+        """
+        Get validation loss from a validation step.
+        
+        Args:
+            batch(dict): Dictionary of batch examples.
+            
+        Returns:
+            Validation loss.
+        """
         
         return self._generative_step(batch)
     
   
     def validation_epoch_end(self, outputs):
+        """
+        Gets loss and log at the end of validation epoch.
+        
+        Args:
+            outputs(Tensor): Model outputs
+          
+        Returns:
+            Dictionary of validation loss and logs.
+        """
 
         avg_loss = torch.stack([x["val_loss"] for x in outputs]).mean()
         tensorboard_logs = {"val_loss": avg_loss}
@@ -157,28 +238,17 @@ class T5FineTuner(pl.LightningModule):
         return {"val_loss": avg_loss, "log": tensor_board_logs}
 
     
-#     def configure_optimizers(self):
-
-#         "Prepare optimizer and schedule (linear warmup and decay)"
-#         model = self.model
-#         no_decay = ["bias", "LayerNorm.weight"]
-#         optimizer_grouped_parameters = [
-#             {
-#                 "params": [p for n, p in model.named_parameters() if not any(nd in n for nd in no_decay)],
-#                 "weight_decay": self.hparams.weight_decay,
-#             },
-#             {
-#                 "params": [p for n, p in model.named_parameters() if any(nd in n for nd in no_decay)],
-#                 "weight_decay": 0.0,
-#             },
-#         ]
-#         optimizer = AdamW(optimizer_grouped_parameters, lr=self.hparams.learning_rate, eps=self.hparams.adam_epsilon)
-#         self.opt = optimizer
-#         return [optimizer]
-
     def configure_optimizers(self):
-
-        "Prepare optimizer and schedule (linear warmup and decay)"
+        """
+        Prepare optimizer and schedule (linear warmup and decay)
+        
+        Args:
+            None
+            
+        Returns:
+            Tuple of optimizer and scheduler.
+        """
+        
         model = self.model
         no_decay = ["bias", "LayerNorm.weight"]
         optimizer_grouped_parameters = [
@@ -197,7 +267,16 @@ class T5FineTuner(pl.LightningModule):
         
         return [optimizer], [scheduler]
     
-    def train_dataloader(self):   
+    def train_dataloader(self):
+        """
+        Train data loader.
+        
+        Args:
+            None
+        
+        Returns:
+            DataLoader object.
+        """
         n_samples = self.n_obs['train']
         
         train_dataset = get_dataset(tokenizer=self.tokenizer, data_split="train", num_samples=n_samples, args=self.hparams)
@@ -214,6 +293,15 @@ class T5FineTuner(pl.LightningModule):
         return dataloader
 
     def val_dataloader(self):
+        """
+        Validation data loader.
+        
+        Args:
+            None
+        
+        Returns:
+            DataLoader object.
+        """
         n_samples = self.n_obs['validation']
         validation_dataset = get_dataset(tokenizer=self.tokenizer, data_split="validation", num_samples=n_samples, args=self.hparams)
         
@@ -221,6 +309,15 @@ class T5FineTuner(pl.LightningModule):
     
     
     def test_dataloader(self):
+        """
+        Test data loader.
+        
+        Args:
+            None
+        
+        Returns:
+            DataLoader object.
+        """
         n_samples = self.n_obs['test']
         test_dataset = get_dataset(tokenizer=self.tokenizer, data_split="test", num_samples=n_samples, args=self.hparams)
         

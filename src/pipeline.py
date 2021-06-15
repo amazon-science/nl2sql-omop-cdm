@@ -126,7 +126,7 @@ class nlq2SqlTool(object):
             
         
         '''
-        sql_query = self.model(nlq)
+        sql_query = self.model(nlq, self.config.INPUT_MAX_LENGTH, self.config.OUTPUT_MAX_LENGTH)
         return sql_query
     
        

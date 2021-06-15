@@ -29,9 +29,12 @@ DRUG_RELATIONSHIP_SCORE_THR = .7
 
 
 # Step 4: 
-# MODEL_PATH = osp.join(_current_file_dir, 'step4/model/0506_wikisql_all_v1e4.ckpt')
-MODEL_PATH = '/home/ec2-user/SageMaker/efs/deliverable_models/0517_wikisql_all_v0e2.ckpt'
-# MODEL_PATH = '/home/ec2-user/SageMaker/efs/deliverable_models/0517-sampling1-150-v0e19.ckpt'
+#MODEL_PATH = '/home/ec2-user/SageMaker/efs/deliverable_models/0517_wikisql_all_v0e2.ckpt'
+MODEL_PATH = '/home/ec2-user/SageMaker/efs/deliverable_models/0607_wikisql_all_v0e4.ckpt'
+
+#Model maximum input and output length (for input questions and output query templates)
+INPUT_MAX_LENGTH = 256
+OUTPUT_MAX_LENGTH = 750
 
 
 # Step 5: Render ML output
