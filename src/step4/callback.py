@@ -1,3 +1,7 @@
+"""
+Module to create Logging Callback Class.
+"""
+
 import logging
 import pytorch_lightning as pl
 
