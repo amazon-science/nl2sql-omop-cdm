@@ -1,13 +1,9 @@
-'''
+# Notes
+#     Time has to be given in digits, not words. It can handle cases such as "24 days". 
+#     For the time being we are not looking at extracting time unit even though it will be a relatively easy simple 
+#     feature to extract -> will require one more placeholder <ARG-TIMEUNIT>
 
 
-Notes
-    Time has to be given in digits, not words. It can handle cases such as "24 days". 
-    For the time being we are not looking at extracting time unit even though it will be a relatively easy simple 
-    feature to extract -> will require one more placeholder <ARG-TIMEUNIT>
-
-'''
-# import boto3
 import re
 from pprint import pprint
 
