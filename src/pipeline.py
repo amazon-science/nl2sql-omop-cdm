@@ -174,12 +174,12 @@ class nlq2SqlTool(object):
         entities = self.detect_entities(nlq)
         
         # step2: disambiguate to OMOP CDM ontology & assign placeholder
-        entities = slef.process_entities(entities)
+        entities = self.process_entities(entities)
         
         # step3: replace placeholder in nlq -> nlq2
         nlq2 = self.replace_name_for_placeholder(nlq, entities)
         
-        # step4: exectu ML to get sql 
+        # step4: execute ML to get sql 
         template_sql = self.ml_call(nlq2)
         
         # step5: render sql query

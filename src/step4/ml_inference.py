@@ -12,6 +12,15 @@ file_dir = osp.dirname(osp.realpath(__file__))
 MODEL_PATH = osp.join(file_dir, 'step4/model/0506_wikisql_all_v1e4.ckpt')
 
 def load_model(fp):
+    '''
+    
+    Args:
+        
+        
+    Returns:
+        
+        
+    '''
     #import pdb; pdb.set_trace()
     if torch.cuda.is_available():
         checkpoint = torch.load(fp)
@@ -27,15 +36,32 @@ def load_model(fp):
 class Inferencer(object):
     
     def __init__(self, model_path):
+        ''' Initialize model and tokenizer base on a pkl filepath.
+    
+        Args:
+            model_path (str): Absolute path to the stored model.
 
+        Returns:
+            str: None
+
+        '''
         self.model = load_model(model_path)
         self.tokenizer = self.model.tokenizer
 #         self.tokenizer = AutoTokenizer.from_pretrained("mrm8488/t5-base-finetuned-wikiSQL")
 #         self.model = AutoModelForSeq2SeqLM.from_pretrained("mrm8488/t5-base-finetuned-wikiSQL")
 
-    def __call__(self, query):
-        
-        input_text = "translate English to SQL: %s </s>" % query
+    def __call__(self, nlq):
+        '''Maps a general NLQ (with placeholders) to a general SQL query (with placeholders)
+    
+        Args:
+            nlq (str): General Natural Language Query.
+
+        Returns:
+            None
+
+
+        '''
+        input_text = "translate English to SQL: %s </s>" % nlq
         
         features = self.tokenizer.batch_encode_plus([input_text], 
                                   max_length=200,

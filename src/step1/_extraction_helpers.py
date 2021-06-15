@@ -15,16 +15,15 @@ WORDS_P = re.compile("[A-Za-z]*")
 DIGITS_P = re.compile("\d*")
 
 def _reformat_cm_entity(entity):
-    '''
+    """Reformat Amazon's Comprehend Medical output to be handeled by the tool.
     
     
     Args:
-        
+        entity (dict): Entity dictionary from Amazon Comprehend Medical
         
     Returns:
-        
-        
-    '''
+        dict: Entity tool-standarized dictionary. 
+    """
     out = {
         'BeginOffset': entity["BeginOffset"],
         'EndOffset': entity["EndOffset"],
@@ -35,16 +34,14 @@ def _reformat_cm_entity(entity):
     return out
 
 def _reformat_regex_entity(entity):
-    '''
-    
+    """Reformat Regex entity to be handeled by the tool.
     
     Args:
-        
+        entity (dict): Entity dictionary from regex.
         
     Returns:
-        
-        
-    '''
+        dict: Entity tool-standarized dictionary. 
+    """
     out = {
         'BeginOffset': entity.start(), 
         'EndOffset': entity.end(), 
@@ -54,16 +51,16 @@ def _reformat_regex_entity(entity):
     
 
 def _update_category_with_cm_record(entity, category_records, seen_names):
-    '''
-    
+    """Update the category records with the passed entity and record seen names.
     
     Args:
-        
+        entity (dict): entity to be added to the category records.
+        category_records (list): List of a category records.
+        seen_names (set): Set of seen names. 
         
     Returns:
-        
-        
-    '''
+        None
+    """
     del entity['Category']
     del entity['Type']
     category_records.append(entity)
@@ -71,16 +68,17 @@ def _update_category_with_cm_record(entity, category_records, seen_names):
     
 
 def _update_time_category_with_cm_record(entity, time_entities, seen_names):
-    '''
-    
+    """Update the time category records. They require a special processing.
     
     Args:
-        
+        entity (dict): entity to be added to the category records.
+        time_entities (list): List of time name records.
+        seen_names (set): Set of seen names. 
         
     Returns:
-        
-        
-    '''
+        None
+    
+    """
     name = entity["Text"]
         
     # filter out digit form time. E.g. "23 days" -> "23"
@@ -88,31 +86,23 @@ def _update_time_category_with_cm_record(entity, time_entities, seen_names):
         digit_entity = re.search(DIGITS_P, name)
         entity["Text"] = name[digit_entity.start():digit_entity.end()]
         seen_names.add(name)
-
-        '''
-        # Code to get time units
-        time_unit_entity = re.search(WORDS_P, name)
-        time_unit = name[time_unit_entity.start():time_unit_entity.end()]
-
-        _update_category_with_cm_record({"Text": time_unit}, 
-                                    entities_by_category["TIMEMEASURE"], 
-                                    seen_names)
-        '''
         
     _update_category_with_cm_record(entity, time_entities, seen_names)
 
 
 def _add_cm_entity(raw_entity, entities_by_category, seen_names):
-    '''
+    """Classifies and records names detected by CM based on CM category and type into tool's categories.
     
     
     Args:
-        
+        raw_entity (dict): Dictionary defining the raw entity detected by CM.
+        entities_by_category (dict): Dictionary of previously detected entities by category.
+        seen_names (set): Set of names of already detected entities. 
         
     Returns:
+        tuple: First is the updated dictionary with entities by category. Second element is the set of seen names. 
         
-        
-    '''
+    """
     entity = _reformat_cm_entity(raw_entity)
     
     if entity["Text"] in seen_names:
@@ -124,11 +114,6 @@ def _add_cm_entity(raw_entity, entities_by_category, seen_names):
         _update_time_category_with_cm_record(entity, 
                                              entities_by_category["TIMEDAYS"],
                                              seen_names)
-
-#     elif entity_category == "MEDICATION" and entity_type == "DOSAGE":
-#         _update_category_with_cm_record(entity, 
-#                                         entities_by_category["DOSAGE"], 
-#                                         seen_names)
 
     elif entity_category == "PROTECTED_HEALTH_INFORMATION" and entity_type == "DATE":
         _update_category_with_cm_record(entity, 
@@ -159,16 +144,16 @@ def _add_cm_entity(raw_entity, entities_by_category, seen_names):
 
 
 def _detect_entities_with_regex(nlq, pattern, seen_names):
-    '''
-    
+    """Detects entities in the Natural Language Query based on a given regex pattern.
     
     Args:
-        
+        nlq (str): Natural Language Query
+        pattern (_sre.SRE_Pattern): Regex compiled pattern defining the sub-strings to be found.
+        seen_names (set): Set of names of already detected entities. 
         
     Returns:
-        
-        
-    '''
+        tuple: First is the list of dictionary defining the records detected with the given pattern. Second element is the set of seen names. 
+    """
     entities = []
     
     for entity in re.finditer(pattern, nlq):

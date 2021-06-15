@@ -1,6 +1,6 @@
 import boto3
 import re
-from extraction_helpers import (
+from _extraction_helpers import (
     _add_cm_entity,
     _detect_entities_with_regex
 )
@@ -14,16 +14,18 @@ COMPLEMENT_CATEGS = set(('DOSAGE','STRENGTH', 'ACUITY'))
 
 
 def add_cm_entities(nlq, entities_by_category, seen_names, entity_detection_score_thr, drug_relationship_score_thr):
-    '''
-    
+    """Detects entities in the NLQ using CM and adds them to the dicionary of seen entities by category. 
     
     Args:
-        
+        nlq (str): Natural Langugage Query
+        entities_by_category (dict): Dictionary of entities list (value) by category (key)
+        seen_names (set): Set of previously seen names in the NLQ
+        entity_detection_score_thr (float): Value between [0,1]. Only entites detected with a confidence over this value will be kept.
+        drug_relationship_score_thr (float): Value between [0,1]. Only drug attributes linked to a drug with a confidence over this value will be kept.
         
     Returns:
-        
-        
-    '''
+        tuple: First is the updated dictionary with entities by category. Second element is the set of seen names. 
+    """
     result = CM_CLIENT.detect_entities_v2(Text = nlq)
     
     # initialize categories
@@ -31,7 +33,6 @@ def add_cm_entities(nlq, entities_by_category, seen_names, entity_detection_scor
     entities_by_category["TIMEYEARS"] = []
     entities_by_category["DRUG"] = []
     entities_by_category["CONDITION"] = []
-#     entities_by_category["DOSAGE"] = []
     entities_by_category["AGE"] = []
     entities_by_category["STATE"] = []
     
@@ -70,16 +71,17 @@ def add_cm_entities(nlq, entities_by_category, seen_names, entity_detection_scor
     
     
 def add_gender_entities(nlq, entities_by_category, seen_names):
-    '''
-    
+    """Detect and add gender entities.
     
     Args:
-        
+        nlq (str): Natural Langugage Query
+        entities_by_category (dict): Dictionary of entities list (value) by category (key)
+        seen_names (set): Set of previously seen names in the NLQ
         
     Returns:
+        tuple: First is the dictionary of entities with updated gender records. Second element is the set of seen names. 
         
-        
-    '''
+    """
     entities, seen_names = _detect_entities_with_regex(nlq, 
                                                        GENDER_P, 
                                                        seen_names)
@@ -89,16 +91,17 @@ def add_gender_entities(nlq, entities_by_category, seen_names):
 
 
 def add_ethnicity_entities(nlq, entities_by_category, seen_names):
-    '''
-    
+    """Detect and add ethnicity entities.
     
     Args:
-        
+        nlq (str): Natural Langugage Query
+        entities_by_category (dict): Dictionary of entities list (value) by category (key)
+        seen_names (set): Set of previously seen names in the NLQ
         
     Returns:
+        tuple: First is the dictionary of entities with updated ethnicity records. Second element is the set of seen names. 
         
-        
-    '''
+    """
     entities, seen_names = _detect_entities_with_regex(nlq, 
                                                        ETHNICITY_P, 
                                                        seen_names)
@@ -108,16 +111,17 @@ def add_ethnicity_entities(nlq, entities_by_category, seen_names):
 
 
 def add_race_entities(nlq, entities_by_category, seen_names):
-    '''
-    
+    """Detect and add race entities.
     
     Args:
-        
+        nlq (str): Natural Langugage Query
+        entities_by_category (dict): Dictionary of entities list (value) by category (key)
+        seen_names (set): Set of previously seen names in the NLQ
         
     Returns:
+        tuple: First is the dictionary of entities with updated race records. Second element is the set of seen names. 
         
-        
-    '''
+    """
     entities, seen_names = _detect_entities_with_regex(nlq, 
                                                        RACE_P, 
                                                        seen_names)
@@ -128,16 +132,18 @@ def add_race_entities(nlq, entities_by_category, seen_names):
 
 # main function
 def detect_entities(nlq, entity_detection_score_thr, drug_relationship_score_thr):
-    '''
+    """Main function: Detect and categorize entities with CM and regex.
     
     
     Args:
-        
+        nlq (str):
+        entity_detection_score_thr (float):
+        drug_relationship_score_thr (float):
         
     Returns:
+        dict: Dictionary of detected entities by category
         
-        
-    '''
+    """
     entities_by_category = {}
     seen_names = set()
     

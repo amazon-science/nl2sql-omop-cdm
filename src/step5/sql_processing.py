@@ -15,10 +15,22 @@ ARG_PLACE_HOLDER_META_P = re.compile('<ARG-(\w*)><(\d+)>')
 TEMPLATE_PLACE_HOLDER_P = re.compile('<\w*-TEMPLATE>')
 
 
-def render_template_query(config, current_query, args_dict):
-
+def render_template_query(config, general_query, args_dict):
+    '''Main function of the step. Renders a general SQL query with arguments placeholders and 
+    template placeholders with their corresponding values and subqueries respectively. 
+    
+    
+    Args:
+        config (module): General tool configuration. 
+        general_query (str): General SQL query. 
+        args_dict (dict): Dictionary of processed arguments from step 2.  
+        
+    Returns:
+        str: Rendered query by replacing argument and template placeholders.
+    '''
+    
     # Render <SCHEMA> placeholder
-    current_query = re.sub(SCHEMA_P, config.SCHEMA, current_query)
+    current_query = re.sub(SCHEMA_P, config.SCHEMA, general_query)
 
     # Render "<\w*-TEMPLATE><ARG-\w*><\d+>" placeholders. E.g. descendent templates. 
     item = re.search(PLACE_HOLDER_P, current_query)

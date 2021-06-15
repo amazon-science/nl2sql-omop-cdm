@@ -18,7 +18,7 @@ CATEGORY2PROC_FUN = {
     'RACE': add_race_options,
     'TIMEDAYS': add_time_options,
     'TIMEYEARS': add_time_options,
-    'AGE': add_age_options,
+#     'AGE': add_age_options,
     'STATE': add_state_options
 }
 

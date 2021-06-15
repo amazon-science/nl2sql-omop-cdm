@@ -15,12 +15,13 @@ from template_definitions import (
 
 
 def render_condition_template(schema, condition_code):
-    '''
+    '''Renders and returns the condition template with a column `concept_id` 
+    with the OMOP CDM standard code for `condition_code` and its descendents.
     
     
     Args:
-        schema (str): Schema of the database.
-        condition_name (str): 
+        schema (str): Schema name of the database.
+        condition_code (str): Code of the condition in ICD10CM
         
     Returns:
         str: Rendered subquery with input arguments. 
@@ -31,11 +32,11 @@ def render_condition_template(schema, condition_code):
 
 
 def render_drug_template(schema, drug_code):
-    '''
-    
+    '''Renders and returns the drug template with a column `concept_id` 
+    with the OMOP CDM standard code for `drug_code` and its descendents.
     
     Args:
-        schema (str): Schema of the database.
+        schema (str): Schema name of the database.
         drug_name (str): 
         
     Returns:
@@ -47,12 +48,12 @@ def render_drug_template(schema, drug_code):
 
 
 def render_gender_template(schema, gender_name):
-    '''
-    
+    '''Renders and returns the gender template with a column `concept_id` 
+    with the OMOP CDM standard code for `gender_name`.
     
     Args:
-        schema (str): Schema of the database.
-        domain (gender_name): 
+        schema (str): Schema name of the database.
+        gender_name (str): Gender name as it appears in OMOP CDM standard concepts.
         
     Returns:
         str: Rendered subquery with input arguments. 
@@ -62,12 +63,13 @@ def render_gender_template(schema, gender_name):
 
 
 def render_race_template(schema, race_name):
-    '''
+    '''Renders and returns the race template with a column `concept_id` 
+    with the OMOP CDM standard code for `race_name`.
     
     
     Args:
-        schema (str): Schema of the database.
-        race_name (str): 
+        schema (str): Schema name of the database.
+        race_name (str): Race name as it appears in OMOP CDM standard concepts.
         
     Returns:
         str: Rendered subquery with input arguments. 
@@ -77,12 +79,13 @@ def render_race_template(schema, race_name):
 
 
 def render_ethnicity_template(schema, ethnicity_name):
-    '''
+    '''Renders and returns the ethnicity template with a column `concept_id` 
+    with the OMOP CDM standard code for `ethnicity_name`.
     
     
     Args:
-        schema (str): Schema of the database.
-        ethnicity_name (str): 
+        schema (str): Schema name of the database.
+        ethnicity_name (str): Ethnicity name as it appears in OMOP CDM standard concepts.
         
     Returns:
         str: Rendered subquery with input arguments. 
@@ -92,12 +95,13 @@ def render_ethnicity_template(schema, ethnicity_name):
 
 
 def render_state_template(schema, state_acronym):
-    '''
+    '''Renders and returns the ethnicity template with a column `concept_id` 
+    with the OMOP CDM standard code for `ethnicity_name`.
     
     
     Args:
-        schema (str): Schema of the database.
-        state_acronym (str): 
+        schema (str): Schema name of the database.
+        state_acronym (str): Acronym of the state as it appears in OMOP CDM standard concepts.
         
     Returns:
         str: Rendered subquery with input arguments. 
