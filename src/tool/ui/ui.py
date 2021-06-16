@@ -54,25 +54,36 @@ class UI(object):
         
         
     def _initialize_widgets(self):
+        ''' Initialize all the UI widgets.
         
+        Args:
+            None
+
+        Returns:
+            None
+
+        '''
         # initialize UI vertical sections
         self._initialize_credentials_vsection()
         self._initialize_genearl_input_vsection()
         self._initialize_general_output_vsection()
         self._initialize_feedback_vsection()
         
-        self.ui_sections = widgets.VBox([self.credentials_vsection, self.genearl_input_vsection, self.general_output_vsection, self.feedback_vsection], 
-                                    layout = layouts.MAIN_BOX_LAYOUT)
+        # combine
+        self.ui_sections = widgets.VBox(
+            [self.credentials_vsection, self.genearl_input_vsection, self.general_output_vsection, self.feedback_vsection], 
+            layout = layouts.MAIN_BOX_LAYOUT
+        )
         
         
     def _initialize_credentials_vsection(self):
-        '''
+        ''' Initialize the widgets of the credentials vertical section.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            None
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         
@@ -87,12 +98,23 @@ class UI(object):
         self.set_credentials_button.on_click(self._button_helper_record_db_credentials)
         
         # combine
-        self._credentials_vsection = widgets.HBox([self.widget_db_user, self.widget_db_password, self.white_space1, self.set_credentials_button])
+        self._credentials_vsection = widgets.HBox(
+            [self.widget_db_user, self.widget_db_password, self.white_space1, self.set_credentials_button]
+        )
         self.credentials_vsection = widgets.Accordion(children=[self._credentials_vsection])
         self.credentials_vsection.set_title(0, 'DB Credentials')
     
     
     def _initialize_genearl_input_vsection(self):
+        ''' Initialize the widgets of the general input vertical section.
+        
+        Args:
+            None
+
+        Returns:
+            None
+
+        '''
         
         # initialize tabs
         self._initialize_main_input_tab()
@@ -111,13 +133,13 @@ class UI(object):
         
     
     def _initialize_general_output_vsection(self):
-        '''Structure the genarl UI layout: Credentail box, 
+        ''' Initialize the widgets of the general output vertical section.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            None
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         
@@ -125,13 +147,13 @@ class UI(object):
         
         
     def _initialize_feedback_vsection(self):
-        '''
+        ''' Initialize the widgets of the feedback vertical section.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            None
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         
@@ -161,13 +183,13 @@ class UI(object):
     
     
     def _initialize_main_input_tab(self):
-        '''
+        ''' Initialize the widgets of the main input tab in the general input vertical section.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            None
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         
@@ -187,13 +209,13 @@ class UI(object):
         
         
     def _initialize_detection_correction_tab(self):
-        '''
+        ''' Initialize the widgets of the detection correction tab in the general input vertical section.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            None
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         
@@ -232,18 +254,19 @@ class UI(object):
         
         self.remove_box = widgets.HBox([self.remove_name, self.remove_button], layout=layouts.SUB_DETECT_BOX_LAYOUT)
         
-        self.detection_correction_tab = widgets.VBox([self.add_sub_title_1, self.add_box, self.remove_sub_title_2, self.remove_box], 
-                                  layout=layouts.DETECT_BOX_LAYOUT)
+        self.detection_correction_tab = widgets.VBox(
+            [self.add_sub_title_1, self.add_box, self.remove_sub_title_2, self.remove_box], 
+            layout=layouts.DETECT_BOX_LAYOUT)
     
     
     def _initialize_disambiguation_correction_tab(self):
-        '''
+        ''' Initialize the widgets of the disambiguation correction tab in the general input vertical section.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            None
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         
@@ -253,13 +276,30 @@ class UI(object):
         self._initialize_disambiguation_info_output_widget()
         
         # combine
-        self._mapped_drug_box = widgets.HBox([self.mapped_drug_category, self.mapped_drug_button, self.mapped_update_drug_text, self.mapped_update_drug_button])
-        self._mapped_condition_box = widgets.HBox([self.mapped_condition_category, self.mapped_condition_button, self.mapped_update_condition_text, self.mapped_update_condition_button])
-        self.disambiguation_correction_tab = widgets.VBox([self._mapped_drug_box, self._mapped_condition_box, self.disambiguation_info_output], layout=layouts.INFO_BOX_LAYOUT)
+        self._mapped_drug_box = widgets.HBox(
+            [self.mapped_drug_category, self.mapped_drug_button, self.mapped_update_drug_text, self.mapped_update_drug_button]
+        )
+        self._mapped_condition_box = widgets.HBox(
+            [self.mapped_condition_category, self.mapped_condition_button, self.mapped_update_condition_text, self.mapped_update_condition_button]
+        )
+        self.disambiguation_correction_tab = widgets.VBox(
+            [self._mapped_drug_box, self._mapped_condition_box, self.disambiguation_info_output], 
+            layout=layouts.INFO_BOX_LAYOUT
+        )
         
         
     
     def _initialize_drug_disambiguation_correction_widgets(self):
+        ''' Initialize the widgets of the drug disambiguation correction 
+        in the disambiguation correction tab in the general input vertical section.
+        
+        Args:
+            None
+
+        Returns:
+            None
+
+        '''
         drugs = [d['Text'] for d in self.entities['DRUG']] if hasattr(self, 'entities') else []
         self.mapped_drug_category = widgets.Dropdown(
             placeholder='e.g. Aspirin',
@@ -280,6 +320,16 @@ class UI(object):
     
     
     def _initialize_condition_disambiguation_correction_widgets(self):
+        ''' Initialize the widgets of the condition disambiguation correction 
+        in the disambiguation correction tab in the general input vertical section.
+        
+        Args:
+            None
+
+        Returns:
+            None
+
+        '''
         conditions = [d['Text'] for d in self.entities['CONDITION']] if hasattr(self, 'entities') else []
         self.mapped_condition_category = widgets.Dropdown(
             placeholder='e.g. Insomnia',
@@ -300,19 +350,28 @@ class UI(object):
         
         
     def _initialize_disambiguation_info_output_widget(self):
+        ''' Initialize the widgets of the disambiguation correction info output
+        in the disambiguation correction tab in the general input vertical section.
         
+        Args:
+            None
+
+        Returns:
+            None
+
+        '''
         self.disambiguation_info_output = widgets.Output(layout={'border': '1px solid black'})
     
     
     
     def _button_helper_clear_output(self, b):
-        '''
+        ''' Helper method defining the button's action to clear the outputs.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         self.general_output_vsection.clear_output()
@@ -320,13 +379,13 @@ class UI(object):
     
     
     def _button_helper_log_feedback(self, b):
-        '''
+        ''' Helper method defining the button's action to log the feedback.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         
@@ -345,13 +404,13 @@ class UI(object):
             
             
     def _button_helper_clear_credentials(self, b):
-        '''
+        ''' Helper method defining the button's action to clear the credentials.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         self.tool.clear_credentials()
@@ -361,13 +420,13 @@ class UI(object):
         
         
     def _button_helper_record_db_credentials(self, b):
-        '''
+        ''' Helper method defining the button's action to record the DB credentials.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         self.white_space1.clear_output()
@@ -383,13 +442,13 @@ class UI(object):
 
     
     def _button_helper_detect_button(self, b):
-        '''
+        ''' Helper method defining the button's action to detect the entities in the input NLQ.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         self.nlq = self.input_box.value
@@ -402,13 +461,14 @@ class UI(object):
         
         
     def _button_helper_execute_button(self, b):
-        '''
+        ''' Helper method defining the button's action to triggers the ML model prediction 
+        and execute the SQL query.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         if self.tool.credentials_exist():
@@ -439,13 +499,13 @@ class UI(object):
     
     
     def _button_helper_record_name(self, b):
-        '''
+        ''' Helper method defining the button's action to manually detect a name (highlight).
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         name = self.add_name.value
@@ -483,13 +543,13 @@ class UI(object):
         self._update_options()
         
     def _button_helper_remove_name(self, b):
-        '''
+        ''' Helper method defining the button's action to manually remove a detection.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         # do removing
@@ -514,13 +574,13 @@ class UI(object):
         
         
     def _button_helper_drug_info(self, b):
-        '''
+        ''' Helper method defining the button's action to visualize information on drug disambiguation option.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         if hasattr(self, 'nlq'):
@@ -530,13 +590,13 @@ class UI(object):
         
     
     def _button_helper_condition_info(self, b):
-        '''
+        ''' Helper method defining the button's action to visualize information on condition disambiguation option.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         if hasattr(self, 'nlq'):
@@ -546,13 +606,13 @@ class UI(object):
         
     
     def _button_helper_drug_update(self, b):
-        '''
+        ''' Helper method defining the button's action to manually update the disambiguation mapping of a drug.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         if hasattr(self, 'nlq'):
@@ -567,13 +627,13 @@ class UI(object):
             self._triger_no_input_warning()
         
     def _button_helper_condition_update(self, b):
-        '''
+        ''' Helper method defining the button's action to manually update the disambiguation mapping of a condition.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            b (-): Required argument on action functions for buttons.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         if hasattr(self, 'nlq'):
@@ -589,13 +649,14 @@ class UI(object):
     
     
     def visualize_entities(self, entities, converter):
-        '''
+        ''' Show the detected entities.
         
         Args:
             entities (dict): Detected entities in a NLQ.
+            converter (function): Function reformatting the NLQ and entities for the detection visualizer
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            IPython.core.display.HTML: HTML that will be passed for display and show the detected entities.
 
         '''
         parsed = [converter(self.nlq, entities)]
@@ -604,13 +665,15 @@ class UI(object):
 
 
     def _display_main(self, results=None, sql_query=None, rendered_sql=None):
-        '''
+        '''Display the main output
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            results (pd.DataFrame): Results from the execute query. Default None for not printing.
+            sql_query (str): Predicted general SQL query. Default None for not printing.
+            rendered_sql (str): Rendered SQL query. Default None for not printing.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         self.general_output_vsection.clear_output()
@@ -637,28 +700,31 @@ class UI(object):
 
     
     def _update_options(self):
-        '''
+        '''Update options of available drugs and conditions in the disambiguation tab.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            None
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         self.mapped_drug_category.options = [d['Text'] for d in self.entities['DRUG']]
         self.mapped_condition_category.options = [d['Text'] for d in self.entities['CONDITION']]
-        self.remove_name.options = ["{:s} (category: {:s})".format(d['Text'], cat_name) for cat_name, cat_dict in self.entities.items() for d in cat_dict]
+        self.remove_name.options = [
+            "{:s} (category: {:s})".format(d['Text'], cat_name) 
+            for cat_name, cat_dict in self.entities.items() for d in cat_dict
+        ]
         
     
     def _display_name_info(self, text):
-        '''
+        ''' Dispaly `text` in the disambiguation info output.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            text (str): Detected entities in a NLQ.
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None.
 
         '''
         self.disambiguation_info_output.clear_output()
@@ -667,14 +733,14 @@ class UI(object):
     
     
     
-    def _visualize_drug_info(self,):
-        '''
+    def _visualize_drug_info(self):
+        '''Dispaly drug information in the disambiguation output.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            None
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
     
@@ -694,14 +760,14 @@ class UI(object):
         self._display_name_info(text)
         
         
-    def _visualize_condition_info(self,):
-        '''
+    def _visualize_condition_info(self):
+        '''Dispaly condition information in the disambiguation output.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            None
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         # get dictionary of selected text
@@ -720,13 +786,13 @@ class UI(object):
         self._display_name_info(text)
         
     def _triger_no_input_warning(self):
-        '''
+        '''Display a warning message for missing nlq input.
         
         Args:
-            entities (dict): Detected entities in a NLQ.
+            None
 
         Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
+            None
 
         '''
         self.general_output_vsection.clear_output()
