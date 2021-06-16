@@ -1,9 +1,9 @@
 from os import path as osp
-from step5.template_definitions import (
+from engine.step5.template_definitions import (
     get_state_name_template,
     get_concept_name_template
 )
-from step5.rendering_functions import (
+from engine.step5.rendering_functions import (
     render_gender_template,
     render_race_template,
     render_ethnicity_template,
@@ -58,7 +58,7 @@ placeholder2template = {
     }
 }
 
-# SQL query executing
+# Step 6: SQL query executing
 REDSHIFT_PARM = {
     'port': '5439',
     'database': 'mycdm',

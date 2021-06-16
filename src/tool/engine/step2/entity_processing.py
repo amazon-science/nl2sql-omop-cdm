@@ -4,9 +4,7 @@ from disambiguation_helpers import (
     add_gender_options,
     add_race_options,
     add_ethnicity_options,
-    add_dosage_options,
     add_time_options,
-    add_age_options,
     add_state_options
 )
 
@@ -18,24 +16,23 @@ CATEGORY2PROC_FUN = {
     'RACE': add_race_options,
     'TIMEDAYS': add_time_options,
     'TIMEYEARS': add_time_options,
-#     'AGE': add_age_options,
     'STATE': add_state_options
 }
 
 def add_omop_disambiguation_options(entities):
+    '''
+    Provide options for each name depending on it's category using the CATEGORY2PROC_FUN mapping.
+    
+    Args:
+        entities (dict): Detected entities in a NLQ.
+        
+    Returns:
+        dict: Input entities with added "Options" and "Query-arg" fields.
+        
+    '''
     for category, f in CATEGORY2PROC_FUN.items():
         if category in entities:
             entities[category] = f(entities[category])
-#     entities['CONDITION'] = add_condition_options(entities['CONDITION'])
-# #     entities['DOSAGE'] = add_dosage_options(entities['DOSAGE'])
-#     entities['DRUG'] = add_drug_options(entities['DRUG'])
-#     entities['ETHNICITY'] = add_ethnicity_options(entities['ETHNICITY'])
-#     entities['GENDER'] = add_gender_options(entities['GENDER'])
-#     entities['RACE'] = add_race_options(entities['RACE'])
-#     entities['TIMEDAYS'] = add_time_options(entities['TIMEDAYS'])
-#     entities['TIMEYEARS'] = add_time_options(entities['TIMEYEARS'])
-#     entities['AGE'] = add_age_options(entities['AGE'])
-#     entities['STATE'] = add_state_options(entities['STATE'])
     
     return entities
 
@@ -48,7 +45,7 @@ def add_placeholders(all_entities, start_indices={}, **kwargs):
         all_entities (dict): Dictionary with keys being entity category (e.g. CONDITION, DRUG, etc.) and the value a list of dictionaries representing the entities in each category. 
         
     Returns:
-        dict: `all_entities` with placeholders. 
+        dict: `all_entities` with an added "Placeholder" field. 
         
     '''
     for category, entities in all_entities.items():

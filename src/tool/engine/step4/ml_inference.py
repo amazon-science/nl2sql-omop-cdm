@@ -48,8 +48,6 @@ class Inferencer(object):
         '''
         self.model = load_model(model_path)
         self.tokenizer = self.model.tokenizer
-#         self.tokenizer = AutoTokenizer.from_pretrained("mrm8488/t5-base-finetuned-wikiSQL")
-#         self.model = AutoModelForSeq2SeqLM.from_pretrained("mrm8488/t5-base-finetuned-wikiSQL")
 
 
     def __call__(self, query, input_max_length=256, output_max_length=750):
