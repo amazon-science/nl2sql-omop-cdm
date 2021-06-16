@@ -4,7 +4,7 @@ import sys
 from step1.entity_extraction import detect_entities
 from step2.entity_processing import add_omop_disambiguation_options, add_placeholders
 from step3.nlq_processing import replace_name_for_placeholder
-from step4.ml_inference import Inferencer
+from step4.model_dev.t5_inference import Inferencer
 from step5.sql_processing import render_template_query
 from step6.query_execution import connect_to_db, execute_query
 from copy import deepcopy
