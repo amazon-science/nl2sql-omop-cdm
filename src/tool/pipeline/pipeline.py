@@ -1,3 +1,6 @@
+from os import path as osp
+import sys
+
 from step1.entity_extraction import detect_entities
 from step2.entity_processing import add_omop_disambiguation_options, add_placeholders
 from step3.nlq_processing import replace_name_for_placeholder
