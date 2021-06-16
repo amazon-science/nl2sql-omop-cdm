@@ -2,36 +2,12 @@
 Module to load and infer query from the given input question.
 """
 import re
-# from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from os import path as osp
 import argparse
-from model import T5FineTuner
+from utils.model import T5FineTuner, load_model
 import torch
 
 PAD_P = re.compile('<pad> |</s>')
-
-file_dir = osp.dirname(osp.realpath(__file__))
-MODEL_PATH = osp.join(file_dir, 'step4/model/0506_wikisql_all_v1e4.ckpt')
-
-def load_model(fp):
-    """
-    Loads trained T5 models from a checkpoint file.
-    
-    Args:
-        fp(str): Checkpoint file path.
-    
-    Returns:
-        T5FineTuner object with the loaded weights.
-    """
-    if torch.cuda.is_available():
-        checkpoint = torch.load(fp)
-    else:
-        checkpoint = torch.load(fp, map_location=torch.device('cpu'))
-        
-    args = argparse.Namespace(**checkpoint['hyper_parameters'])
-    model = T5FineTuner(args)
-    model.load_state_dict(checkpoint['state_dict'])
-    return model
 
 
 class Inferencer(object):
@@ -50,21 +26,19 @@ class Inferencer(object):
         self.tokenizer = self.model.tokenizer
 
 
-    def __call__(self, query, input_max_length=256, output_max_length=750):
+    def __call__(self, input_text):
         '''Maps a general NLQ (with placeholders) to a general SQL query (with placeholders)
     
         Args:
-            query (str): General Natural Language Query.
-            input_max_length (int): Input sequence length used by the transformer model.
-            output_max_length (int): Output sequence length used by the transformer model.
+            input_text (str): General Natural Language question text.
 
         Returns:
             str: Generic SQL Query.
         '''
-        input_text = "translate English to SQL: %s </s>" % query
+        input_text = "translate English to SQL: %s" % input_text
         
         features = self.tokenizer.batch_encode_plus([input_text], 
-                                  max_length=input_max_length,
+                                  max_length=self.model.hparams.max_input_length,
                                   padding='max_length', 
                                   truncation=True,
                                   return_tensors='pt')
@@ -72,7 +46,7 @@ class Inferencer(object):
 
         output = self.model.model.generate(input_ids=features['input_ids'], 
                                      attention_mask=features['attention_mask'],
-                                     max_length=output_max_length, 
+                                     max_length=self.model.hparams.max_output_length, 
                                      num_beams=2,
                                      repetition_penalty=2.5, 
                                      length_penalty=1.0)
@@ -87,14 +61,16 @@ class Inferencer(object):
 
             
 if __name__=="__main__":
+
+    #Model location
+    MODEL_PATH = "/home/ec2-user/SageMaker/efs/deliverable_models/0607_wikisql_all_v0e4.ckpt"
     
-    query = "How many people are taking Aspirin?"
-    input_max_length=256
-    output_max_length=750
+    #Model input text/question
+    QUESTION = "How many people are taking Aspirin?"
+        
+    inferencer = Inferencer(MODEL_PATH)
     
-    inferencer = Inferencer()
+    sql = inferencer(QUESTION)
     
-    sql = inferencer.get_sql(query, input_max_length, output_max_length)
-    
-    print("Input: ", query)
-    print("Output: ", sql)
+    print("Input Question: \n", QUESTION)
+    print("Output Query Template: \n", sql)

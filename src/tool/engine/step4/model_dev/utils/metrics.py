@@ -6,7 +6,7 @@ import json
 import numpy as np
 import pandas as pd
 
-def execute_true_and_predicted_query(tool, row, entities):
+def execute_matching(tool, row, entities):
     """
     Execute the true and predicted query of a give row.
     
@@ -99,7 +99,7 @@ def correct_gt_query(df):
     return df
 
 
-def compute_wiki_acc_by_obs(tool, df, query2args_dict):
+def get_metrics(tool, df, query2args_dict):
     """
     Computes the exact matching and execution accuracies for each inferred query.
     
@@ -121,7 +121,7 @@ def compute_wiki_acc_by_obs(tool, df, query2args_dict):
     for i, (_, row) in enumerate(df0.iterrows()):
         if i%10==0:
             print(f'Executing {i}/{df0.shape[0]}...')
-        exec_match_wiki.append(execute_true_and_predicted_query(tool, row, query2args_dict.get(row["query"], query2args_dict['default'])))
+        exec_match_wiki.append(execute_matching(tool, row, query2args_dict.get(row["query"], query2args_dict['default'])))
     
     df0['exec_match_wiki'] = exec_match_wiki
     
@@ -133,7 +133,7 @@ def compute_wiki_acc_by_obs(tool, df, query2args_dict):
     return df_final
 
 
-def get_metrics(df):
+def get_average_metrics(df):
     """
     Computes the average accuracies of the model.
     
@@ -145,3 +145,25 @@ def get_metrics(df):
     acc_if = df.exact_match_wiki.mean()
     acc_ex = df.exec_match_wiki.mean()
     return acc_if, acc_ex
+
+
+def get_query_length(model, df, max_length=1000):
+    """
+    Get output length of each query.
+    
+    Args:
+        model(T5FineTuner): Model to be used.
+        df(pd.DataFrame): Data with the queries.
+        max_length(int): Max length of a query.
+        
+    Returns:
+        List of query lengths.
+    """
+    target_tensors = model.tokenizer.batch_encode_plus(df['query'].values.tolist(), 
+                                             max_length=max_length,
+                                             padding='max_length', 
+                                             truncation=True, 
+                                             return_tensors="pt")
+
+    lengths = target_tensors['attention_mask'].numpy().sum(1)
+    return lengths

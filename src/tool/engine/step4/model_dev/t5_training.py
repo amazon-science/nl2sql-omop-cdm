@@ -8,8 +8,8 @@ import os
 import time
 import pytorch_lightning as pl
 from pytorch_lightning import loggers as pl_loggers
-from model import T5FineTuner, set_seed
-from callback import LoggingCallback, logger
+from utils.model import T5FineTuner, set_seed
+from utils.callback import LoggingCallback, logger
 from t5_config import model_params
 
 def train(args):

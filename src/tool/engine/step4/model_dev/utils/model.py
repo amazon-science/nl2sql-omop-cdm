@@ -8,7 +8,7 @@ Adapted from:
 import torch
 import random
 import numpy as np
-
+import argparse
 import time
 import torch
 import numpy as np
@@ -18,7 +18,7 @@ from torch.utils.data import DataLoader
 from typing import Callable, Dict, Iterable, List, Tuple, Union
 from dataset import get_dataset
 from torch.optim.lr_scheduler import CosineAnnealingLR
-import t5_config
+
 
 from transformers import (
     AdamW,
@@ -38,6 +38,7 @@ class T5FineTuner(pl.LightningModule):
         
         Args:
             hparams(argparse.Namespace): Hyperparamters of the model object to be created.
+            added_tokens(list). Tokens to be added to an existing vocab.
         """
         
         super(T5FineTuner, self).__init__()
@@ -51,7 +52,7 @@ class T5FineTuner(pl.LightningModule):
             self.freeze_params(self.model.get_encoder())
             self.assert_all_frozen(self.model.get_encoder())
            
-        self.new_special_tokens = t5_config.ADDED_TOKENS
+        self.new_special_tokens = self.added_tokens()
         
         additional_special_tokens = self.tokenizer.additional_special_tokens + self.new_special_tokens        
         self.tokenizer.add_special_tokens({'additional_special_tokens': additional_special_tokens})
@@ -68,6 +69,49 @@ class T5FineTuner(pl.LightningModule):
         }
         self.n_obs = {k: v if v >= 0 else None for k, v in n_observations_per_split.items()}
         
+   
+    def added_tokens(self):
+        """Tokens to be added to the pretrained tokenizer/vocab."""
+        added_tokens = ['[ARG-DRUG]',
+                         '[ARG-CONDITION]',
+                         '[ARG-GENDER]',
+                         '[ARG-RACE]',
+                         '[ARG-ETHNICITY]',
+                         '[ARG-STATE]',
+                         '[ARG-AGE]',
+                         '[ARG-TIMEDAYS]',
+                         '[ARG-TIMEYEARS]',
+                         '[GENDER-TEMPLATE]',
+                         '[RACE-TEMPLATE]',
+                         '[ETHNICITY-TEMPLATE]',
+                         '[STATEID-TEMPLATE]',
+                         '[CONDITION-TEMPLATE]',
+                         '[DRUG-TEMPLATE]',
+                         '[ARG-CONDITION]',
+                         '[STATENAME-TEMPLATE]',
+                         '[ARG-DRUG]',
+                         '[ARG-DAYS]',
+                         'DATEDIFF',
+                         'DISTINCT',
+                         'GREATEST',
+                         '[SCHEMA]',
+                         'SELECT',
+                         'GROUP',
+                         'LEAST',
+                         'UNION',
+                         'COUNT',
+                         'WHERE',
+                         'JOIN',
+                         'FROM',
+                         'AND',
+                         'AS',
+                         'OR',
+                         'BY',
+                         'ON'
+                        ] + [f'[{i}]' for i in range(10)]
+
+        return added_tokens
+    
     
     def freeze_params(self, model):
         """Freezes model paramters.
@@ -322,7 +366,28 @@ class T5FineTuner(pl.LightningModule):
         test_dataset = get_dataset(tokenizer=self.tokenizer, data_split="test", num_samples=n_samples, args=self.hparams)
         
         return DataLoader(test_dataset, batch_size=self.hparams.eval_batch_size, num_workers=24)
+
     
+def load_model(fp):
+    """
+    Loads trained T5 models from a checkpoint file.
+    
+    Args:
+        fp(str): Checkpoint file path.
+    
+    Returns:
+        T5FineTuner object with the loaded weights.
+    """
+    if torch.cuda.is_available():
+        checkpoint = torch.load(fp)
+    else:
+        checkpoint = torch.load(fp, map_location=torch.device('cpu'))
+
+    args = argparse.Namespace(**checkpoint['hyper_parameters'])
+    model = T5FineTuner(args)
+    model.load_state_dict(checkpoint['state_dict'])
+    return model
+
     
 def set_seed(seed):
     """Seed random seed if needed."""
