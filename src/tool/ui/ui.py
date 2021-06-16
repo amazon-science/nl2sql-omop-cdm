@@ -1,173 +1,32 @@
-import ipywidgets as widgets
-from ipywidgets import Layout, Text, Textarea, Dropdown, Combobox, Button, Output, HBox, VBox, Tab, Password, RadioButtons, Accordion
-import re
-from spacy import displacy
-import config
-from IPython.core.display import display, HTML
-from copy import deepcopy
-import time
-import pandas as pd
-from pprint import pprint
-import os
+import sys
 from os import path as osp
+
+current_folder = osp.dirname(osp.abspath(__file__))
+sys.path.append(current_folder)
+
+import ipywidgets as widgets
+from IPython.core.display import display, HTML
+import re
+from copy import deepcopy
+import pandas as pd
 import json
 import datetime
-
-MAIN_BOX_LAYOUT = Layout(flex='1 1 auto', height='1200px', min_height='50px', width='auto')
-MAIN_CREDENTIALS_LAYOUT = Layout(height='5%', width='90%')
-MAIN_INTERFACE_LAYOUT = Layout(height='30%', width='90%')
-MAIN_DISPLAY_LAYOUT = Layout(flex='0 1 auto', height='50%', overflow_y='auto', width='90%', border='1px solid black')
-MAIN_FEEDBACK_LAYOUT = Layout(flex='0 1 auto', height='5%', width='90%')#, border='1px solid black')
-
-INPUT_BOX_LAYOUT = Layout(flex='1 1 auto', height='100%', min_height='50px', width='auto')
-INPUT_TEXT_LAYOUT = Layout(height='90%', width='90%')
-
-SUB_DETECT_BOX_LAYOUT = Layout(flex='1 1 auto', height='40%', min_height='50px', width='auto')
-DETECT_BOX_LAYOUT = Layout(flex='1 1 auto', height='auto', min_height='50px', width='auto')
-INFO_BOX_LAYOUT =  Layout(flex='1 1 auto', height='100%', min_height='50px', width='auto')
-
-RENDERER = displacy.EntityRenderer(options={})
-
-RENDERER.colors = {
-    'DRUG': '#7aecec',
-    'CONDITION': '#bfeeb7',
-    'AGE': '#feca74',
-    'STATE': '#ff9561',
-    'ETHNICITY': '#aa9cfc',
-    'RACE': '#c887fb',
-    'TIMEDAYS': '#bfe1d9',
-    'TIMEYEARS': '#bfe1d9',
-    'GENDER': '#e4e7d2',
-}
+import layouts
+from detection_visualizer import (
+    renderer, 
+    prepare_visuazliation_input_for_raw_entities, 
+    prepare_visuazliation_input_for_processed_entities
+)
 
 # create logs folder if it does not exist
 if not osp.exists('.logs'):
     os.makedirs('.logs')
-    
-
-def reformat_raw_entities(entities):
-    '''Reformat raw entities into an orderd list of names based 
-    on starting position rather than ordered by category.
-    
-    
-    Args:
-        entities (dict): Detected entities in a NLQ.
-        
-    Returns:
-        list: List of dictionaries with entites information sorted by starting position.
-        
-    '''
-    out = [
-        {
-            'start': name_dict['BeginOffset'],
-            'end': name_dict['EndOffset'],
-            'label': category
-        } 
-        for category, name_dicts in entities.items() 
-        for name_dict in name_dicts
-    ]
-    out = sorted(out, key=lambda x: x['start'])
-    return out
-
-def prepare_visuazliation_input_for_raw_entities(text, entities):
-    ''' Prepares detected entities and text to be ingested into the HTML visualization feature.
-    
-    
-    Args:
-        text (str): Natural Language Query.
-        entities (dict): Detected entities in a NLQ.
-        
-    Returns:
-        dict: 
-        
-    '''
-    ents = reformat_raw_entities(entities)
-    out = {
-        'text': text,
-        'ents': ents,
-        'title': None,
-        'settings': {'lang': 'en', 'direction': 'ltr'}
-    }
-    return out
-
-
-def get_reformatted_proc_entities(text, entities):
-    '''Reformat processed entities to be ingested in the HTML visualization feature. 
-    
-    
-    Args:
-        text (str): Natural Language Query with disambiguations replaced by original name. 
-        entities (dict): Processed entities in text.
-        
-    Returns:
-        list: List of positions of diambiguated names occur and their category sorted by starting position.
-        
-    '''
-    out = []
-    for category, name_dicts in entities.items():
-        for name_dict in name_dicts:
-            repl_text = name_dict['Query-arg']
-            p = re.compile(f"(?i)\\b{repl_text}\\b")
-            match = list(re.finditer(p, text))[0]
-            out.append({
-                'start': match.start(),
-                'end': match.end(),
-                'label': category
-            })
-    out = sorted(out, key=lambda x: x['start'])
-    return out
-
-
-def get_reformatted_nlq(text, entities):
-    ''' Replace the `entities` names in `text` by their disambiguation option.
-    
-    
-    Args:
-        text (str): Natural Language Query
-        entities (dict): Detected entities in a NLQ.
-        
-    Returns:
-        str: Natural Language Query with replaced names by their disambiguation name.
-        
-    '''
-    out_text = deepcopy(text)
-    for cat_entities in entities.values():
-        for entity in cat_entities:
-            orig_text = entity['Text']
-            p = re.compile(f"(?i)\\b{orig_text}\\b")
-            repl_text = entity['Query-arg']
-            out_text = re.sub(p, repl_text, out_text)
-    return out_text
-
-
-def prepare_visuazliation_input_for_processed_entities(text, entities):
-    '''Prepares processed entities and text to be ingested into the HTML visualization feature.
-    
-    
-    Args:
-        text (str): Natural Language Query
-        entities (dict): Processed entities in a NLQ.
-        
-    Returns:
-        dict: Processed entities input to the HTML visualization feature. 
-        
-    '''
-    text2 = get_reformatted_nlq(text, entities)
-    ents = get_reformatted_proc_entities(text2, entities)
-    out = {
-        'text': text2,
-        'ents': ents,
-        'title': None,
-        'settings': {'lang': 'en', 'direction': 'ltr'}
-    }
-    return out
-
 
 
 class UI(object):
     
     def __init__(self, tool):
-        '''Prepare UI objects. To initialize call the main method.
+        '''Stores underlying tool to be used and initialize the GUI widgets.
         
         Args:
             tool (nlq2SqlTool): Instantiation of the Natural Language to SQL tool.
@@ -178,22 +37,80 @@ class UI(object):
         '''
         
         self.tool = tool
-        self._set_up()
+        self._initialize_widgets()
         
-    def _set_up(self):
+        
+    def main(self):
+        ''' Method to layout and start the UI in a SageMaker Notebook.
+        
+        Args:
+            None
+
+        Returns:
+            None
+
+        '''
+        display(self.ui_sections)
+        
+        
+    def _initialize_widgets(self):
+        
+        # initialize UI vertical sections
+        self._initialize_credentials_vsection()
+        self._initialize_genearl_input_vsection()
+        self._initialize_general_output_vsection()
+        self._initialize_feedback_vsection()
+        
+        self.ui_sections = widgets.VBox([self.credentials_vsection, self.genearl_input_vsection, self.general_output_vsection, self.feedback_vsection], 
+                                    layout = layouts.MAIN_BOX_LAYOUT)
+        
+        
+    def _initialize_credentials_vsection(self):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
         
         # initialize widgets
-        self._initialize_credentials_box()
-        self._initialize_inputs()
-        self._initialize_add_detection()
-        self._initialize_mapped_values()
-        self._initialize_feedback_box()
+        self.widget_db_user = widgets.Text(description='User:', layout={'width': '30%'})
         
-        self._structure_main_layout()
+        self.widget_db_password = widgets.Password(description='Password:', layout={'width': '30%'})
         
+        self.white_space1 = widgets.Output(layout={'width': '25%'})
+        
+        self.set_credentials_button = widgets.Button(description="Set Data Credentials")
+        self.set_credentials_button.on_click(self._button_helper_record_db_credentials)
+        
+        # combine
+        self._credentials_vsection = widgets.HBox([self.widget_db_user, self.widget_db_password, self.white_space1, self.set_credentials_button])
+        self.credentials_vsection = widgets.Accordion(children=[self._credentials_vsection])
+        self.credentials_vsection.set_title(0, 'DB Credentials')
     
     
-    def _structure_main_layout(self):
+    def _initialize_genearl_input_vsection(self):
+        
+        # initialize tabs
+        self._initialize_main_input_tab()
+        self._initialize_detection_correction_tab()
+        self._initialize_disambiguation_correction_tab()
+        
+        # combine
+        self.genearl_input_vsection = widgets.Tab(layout=layouts.MAIN_INTERFACE_LAYOUT)
+        
+        children = [self.main_input_tab, self.detection_correction_tab, self.disambiguation_correction_tab]
+        self.genearl_input_vsection.children = children
+        
+        self.genearl_input_vsection.set_title(0, 'Main')
+        self.genearl_input_vsection.set_title(1, 'Correct detection')
+        self.genearl_input_vsection.set_title(2, 'Correct code map')
+        
+    
+    def _initialize_general_output_vsection(self):
         '''Structure the genarl UI layout: Credentail box, 
         
         Args:
@@ -204,21 +121,10 @@ class UI(object):
 
         '''
         
-        children = [self.input_disp_box, self.detection_box, self.disambiguate_box]
-        self.tab = Tab(layout=MAIN_INTERFACE_LAYOUT)
-        self.tab.children = children
-        self.tab.set_title(0, 'Main')
-        self.tab.set_title(1, 'Correct detection')
-        self.tab.set_title(2, 'Correct code map')
+        self.general_output_vsection = widgets.Output(layout=layouts.MAIN_DISPLAY_LAYOUT)
         
         
-        self.main_display = Output(layout=MAIN_DISPLAY_LAYOUT)
-        
-        
-        self.main_ui = VBox([self.credentials_box, self.tab, self.main_display, self.feedback_box], layout = MAIN_BOX_LAYOUT)
-        
-        
-    def _initialize_credentials_box(self):
+    def _initialize_feedback_vsection(self):
         '''
         
         Args:
@@ -229,18 +135,32 @@ class UI(object):
 
         '''
         
-        self.widget_db_user = Text(description='User:', layout={'width': '30%'})
-        self.widget_db_password = Password(description='Password:', layout={'width': '30%'})
-        self.white_space1 = Output(layout={'width': '25%'})
-        self.set_credentials_button = Button(description="Set Data Credentials")
-        self.set_credentials_button.on_click(self._record_db_credentials)
+        self.clear_output_button = widgets.Button(description="Clear Output")
+        self.clear_output_button.on_click(self._button_helper_clear_output)
         
-        self._credentials_box = HBox([self.widget_db_user, self.widget_db_password, self.white_space1, self.set_credentials_button])#, layout=MAIN_CREDENTIALS_LAYOUT)
-        self.credentials_box = Accordion(children=[self._credentials_box])
-        self.credentials_box.set_title(0, 'DB Credentials')
+        self.clear_credentials_button = widgets.Button(description="Forget Credentials")
+        self.clear_credentials_button.on_click(self._button_helper_clear_credentials)
+        
+        self.processing_flag = widgets.Output(layout={'width': '30%'})
+        
+        self.feedback_options = widgets.RadioButtons(
+            value='Successful',
+            options=['Successful', 'Unsuccessful'],
+            description='Feedback:',
+            layout={'width': '25%'}
+        )
+        
+        self.submit_button = widgets.Button(description="Submit feedback")
+        self.submit_button.on_click(self._button_helper_log_feedback)
         
         
-    def _initialize_inputs(self):
+        self.feedback_vsection = widgets.HBox(
+            [self.clear_output_button, self.clear_credentials_button, self.processing_flag, self.feedback_options, self.submit_button],
+            layout=layouts.MAIN_FEEDBACK_LAYOUT
+        )    
+    
+    
+    def _initialize_main_input_tab(self):
         '''
         
         Args:
@@ -251,22 +171,22 @@ class UI(object):
 
         '''
         
-        self.input_box = Textarea(
+        self.input_box = widgets.Textarea(
             placeholder='e.g. Number of patients taking Aspirin',
             description='Query:',
-            layout=INPUT_TEXT_LAYOUT,
+            layout=layouts.INPUT_TEXT_LAYOUT,
             disabled=False
         )
-        self.detect_button = Button(description="Detect")
-        self.detect_button.on_click(self._helper_detect_button)
-        self.execute_button = Button(description="Execute")
-        self.execute_button.on_click(self._helper_execute_button)
+        self.detect_button = widgets.Button(description="Detect")
+        self.detect_button.on_click(self._button_helper_detect_button)
+        self.execute_button = widgets.Button(description="Execute")
+        self.execute_button.on_click(self._button_helper_execute_button)
         
-        self.main_buttons = HBox([self.detect_button, self.execute_button])
-        self.input_disp_box = VBox([self.input_box, self.main_buttons], layout=INPUT_BOX_LAYOUT)
+        self.main_buttons = widgets.HBox([self.detect_button, self.execute_button])
+        self.main_input_tab = widgets.VBox([self.input_box, self.main_buttons], layout=layouts.INPUT_BOX_LAYOUT)
         
         
-    def _initialize_add_detection(self):
+    def _initialize_detection_correction_tab(self):
         '''
         
         Args:
@@ -277,47 +197,46 @@ class UI(object):
 
         '''
         
-        self.add_sub_title_1 = Output()
+        self.add_sub_title_1 = widgets.Output()
         self.add_sub_title_1.append_stdout("Add detection")
         
-        self.add_name = Text(
+        self.add_name = widgets.Text(
             placeholder='Aspirin 30Mg',
             description='Write name',
             disabled=False
         )
-        self.add_category = Dropdown(
-            # value='John',
+        self.add_category = widgets.Dropdown(
             placeholder='Choose entity',
             options=['DRUG', 'CONDITION', 'AGE', 'STATE', 'ETHNICITY', 'RACE', 'TIMEDAYS', 'TIMEYEARS', 'GENDER'],
             description='Category:',
             ensure_option=True,
             disabled=False
         )
-        self.add_button = Button(description="Highlight")
-        self.add_button.on_click(self._record_name)
+        self.add_button = widgets.Button(description="Highlight")
+        self.add_button.on_click(self._button_helper_record_name)
         
-        self.add_box = HBox([self.add_name, self.add_category, self.add_button], layout=SUB_DETECT_BOX_LAYOUT)
+        self.add_box = widgets.HBox([self.add_name, self.add_category, self.add_button], layout=layouts.SUB_DETECT_BOX_LAYOUT)
         
-        self.remove_sub_title_2 = Output()
+        self.remove_sub_title_2 = widgets.Output()
         self.remove_sub_title_2.append_stdout("Remove detection")
         
-        self.remove_name = Dropdown(
+        self.remove_name = widgets.Dropdown(
             placeholder='',
             options=[],
             description='Name:',
             ensure_option=True,
             disabled=False
         )
-        self.remove_button = Button(description="Remove")
-        self.remove_button.on_click(self._remove_name)
+        self.remove_button = widgets.Button(description="Remove")
+        self.remove_button.on_click(self._button_helper_remove_name)
         
-        self.remove_box = HBox([self.remove_name, self.remove_button], layout=SUB_DETECT_BOX_LAYOUT)
+        self.remove_box = widgets.HBox([self.remove_name, self.remove_button], layout=layouts.SUB_DETECT_BOX_LAYOUT)
         
-        self.detection_box = VBox([self.add_sub_title_1, self.add_box, self.remove_sub_title_2, self.remove_box], 
-                                  layout=DETECT_BOX_LAYOUT)
-        
-        
-    def _clear_output(self, b):
+        self.detection_correction_tab = widgets.VBox([self.add_sub_title_1, self.add_box, self.remove_sub_title_2, self.remove_box], 
+                                  layout=layouts.DETECT_BOX_LAYOUT)
+    
+    
+    def _initialize_disambiguation_correction_tab(self):
         '''
         
         Args:
@@ -327,11 +246,80 @@ class UI(object):
             dict: Input entities with added "Options" and "Query-arg" fields.
 
         '''
-        self.main_display.clear_output()
-        self.mapped_out.clear_output()
+        
+        # initialize widgets
+        self._initialize_drug_disambiguation_correction_widgets()
+        self._initialize_condition_disambiguation_correction_widgets()
+        self._initialize_disambiguation_info_output_widget()
+        
+        # combine
+        self._mapped_drug_box = widgets.HBox([self.mapped_drug_category, self.mapped_drug_button, self.mapped_update_drug_text, self.mapped_update_drug_button])
+        self._mapped_condition_box = widgets.HBox([self.mapped_condition_category, self.mapped_condition_button, self.mapped_update_condition_text, self.mapped_update_condition_button])
+        self.disambiguation_correction_tab = widgets.VBox([self._mapped_drug_box, self._mapped_condition_box, self.disambiguation_info_output], layout=layouts.INFO_BOX_LAYOUT)
+        
+        
+    
+    def _initialize_drug_disambiguation_correction_widgets(self):
+        drugs = [d['Text'] for d in self.entities['DRUG']] if hasattr(self, 'entities') else []
+        self.mapped_drug_category = widgets.Dropdown(
+            placeholder='e.g. Aspirin',
+            options=drugs,
+            description='Drug',
+            ensure_option=True,
+            disabled=False
+        )
+        self.mapped_drug_button = widgets.Button(description="Show drug info")
+        self.mapped_drug_button.on_click(self._button_helper_drug_info)
+        self.mapped_update_drug_text = widgets.Text(
+            placeholder='RxNorm code',
+            description='Map to',
+            disabled=False
+        )
+        self.mapped_update_drug_button = widgets.Button(description="Update drug")
+        self.mapped_update_drug_button.on_click(self._button_helper_drug_update)
     
     
-    def _log_feedback(self, b):
+    def _initialize_condition_disambiguation_correction_widgets(self):
+        conditions = [d['Text'] for d in self.entities['CONDITION']] if hasattr(self, 'entities') else []
+        self.mapped_condition_category = widgets.Dropdown(
+            placeholder='e.g. Insomnia',
+            options=conditions,
+            description='Condition',
+            ensure_option=True,
+            disabled=False
+        )
+        self.mapped_condition_button = widgets.Button(description="Show condition info")
+        self.mapped_condition_button.on_click(self._button_helper_condition_info)
+        self.mapped_update_condition_text = widgets.Text(
+            placeholder='ICD10 code',
+            description='Map to', 
+            disabled=False
+        )
+        self.mapped_update_condition_button = widgets.Button(description="Update condition")
+        self.mapped_update_condition_button.on_click(self._button_helper_condition_update)
+        
+        
+    def _initialize_disambiguation_info_output_widget(self):
+        
+        self.disambiguation_info_output = widgets.Output(layout={'border': '1px solid black'})
+    
+    
+    
+    def _button_helper_clear_output(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
+        self.general_output_vsection.clear_output()
+        self.disambiguation_info_output.clear_output()
+    
+    
+    def _button_helper_log_feedback(self, b):
         '''
         
         Args:
@@ -356,7 +344,7 @@ class UI(object):
             json.dump(record, fp)
             
             
-    def _clear_credentials(self, b):
+    def _button_helper_clear_credentials(self, b):
         '''
         
         Args:
@@ -370,42 +358,9 @@ class UI(object):
         self.widget_db_user.value = ''
         self.widget_db_password.value = ''
         self.white_space1.clear_output()
-    
-    
-    def _initialize_feedback_box(self):
-        '''
-        
-        Args:
-            entities (dict): Detected entities in a NLQ.
-
-        Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
-
-        '''
-        
-        self.clear_output_button = Button(description="Clear Output")
-        self.clear_output_button.on_click(self._clear_output)
-        
-        self.clear_credentials_button = Button(description="Forget Credentials")
-        self.clear_credentials_button.on_click(self._clear_credentials)
-        
-        self.processing_flag = Output(layout={'width': '30%'})
-        
-        self.feedback_options = RadioButtons(
-            value='Successful',
-            options=['Successful', 'Unsuccessful'],
-            description='Feedback:',
-            layout={'width': '25%'}
-        )
-        
-        self.submit_button = Button(description="Submit feedback")
-        self.submit_button.on_click(self._log_feedback)
         
         
-        self.feedback_box = HBox([self.clear_output_button, self.clear_credentials_button,  self.processing_flag, self.feedback_options, self.submit_button], layout=MAIN_FEEDBACK_LAYOUT)
-        
-        
-    def _record_db_credentials(self, b):
+    def _button_helper_record_db_credentials(self, b):
         '''
         
         Args:
@@ -427,56 +382,7 @@ class UI(object):
                 print('⛔️ Unable to access the DB. Make sure your credentials are correct')
 
     
-    
-    def visualize_entities(self, entities, converter):
-        '''
-        
-        Args:
-            entities (dict): Detected entities in a NLQ.
-
-        Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
-
-        '''
-        parsed = [converter(self.nlq, entities)]
-        html = RENDERER.render(parsed, page=False, minify=False).strip()
-        return HTML('<span class="tex2jax_ignore">{}</span>'.format(html))
-
-
-    def _display_main(self, results=None, sql_query=None, rendered_sql=None):
-        '''
-        
-        Args:
-            entities (dict): Detected entities in a NLQ.
-
-        Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
-
-        '''
-        self.main_display.clear_output()
-        html_detected_entities = self.visualize_entities(self.entities, prepare_visuazliation_input_for_raw_entities)
-        html_replaced_entities = self.visualize_entities(self.proc_entities, prepare_visuazliation_input_for_processed_entities)
-        
-        with self.main_display:
-            print("\n• The following key entities have been detected:")
-            display(html_detected_entities)
-            print("\n• Drugs and Conditions will be respectively replaced by the following RxNorm & ICD10 codes:")
-            display(html_replaced_entities)
-            
-            if sql_query:
-                print("\n• Predicted SQL query:")
-                display(sql_query)
-            if rendered_sql:
-                print("\n• Rendered SQL query:")
-                display(rendered_sql)
-            if isinstance(results, pd.DataFrame):
-                print("\n• Request run successfully ✅. Results in the following table:")
-                display(results)
-            elif isinstance(results, str):
-                print(results)
-    
-    
-    def _helper_detect_button(self, b):
+    def _button_helper_detect_button(self, b):
         '''
         
         Args:
@@ -495,7 +401,7 @@ class UI(object):
         self._update_options()
         
         
-    def _helper_execute_button(self, b):
+    def _button_helper_execute_button(self, b):
         '''
         
         Args:
@@ -530,24 +436,9 @@ class UI(object):
         self._display_main(output, sql_query, rendered_sql_query)
         
         self.processing_flag.clear_output()
-        
     
-    def _update_options(self):
-        '''
-        
-        Args:
-            entities (dict): Detected entities in a NLQ.
-
-        Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
-
-        '''
-        self.mapped_drug_category.options = [d['Text'] for d in self.entities['DRUG']]
-        self.mapped_condition_category.options = [d['Text'] for d in self.entities['CONDITION']]
-        self.remove_name.options = ["{:s} (category: {:s})".format(d['Text'], cat_name) for cat_name, cat_dict in self.entities.items() for d in cat_dict]
-        
     
-    def _record_name(self, b):
+    def _button_helper_record_name(self, b):
         '''
         
         Args:
@@ -591,7 +482,7 @@ class UI(object):
         self._display_main()
         self._update_options()
         
-    def _remove_name(self, b):
+    def _button_helper_remove_name(self, b):
         '''
         
         Args:
@@ -620,7 +511,145 @@ class UI(object):
                 
         self._display_main()
         self._update_options()
-           
+        
+        
+    def _button_helper_drug_info(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
+        if hasattr(self, 'nlq'):
+            self._visualize_drug_info()
+        else:
+            self._triger_no_input_warning()
+        
+    
+    def _button_helper_condition_info(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
+        if hasattr(self, 'nlq'):
+            self._visualize_condition_info()
+        else:
+            self._triger_no_input_warning()
+        
+    
+    def _button_helper_drug_update(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
+        if hasattr(self, 'nlq'):
+            for d in self.proc_entities['DRUG']:
+                if d['Text'] == self.mapped_drug_category.value:
+                    d['Query-arg'] = self.mapped_update_drug_text.value
+                    break
+
+            self._visualize_drug_info()
+            self._display_main()
+        else:
+            self._triger_no_input_warning()
+        
+    def _button_helper_condition_update(self, b):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
+        if hasattr(self, 'nlq'):
+            for d in self.proc_entities['CONDITION']:
+                if d['Text'] == self.mapped_condition_category.value:
+                    d['Query-arg'] = self.mapped_update_condition_text.value
+                    break
+
+            self._visualize_condition_info()
+            self._display_main()
+        else:
+            self._triger_no_input_warning()
+    
+    
+    def visualize_entities(self, entities, converter):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
+        parsed = [converter(self.nlq, entities)]
+        html = renderer.render(parsed, page=False, minify=False).strip()
+        return HTML('<span class="tex2jax_ignore">{}</span>'.format(html))
+
+
+    def _display_main(self, results=None, sql_query=None, rendered_sql=None):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
+        self.general_output_vsection.clear_output()
+        html_detected_entities = self.visualize_entities(self.entities, prepare_visuazliation_input_for_raw_entities)
+        html_replaced_entities = self.visualize_entities(self.proc_entities, prepare_visuazliation_input_for_processed_entities)
+        
+        with self.general_output_vsection:
+            print("\n• The following key entities have been detected:")
+            display(html_detected_entities)
+            print("\n• Drugs and Conditions will be respectively replaced by the following RxNorm & ICD10 codes:")
+            display(html_replaced_entities)
+            
+            if sql_query:
+                print("\n• Predicted SQL query:")
+                display(sql_query)
+            if rendered_sql:
+                print("\n• Rendered SQL query:")
+                display(rendered_sql)
+            if isinstance(results, pd.DataFrame):
+                print("\n• Request run successfully ✅. Results in the following table:")
+                display(results)
+            elif isinstance(results, str):
+                print(results)
+
+    
+    def _update_options(self):
+        '''
+        
+        Args:
+            entities (dict): Detected entities in a NLQ.
+
+        Returns:
+            dict: Input entities with added "Options" and "Query-arg" fields.
+
+        '''
+        self.mapped_drug_category.options = [d['Text'] for d in self.entities['DRUG']]
+        self.mapped_condition_category.options = [d['Text'] for d in self.entities['CONDITION']]
+        self.remove_name.options = ["{:s} (category: {:s})".format(d['Text'], cat_name) for cat_name, cat_dict in self.entities.items() for d in cat_dict]
+        
     
     def _display_name_info(self, text):
         '''
@@ -632,8 +661,8 @@ class UI(object):
             dict: Input entities with added "Options" and "Query-arg" fields.
 
         '''
-        self.mapped_out.clear_output()
-        with self.mapped_out:
+        self.disambiguation_info_output.clear_output()
+        with self.disambiguation_info_output:
             print(text)
     
     
@@ -700,154 +729,8 @@ class UI(object):
             dict: Input entities with added "Options" and "Query-arg" fields.
 
         '''
-        self.main_display.clear_output()
-        with self.main_display:
+        self.general_output_vsection.clear_output()
+        with self.general_output_vsection:
             print("\n⛔️ Please provide a valid query in 'Main' and click 'Detect' before using this functionality")
-    
-    
-    def _drug_info(self, b):
-        '''
-        
-        Args:
-            entities (dict): Detected entities in a NLQ.
-
-        Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
-
-        '''
-        if hasattr(self, 'nlq'):
-            self._visualize_drug_info()
-        else:
-            self._triger_no_input_warning()
         
     
-    def _condition_info(self, b):
-        '''
-        
-        Args:
-            entities (dict): Detected entities in a NLQ.
-
-        Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
-
-        '''
-        if hasattr(self, 'nlq'):
-            self._visualize_condition_info()
-        else:
-            self._triger_no_input_warning()
-        
-    
-    def _drug_update(self, b):
-        '''
-        
-        Args:
-            entities (dict): Detected entities in a NLQ.
-
-        Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
-
-        '''
-        if hasattr(self, 'nlq'):
-            for d in self.proc_entities['DRUG']:
-                if d['Text'] == self.mapped_drug_category.value:
-                    d['Query-arg'] = self.mapped_update_drug_text.value
-                    break
-
-            self._visualize_drug_info()
-            self._display_main()
-        else:
-            self._triger_no_input_warning()
-        
-    def _condition_update(self, b):
-        '''
-        
-        Args:
-            entities (dict): Detected entities in a NLQ.
-
-        Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
-
-        '''
-        if hasattr(self, 'nlq'):
-            for d in self.proc_entities['CONDITION']:
-                if d['Text'] == self.mapped_condition_category.value:
-                    d['Query-arg'] = self.mapped_update_condition_text.value
-                    break
-
-            self._visualize_condition_info()
-            self._display_main()
-        else:
-            self._triger_no_input_warning()
-    
-    
-    def _initialize_mapped_values(self):
-        '''
-        
-        Args:
-            entities (dict): Detected entities in a NLQ.
-
-        Returns:
-            dict: Input entities with added "Options" and "Query-arg" fields.
-
-        '''
-        
-#         DRUG
-        drugs = [d['Text'] for d in self.entities['DRUG']] if hasattr(self, 'entities') else []
-        self.mapped_drug_category = Dropdown(
-            placeholder='e.g. Aspirin',
-            options=drugs,
-            description='Drug',
-            ensure_option=True,
-            disabled=False
-        )
-        self.mapped_drug_button = Button(description="Show drug info")
-        self.mapped_drug_button.on_click(self._drug_info)
-        self.mapped_update_drug_text = Text(
-            placeholder='RxNorm code',
-            description='Map to',
-            disabled=False
-        )
-        self.mapped_update_drug_button = Button(description="Update drug")
-        self.mapped_update_drug_button.on_click(self._drug_update)
-        
-#         CONDITION
-        conditions = [d['Text'] for d in self.entities['CONDITION']] if hasattr(self, 'entities') else []
-        self.mapped_condition_category = Dropdown(
-            placeholder='e.g. Insomnia',
-            options=conditions,
-            description='Condition',
-            ensure_option=True,
-            disabled=False
-        )
-        self.mapped_condition_button = Button(description="Show condition info")
-        self.mapped_condition_button.on_click(self._condition_info)
-        self.mapped_update_condition_text = Text(
-            placeholder='ICD10 code',
-            description='Map to', 
-            disabled=False
-        )
-        self.mapped_update_condition_button = Button(description="Update condition")
-        self.mapped_update_condition_button.on_click(self._condition_update)
-        
-        
-        self.mapped_out = Output(layout={'border': '1px solid black'})
-        
-        self._mapped_drug_box = HBox([self.mapped_drug_category, self.mapped_drug_button, self.mapped_update_drug_text, self.mapped_update_drug_button])
-        self._mapped_condition_box = HBox([self.mapped_condition_category, self.mapped_condition_button, self.mapped_update_condition_text, self.mapped_update_condition_button])
-        
-        self.disambiguate_box = VBox([self._mapped_drug_box, self._mapped_condition_box, self.mapped_out], layout=INFO_BOX_LAYOUT)
-        
-        
-    def main(self):
-        ''' Method to layout and start the UI in a SageMaker Notebook.
-        
-        Args:
-            None
-
-        Returns:
-            None
-
-        '''
-        display(self.main_ui)
-        
-        
