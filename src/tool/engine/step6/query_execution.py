@@ -3,6 +3,9 @@ import psycopg2
 #import boto3
 import pandas as pd
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 def connect_to_db(redshift_parameters, user, password):
 #     client = boto3.client('redshift',region_name=redshift_parameters['region'])
