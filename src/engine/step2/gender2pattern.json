@@ -1,0 +1,1 @@
+{"FEMALE": "(?i)\\b(females?|wom(a|e)n)\\b", "MALE": "(?i)\\b(males?|m(a|e)n)\\b"}

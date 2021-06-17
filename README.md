@@ -29,7 +29,7 @@ This section covers how this repo is intended to be used.
 ### 2.1. Using the UI
 
 To run the UI tool and test the pipeline, it's assumed that you already have the trained model ready and your notebook instance is already connected to the Redshift database. To run the tool, follow the steps below:
-* Open `src/tool/config.py` and update the model path and Redshift database information.
+* Open `src/config.py` and update the model path and Redshift database information.
 * open `merck_main.ipynb` and change the python kernel into `pytorch_latest_p36`.
 * Follow the instructions provided in the notebook.
 
@@ -38,10 +38,10 @@ To run the UI tool and test the pipeline, it's assumed that you already have the
 
 This section explains the T5-based model development process (training, inference and evaluation). The NL2SQL problem is defined as a text-to-text problem where the input is the question text and the output is the query template. In this project, T5-based model is fine-tuned with the NL2SQL dataset.
 
-All the code related to the model development is located in `src/tool/engine/step4/model_dev/`. Change your directory into this path:
+All the code related to the model development is located in `src/engine/step4/model_dev/`. Change your directory into this path:
 
 ```bash
-$ /bin/bash cd src/tool/engine/step4/model_dev/
+$ /bin/bash cd src/engine/step4/model_dev/
 ```
 
 ### Data Preparation
