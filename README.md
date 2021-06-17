@@ -7,8 +7,8 @@ This repo contains the UI tool and ML model development process developed as par
 
 In the following sections we will cover:
 
- 1. Environment setup
- 2. Getting started
+ 1. Environment setup  
+ 2. Getting started  
   2.1 Using the UI
   2.2 Iterating on the underlying ML model
 
