@@ -33,7 +33,6 @@ def add_cm_entities(nlq, entities_by_category, seen_names, entity_detection_scor
     entities_by_category["TIMEYEARS"] = []
     entities_by_category["DRUG"] = []
     entities_by_category["CONDITION"] = []
-    entities_by_category["AGE"] = []
     entities_by_category["STATE"] = []
     
     

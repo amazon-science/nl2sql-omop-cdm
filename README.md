@@ -5,20 +5,28 @@ This repo contains the UI tool and ML model development process developed as par
 * `src`: All the source code related to the development of the end-to-end ML pipeline for the NL2SQL project. 
 * `merck_main.ipynb`: The UI tool (notebook) to run the model inference and query execution graphically.
 
+In the following sections we will cover:
+1. Environment setup
+2. Getting started
+    2.1. Using the UI
+    2.2. Iterating on the underlying ML model
 
-## Setup Environment
+## 1. Environment setup
 
 Note: The pipeline has been tested in Amazon's SageMaker `pytorch_latest_p36` conda environment. It assumes that:
 
-* You are in a GPU instance with CUDA 11.0, especially for model training. To setup the conda environment and install the remaining python packages, please change the directory to `setup` and run `setup.sh` script. Instructions to complete setup are as follows:
+* You are in a GPU instance with CUDA 11.0, especially for model training. To setup the conda environment and install the remaining python packages, please change the directory to `setup/` and run `setup.sh` script. Instructions to complete setup are as follows:
 
 ```bash
-$ /bin/bash cd setup
+$ /bin/bash cd setup/
 $ /bin/bash ./setup.sh
 ```
 
+## 2. Getting started
 
-## Run the UI Tool
+This section covers how this repo is intended to be used. 
+
+### 2.1. Using the UI
 
 To run the UI tool and test the pipeline, it's assumed that you already have the trained model ready and your notebook instance is already connected to the Redshift database. To run the tool, follow the steps below:
 * Open `src/tool/config.py` and update the model path and Redshift database information.
@@ -26,7 +34,7 @@ To run the UI tool and test the pipeline, it's assumed that you already have the
 * Follow the instructions provided in the notebook.
 
 
-## Model Development
+### 2.2. Iterating on the underlying ML model
 
 This section explains the T5-based model development process (training, inference and evaluation). The NL2SQL problem is defined as a text-to-text problem where the input is the question text and the output is the query template. In this project, T5-based model is fine-tuned with the NL2SQL dataset.
 
