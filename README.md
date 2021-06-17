@@ -6,6 +6,7 @@ This repo contains the UI tool and ML model development process developed as par
 * `merck_main.ipynb`: The UI tool (notebook) to run the model inference and query execution graphically.
 
 In the following sections we will cover:
+
 1. Environment setup
 2. Getting started
     2.1. Using the UI
