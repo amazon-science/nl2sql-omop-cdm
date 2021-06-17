@@ -9,7 +9,7 @@ In the following sections we will cover:
 
 &nbsp;1. Environment setup  
 &nbsp;2. Getting started  
-&nbsp;&nbsp;2.1 Using the UI
+&nbsp;&nbsp;2.1 Using the UI  
 &nbsp;&nbsp;2.2 Iterating on the underlying ML model
 
 ## 1. Environment setup
