@@ -16,10 +16,11 @@ In the following sections we will cover:
 
 Note: The pipeline has been tested in Amazon's SageMaker `pytorch_latest_p36` conda environment. It assumes that:
 
-* You are in a GPU instance with CUDA 11.0, especially for model training. To setup the conda environment and install the remaining python packages, please change the directory to `setup/` and run `setup.sh` script. Instructions to complete setup are as follows:
+* You are in a GPU instance with CUDA 11.0, especially for model training. To setup the conda environment and install the remaining python packages, please change the directory to `setup/` and run `setup.sh` script. You first need to change the bash file mode if needed. Instructions to complete setup are as follows:
 
 ```bash
 $ /bin/bash cd setup/
+$ /bin/bash chmod +x setup.sh
 $ /bin/bash ./setup.sh
 ```
 
@@ -48,12 +49,20 @@ $ /bin/bash cd src/engine/step4/model_dev/
 ### Data Preparation
 Before you start model training, you need to have the data splits (train/validation/test) ready in CSV format. Each split has at least two columns (`unfolded_questions` for the input questions and `query` for the model's output query template.
 
+
 ### Model Training
-To fine-tune the WikiSQL pretrained T5 model, you first need to update the model configuration file `t5_config.py`. Especially, you need to specify the input `data_dir` and `output_dir` for input data and model output directory respectively. Once you update the config file, run the following command to fine-tune the T5 model:
+To fine-tune the WikiSQL pretrained T5 model, you first need to update the model configuration file `t5_config.py`. Especially, you need to specify the input `data_dir` and `output_dir` for input data and model output directory respectively. At least, you need update the following:
+* model path
+* database schema name
+* Redshift database information (e.g., endpoint, database name, etc.)
+
+Once you update the config file, run the following command to fine-tune the T5 model:
 
 ```bash
 $ /bin/bash python t5_training.py
 ```
+
+Note: As the T5 model is big, you will need GPU instances for training.
 
 
 ### Model Inference
