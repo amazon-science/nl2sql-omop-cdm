@@ -69,7 +69,7 @@ if __name__ == "__main__":
     )
 
     # Model input text/question
-    QUESTION = "How many people are taking Aspirin?"
+    QUESTION = "Number of patients taking <ARG-DRUG><0>"
 
     inferencer = Inferencer(MODEL_PATH)
 
