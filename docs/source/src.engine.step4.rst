@@ -1,5 +1,5 @@
-src.engine.step4 namespace
-==========================
+src.engine.step4 package
+=========================
 
 Subpackages
 -----------

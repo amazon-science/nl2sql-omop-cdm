@@ -1,5 +1,5 @@
-src.engine namespace
-====================
+src.engine package
+===================
 
 Subpackages
 -----------
