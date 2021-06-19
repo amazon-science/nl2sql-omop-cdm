@@ -90,7 +90,7 @@ SELECT concept_id, concept_name AS {domain.lower()} \
 FROM {schema}.concept \
 WHERE domain_id='{domain}' \
 AND standard_concept='S' \
-"
+) "
 
     return out
 
