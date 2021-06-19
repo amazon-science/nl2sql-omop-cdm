@@ -1,5 +1,6 @@
 from os import path as osp
 import sys
+import getpass
 
 sys.path.append('../')
 
@@ -229,8 +230,14 @@ if __name__ == "__main__":
 
     tool = nlq2SqlTool(config)
 
-    query = "How many people are taking Aspirin?"
+    #query = "How many people are taking Aspirin?"
+    query = "Number of patients grouped by ethnicity"    
+    
+    user = input("Enter Redshift Database Username: ")
+    password = getpass.getpass(prompt="Enter Redshift Datbase Password: ")
 
+    tool.set_db_credentials(user, password)
+    
     df = tool(query)
 
     print("Input :", query)
