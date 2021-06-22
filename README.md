@@ -49,6 +49,8 @@ $ /bin/bash cd src/engine/step4/model_dev/
 ### Data Preparation
 Before you start model training, you need to have the data splits (train/validation/test) ready in CSV format. Each split has at least two columns (`unfolded_questions` for the input questions and `query` for the model's output query template.
 
+The dataset splits used in this POC are provided in this repo at the root directory under `data/folded_questions`. However these csv data contain the folded version of the equivalent questions. So, you will need to unfold all the input equivalent questions for it to be ready for model development. Please open the `prepare_data.ipynb`, update the input and output data paths and run it.
+
 
 ### Model Training
 To fine-tune the WikiSQL pretrained T5 model, you first need to update the model configuration file `t5_config.py`. Especially, you need to specify the input `data_dir` and `output_dir` for input data and model output directory respectively. At least, you need update the following:
