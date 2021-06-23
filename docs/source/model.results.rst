@@ -24,3 +24,5 @@ The trained model performance is summarized in the table below.
    * - Execution
      - 0.9999
      - 0.9999
+     
+In addition, we also tested the model against similar input questions that were provided by the customer. We could get similar results model performance.
