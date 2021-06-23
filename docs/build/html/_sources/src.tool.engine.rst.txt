@@ -1,0 +1,25 @@
+src.tool.engine namespace
+=========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   src.tool.engine.step1
+   src.tool.engine.step2
+   src.tool.engine.step3
+   src.tool.engine.step5
+   src.tool.engine.step6
+
+Submodules
+----------
+
+src.tool.engine.pipeline module
+-------------------------------
+
+.. automodule:: src.tool.engine.pipeline
+   :members:
+   :undoc-members:
+   :show-inheritance:

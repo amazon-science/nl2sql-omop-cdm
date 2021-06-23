@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>src.engine.pipeline &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../omop.html">Understanding OMOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../problem.html">The problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tool.schema.html">Tool overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../data.creation.html">Data Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model.development.html">Model Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model.results.html">Model Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../next.steps.html">Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API docs</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>src.engine.pipeline</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for src.engine.pipeline</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span> <span class="k">as</span> <span class="n">osp</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">step1.entity_extraction</span> <span class="kn">import</span> <span class="n">detect_entities</span>
+<span class="kn">from</span> <span class="nn">step2.entity_processing</span> <span class="kn">import</span> <span class="n">add_omop_disambiguation_options</span><span class="p">,</span> <span class="n">add_placeholders</span>
+<span class="kn">from</span> <span class="nn">step3.nlq_processing</span> <span class="kn">import</span> <span class="n">replace_name_for_placeholder</span>
+<span class="kn">from</span> <span class="nn">step4.model_dev.t5_inference</span> <span class="kn">import</span> <span class="n">Inferencer</span>
+<span class="kn">from</span> <span class="nn">step5.sql_processing</span> <span class="kn">import</span> <span class="n">render_template_query</span>
+<span class="kn">from</span> <span class="nn">step6.query_execution</span> <span class="kn">import</span> <span class="n">connect_to_db</span><span class="p">,</span> <span class="n">execute_query</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+
+<div class="viewcode-block" id="nlq2SqlTool"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool">[docs]</a><span class="k">class</span> <span class="nc">nlq2SqlTool</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="nlq2SqlTool.__init__"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the nlq2SQL tool.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            config (module): Configuration module (`./config.py`)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">Inferencer</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">MODEL_PATH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool.set_db_credentials"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool.set_db_credentials">[docs]</a>    <span class="k">def</span> <span class="nf">set_db_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Registes DB credentials and test connection.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user (str): DB user.</span>
+<span class="sd">            password (str): DB password.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user</span> <span class="o">=</span> <span class="n">user</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span> <span class="o">=</span> <span class="n">password</span>
+
+        <span class="c1"># test connection</span>
+        <span class="n">test_conn</span> <span class="o">=</span> <span class="n">connect_to_db</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">REDSHIFT_PARM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="p">)</span>
+        <span class="n">test_conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool.clear_credentials"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool.clear_credentials">[docs]</a>    <span class="k">def</span> <span class="nf">clear_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Deletes the user and password data base credentials from the tool</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">credentials_exist</span><span class="p">():</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool.credentials_exist"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool.credentials_exist">[docs]</a>    <span class="k">def</span> <span class="nf">credentials_exist</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Chceck whether or not the credentials are registred in the tool.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if user and password are, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_user&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_password&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool._open_redshift_connection"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool._open_redshift_connection">[docs]</a>    <span class="k">def</span> <span class="nf">_open_redshift_connection</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Open connect to the redshift database.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">connect_to_db</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">REDSHIFT_PARM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool._close_redshift_connection"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool._close_redshift_connection">[docs]</a>    <span class="k">def</span> <span class="nf">_close_redshift_connection</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Close connect to the redshift database.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;conn&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Connection has to be opened before closing it&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool.detect_entities"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool.detect_entities">[docs]</a>    <span class="k">def</span> <span class="nf">detect_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nlq</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Detect entities in a Natural Language Query</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nlq (str): Natural Language Query.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Dictionary of detected entities.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">detect_entities</span><span class="p">(</span>
+            <span class="n">nlq</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">ENTITY_DETECTION_SCORE_THR</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">DRUG_RELATIONSHIP_SCORE_THR</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool.process_entities"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool.process_entities">[docs]</a>    <span class="k">def</span> <span class="nf">process_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Process entiteis by adding disambiguation options to match OMOP CDM terminology &amp; assign placeholder</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            entities (dict): Dictionary of detected entities.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Processed entities (disambiguation options and default disambiguation).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span>
+        <span class="c1">#         TODO: Implement add_omop_disambiguation_options and add_placeholders</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="n">add_omop_disambiguation_options</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span>
+
+        <span class="n">entities</span> <span class="o">=</span> <span class="n">add_placeholders</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">entities</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool.replace_name_for_placeholder"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool.replace_name_for_placeholder">[docs]</a>    <span class="k">def</span> <span class="nf">replace_name_for_placeholder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nlq</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Comment</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nlq (str): Natural Language Query</span>
+<span class="sd">            entities (dict): Detected and processed entities of the `nlq`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Generic Natural Language Query with key names replaced by placeholders.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nlq2</span> <span class="o">=</span> <span class="n">replace_name_for_placeholder</span><span class="p">(</span><span class="n">nlq</span><span class="p">,</span> <span class="n">entities</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">nlq2</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool.ml_call"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool.ml_call">[docs]</a>    <span class="k">def</span> <span class="nf">ml_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nlq</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Maps a NLQ to a SQL query by calling the NL2SQL ML model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nlq (str): Generic Natural Language Query</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Generic SQL query.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sql_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">nlq</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sql_query</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool.render_template_query"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool.render_template_query">[docs]</a>    <span class="k">def</span> <span class="nf">render_template_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generic_sql</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Renders the generic SQL query by replacing placeholders by appropriate arguments and sub-query templates.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            generic_sql (str): Generic SQL</span>
+<span class="sd">            entities (dict): Detected and processed entities (same as the ones used in the `replace_name_for_placeholder` method)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Ready-to-execute SQL query.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">render_template_query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">generic_sql</span><span class="p">,</span> <span class="n">entities</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool.execute_sql_query"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool.execute_sql_query">[docs]</a>    <span class="k">def</span> <span class="nf">execute_sql_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql_query</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Executes the ready-to-execute `sql_query` against Amazon Redshift</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sql_query (str): Ready-to-execute `sql_query`</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: Table dataframe resulting from the `sql_query` execution.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_open_redshift_connection</span><span class="p">()</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">out_df</span> <span class="o">=</span> <span class="n">execute_query</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">sql_query</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_close_redshift_connection</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">out_df</span></div>
+
+<div class="viewcode-block" id="nlq2SqlTool.__call__"><a class="viewcode-back" href="../../../src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nlq</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Run pipeline end to end.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nlq (str): Natural Language Query</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pd.DataFrame: Results of executing the SQL query against Amazon Redshift.</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># step1: detect_entities</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detect_entities</span><span class="p">(</span><span class="n">nlq</span><span class="p">)</span>
+
+        <span class="c1"># step2: disambiguate to OMOP CDM ontology &amp; assign placeholder</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_entities</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span>
+
+        <span class="c1"># step3: replace placeholder in nlq -&gt; nlq2</span>
+        <span class="n">nlq2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">replace_name_for_placeholder</span><span class="p">(</span><span class="n">nlq</span><span class="p">,</span> <span class="n">entities</span><span class="p">)</span>
+
+        <span class="c1"># step4: execute ML to get sql</span>
+        <span class="n">template_sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ml_call</span><span class="p">(</span><span class="n">nlq2</span><span class="p">)</span>
+
+        <span class="c1"># step5: render sql query</span>
+        <span class="n">final_sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_template_query</span><span class="p">(</span><span class="n">template_sql</span><span class="p">,</span> <span class="n">entities</span><span class="p">)</span>
+
+        <span class="c1"># execute sql query</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_sql_query</span><span class="p">(</span><span class="n">final_sql</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="kn">import</span> <span class="nn">config</span>
+
+    <span class="n">tool</span> <span class="o">=</span> <span class="n">nlq2SqlTool</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;How many people are taking Aspirin?&quot;</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">tool</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input :&quot;</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output :&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

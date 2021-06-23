@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>src.ui.detection_visualizer &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../omop.html">Understanding OMOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../data.creation.html">Data Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../model.results.html">Model Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../next.steps.html">Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Docs</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>src.ui.detection_visualizer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for src.ui.detection_visualizer</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">spacy</span> <span class="kn">import</span> <span class="n">displacy</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="n">renderer</span> <span class="o">=</span> <span class="n">displacy</span><span class="o">.</span><span class="n">EntityRenderer</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">{})</span>
+
+<span class="n">renderer</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;DRUG&quot;</span><span class="p">:</span> <span class="s2">&quot;#7aecec&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CONDITION&quot;</span><span class="p">:</span> <span class="s2">&quot;#bfeeb7&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AGE&quot;</span><span class="p">:</span> <span class="s2">&quot;#feca74&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;STATE&quot;</span><span class="p">:</span> <span class="s2">&quot;#ff9561&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ETHNICITY&quot;</span><span class="p">:</span> <span class="s2">&quot;#aa9cfc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RACE&quot;</span><span class="p">:</span> <span class="s2">&quot;#c887fb&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TIMEDAYS&quot;</span><span class="p">:</span> <span class="s2">&quot;#bfe1d9&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TIMEYEARS&quot;</span><span class="p">:</span> <span class="s2">&quot;#bfe1d9&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GENDER&quot;</span><span class="p">:</span> <span class="s2">&quot;#e4e7d2&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="reformat_raw_entities"><a class="viewcode-back" href="../../../src.ui.detection_visualizer.html#src.ui.detection_visualizer.reformat_raw_entities">[docs]</a><span class="k">def</span> <span class="nf">reformat_raw_entities</span><span class="p">(</span><span class="n">entities</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Reformat raw entities into an orderd list of names based</span>
+<span class="sd">    on starting position rather than ordered by category.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        entities (dict): Detected entities in a NLQ.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of dictionaries with entites information sorted by starting position.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">name_dict</span><span class="p">[</span><span class="s2">&quot;BeginOffset&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">name_dict</span><span class="p">[</span><span class="s2">&quot;EndOffset&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">category</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">name_dicts</span> <span class="ow">in</span> <span class="n">entities</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name_dict</span> <span class="ow">in</span> <span class="n">name_dicts</span>
+    <span class="p">]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="prepare_visuazliation_input_for_raw_entities"><a class="viewcode-back" href="../../../src.ui.detection_visualizer.html#src.ui.detection_visualizer.prepare_visuazliation_input_for_raw_entities">[docs]</a><span class="k">def</span> <span class="nf">prepare_visuazliation_input_for_raw_entities</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prepares detected entities and text to be ingested into the HTML visualization feature.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): Natural Language Query.</span>
+<span class="sd">        entities (dict): Detected entities in a NLQ.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict:</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ents</span> <span class="o">=</span> <span class="n">reformat_raw_entities</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span>
+        <span class="s2">&quot;ents&quot;</span><span class="p">:</span> <span class="n">ents</span><span class="p">,</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;settings&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lang&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;ltr&quot;</span><span class="p">},</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="get_reformatted_proc_entities"><a class="viewcode-back" href="../../../src.ui.detection_visualizer.html#src.ui.detection_visualizer.get_reformatted_proc_entities">[docs]</a><span class="k">def</span> <span class="nf">get_reformatted_proc_entities</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Reformat processed entities to be ingested in the HTML visualization feature.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): Natural Language Query with disambiguations replaced by original name.</span>
+<span class="sd">        entities (dict): Processed entities in text.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of positions of diambiguated names occur and their category sorted by starting position.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">name_dicts</span> <span class="ow">in</span> <span class="n">entities</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">name_dict</span> <span class="ow">in</span> <span class="n">name_dicts</span><span class="p">:</span>
+            <span class="n">repl_text</span> <span class="o">=</span> <span class="n">name_dict</span><span class="p">[</span><span class="s2">&quot;Query-arg&quot;</span><span class="p">]</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(?i)</span><span class="se">\\</span><span class="s2">b</span><span class="si">{</span><span class="n">repl_text</span><span class="si">}</span><span class="se">\\</span><span class="s2">b&quot;</span><span class="p">)</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">text</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">start</span><span class="p">(),</span> <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">category</span><span class="p">})</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="get_reformatted_nlq"><a class="viewcode-back" href="../../../src.ui.detection_visualizer.html#src.ui.detection_visualizer.get_reformatted_nlq">[docs]</a><span class="k">def</span> <span class="nf">get_reformatted_nlq</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Replace the `entities` names in `text` by their disambiguation option.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): Natural Language Query</span>
+<span class="sd">        entities (dict): Detected entities in a NLQ.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Natural Language Query with replaced names by their disambiguation name.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out_text</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">cat_entities</span> <span class="ow">in</span> <span class="n">entities</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">cat_entities</span><span class="p">:</span>
+            <span class="n">orig_text</span> <span class="o">=</span> <span class="n">entity</span><span class="p">[</span><span class="s2">&quot;Text&quot;</span><span class="p">]</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(?i)</span><span class="se">\\</span><span class="s2">b</span><span class="si">{</span><span class="n">orig_text</span><span class="si">}</span><span class="se">\\</span><span class="s2">b&quot;</span><span class="p">)</span>
+            <span class="n">repl_text</span> <span class="o">=</span> <span class="n">entity</span><span class="p">[</span><span class="s2">&quot;Query-arg&quot;</span><span class="p">]</span>
+            <span class="n">out_text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">repl_text</span><span class="p">,</span> <span class="n">out_text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out_text</span></div>
+
+
+<div class="viewcode-block" id="prepare_visuazliation_input_for_processed_entities"><a class="viewcode-back" href="../../../src.ui.detection_visualizer.html#src.ui.detection_visualizer.prepare_visuazliation_input_for_processed_entities">[docs]</a><span class="k">def</span> <span class="nf">prepare_visuazliation_input_for_processed_entities</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prepares processed entities and text to be ingested into the HTML visualization feature.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): Natural Language Query</span>
+<span class="sd">        entities (dict): Processed entities in a NLQ.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Processed entities input to the HTML visualization feature.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">text2</span> <span class="o">=</span> <span class="n">get_reformatted_nlq</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">entities</span><span class="p">)</span>
+    <span class="n">ents</span> <span class="o">=</span> <span class="n">get_reformatted_proc_entities</span><span class="p">(</span><span class="n">text2</span><span class="p">,</span> <span class="n">entities</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text2</span><span class="p">,</span>
+        <span class="s2">&quot;ents&quot;</span><span class="p">:</span> <span class="n">ents</span><span class="p">,</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;settings&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lang&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;ltr&quot;</span><span class="p">},</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+.. _ref-pipeline-script: pipeline
+
+src.engine.pipeline module
+==========================
+
+.. automodule:: src.engine.pipeline
+   :members:
+   :undoc-members:
+   :show-inheritance:

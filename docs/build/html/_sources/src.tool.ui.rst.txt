@@ -1,0 +1,37 @@
+src.tool.ui package
+===================
+
+Submodules
+----------
+
+src.tool.ui.detection\_visualizer module
+----------------------------------------
+
+.. automodule:: src.tool.ui.detection_visualizer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+src.tool.ui.layouts module
+--------------------------
+
+.. automodule:: src.tool.ui.layouts
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+src.tool.ui.ui module
+---------------------
+
+.. automodule:: src.tool.ui.ui
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: src.tool.ui
+   :members:
+   :undoc-members:
+   :show-inheritance:

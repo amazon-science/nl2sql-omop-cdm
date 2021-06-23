@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>src.engine.step5.sql_processing &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../omop.html">Understanding OMOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../data.creation.html">Data Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model.results.html">Model Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../next.steps.html">Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Docs</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>src.engine.step5.sql_processing</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for src.engine.step5.sql_processing</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">config</span>
+
+<span class="n">SCHEMA_P</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;&lt;SCHEMA&gt;&quot;</span><span class="p">)</span>
+
+<span class="c1"># template-based placeholders</span>
+<span class="n">PLACE_HOLDER_P</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;&lt;\w*-TEMPLATE&gt;&lt;ARG-\w*&gt;&lt;\d+&gt;&quot;</span><span class="p">)</span>
+<span class="n">PLACE_HOLDER_META_P</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;(&lt;\w*-TEMPLATE&gt;)&lt;ARG-(\w*)&gt;&lt;(\d+)&gt;&quot;</span><span class="p">)</span>
+
+<span class="c1"># non template-based placeholders</span>
+<span class="n">ARG_PLACE_HOLDER_P</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;&lt;ARG-\w*&gt;&lt;\d+&gt;&quot;</span><span class="p">)</span>
+<span class="n">ARG_PLACE_HOLDER_META_P</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;&lt;ARG-(\w*)&gt;&lt;(\d+)&gt;&quot;</span><span class="p">)</span>
+
+<span class="c1"># non template-based placeholders</span>
+<span class="n">TEMPLATE_PLACE_HOLDER_P</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;&lt;\w*-TEMPLATE&gt;&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="render_template_query"><a class="viewcode-back" href="../../../../src.engine.step5.sql_processing.html#src.engine.step5.sql_processing.render_template_query">[docs]</a><span class="k">def</span> <span class="nf">render_template_query</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">general_query</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Main function of the step. Renders a general SQL query with arguments placeholders and</span>
+<span class="sd">    template placeholders with their corresponding values and subqueries respectively.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        config (module): General tool configuration.</span>
+<span class="sd">        general_query (str): General SQL query.</span>
+<span class="sd">        args_dict (dict): Dictionary of processed arguments from step 2.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Rendered query by replacing argument and template placeholders.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Render &lt;SCHEMA&gt; placeholder</span>
+    <span class="n">current_query</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">SCHEMA_P</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">SCHEMA</span><span class="p">,</span> <span class="n">general_query</span><span class="p">)</span>
+
+    <span class="c1"># Render &quot;&lt;\w*-TEMPLATE&gt;&lt;ARG-\w*&gt;&lt;\d+&gt;&quot; placeholders. E.g. descendent templates.</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">PLACE_HOLDER_P</span><span class="p">,</span> <span class="n">current_query</span><span class="p">)</span>
+    <span class="n">placeholder2templates</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">placeholder2template</span><span class="p">[</span><span class="s2">&quot;with_arg&quot;</span><span class="p">]</span>
+    <span class="k">while</span> <span class="n">item</span><span class="p">:</span>
+
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">item</span><span class="o">.</span><span class="n">end</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">place_holder</span> <span class="o">=</span> <span class="n">current_query</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+
+        <span class="c1"># extract metadta from placeholder</span>
+        <span class="n">template_type</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">PLACE_HOLDER_META_P</span><span class="p">,</span> <span class="n">place_holder</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># retrieve concept name</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">concept_name</span> <span class="o">=</span> <span class="n">args_dict</span><span class="p">[</span><span class="n">domain</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;Query-arg&quot;</span><span class="p">]</span>
+
+        <span class="c1"># retrieve rendered sub-query</span>
+        <span class="k">if</span> <span class="n">template_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">placeholder2templates</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">continue</span>
+        <span class="n">sub_query</span> <span class="o">=</span> <span class="n">placeholder2templates</span><span class="p">[</span><span class="n">template_type</span><span class="p">](</span><span class="n">config</span><span class="o">.</span><span class="n">SCHEMA</span><span class="p">,</span> <span class="n">concept_name</span><span class="p">)</span>
+
+        <span class="c1"># replace in current query</span>
+        <span class="n">current_query</span> <span class="o">=</span> <span class="n">current_query</span><span class="p">[:</span><span class="n">start</span><span class="p">]</span> <span class="o">+</span> <span class="n">sub_query</span> <span class="o">+</span> <span class="n">current_query</span><span class="p">[</span><span class="n">end</span><span class="p">:]</span>
+
+        <span class="c1"># search for next placeholder</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">PLACE_HOLDER_P</span><span class="p">,</span> <span class="n">current_query</span><span class="p">)</span>
+
+    <span class="c1"># Render &quot;&lt;ARG-\w*&gt;&lt;\d+&gt;&quot; placeholders. E.g. days.</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">ARG_PLACE_HOLDER_P</span><span class="p">,</span> <span class="n">current_query</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">item</span><span class="p">:</span>
+
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">item</span><span class="o">.</span><span class="n">end</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">place_holder</span> <span class="o">=</span> <span class="n">current_query</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+
+        <span class="c1"># extract metadta from placeholder</span>
+        <span class="n">domain</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">ARG_PLACE_HOLDER_META_P</span><span class="p">,</span> <span class="n">place_holder</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># retrieve argument value</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">arg_value</span> <span class="o">=</span> <span class="n">args_dict</span><span class="p">[</span><span class="n">domain</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;Query-arg&quot;</span><span class="p">]</span>
+
+        <span class="c1"># replace argument value in current-query</span>
+        <span class="n">current_query</span> <span class="o">=</span> <span class="n">current_query</span><span class="p">[:</span><span class="n">start</span><span class="p">]</span> <span class="o">+</span> <span class="n">arg_value</span> <span class="o">+</span> <span class="n">current_query</span><span class="p">[</span><span class="n">end</span><span class="p">:]</span>
+
+        <span class="c1"># search for next placeholder</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">ARG_PLACE_HOLDER_P</span><span class="p">,</span> <span class="n">current_query</span><span class="p">)</span>
+
+    <span class="c1"># Render &quot;&lt;\w*-TEMPLATE&gt;&quot; placeholders. E.g. Location names</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">TEMPLATE_PLACE_HOLDER_P</span><span class="p">,</span> <span class="n">current_query</span><span class="p">)</span>
+    <span class="n">placeholder2templates</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">placeholder2template</span><span class="p">[</span><span class="s2">&quot;with_no_arg&quot;</span><span class="p">]</span>
+    <span class="k">while</span> <span class="n">item</span><span class="p">:</span>
+
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">item</span><span class="o">.</span><span class="n">end</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">place_holder</span> <span class="o">=</span> <span class="n">current_query</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+
+        <span class="c1"># extract metadata from placeholder</span>
+        <span class="k">if</span> <span class="n">place_holder</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">placeholder2templates</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">continue</span>
+        <span class="n">sub_query</span> <span class="o">=</span> <span class="n">placeholder2templates</span><span class="p">[</span><span class="n">place_holder</span><span class="p">]</span>
+
+        <span class="c1"># replace argument value in current-query</span>
+        <span class="n">current_query</span> <span class="o">=</span> <span class="n">current_query</span><span class="p">[:</span><span class="n">start</span><span class="p">]</span> <span class="o">+</span> <span class="n">sub_query</span> <span class="o">+</span> <span class="n">current_query</span><span class="p">[</span><span class="n">end</span><span class="p">:]</span>
+
+        <span class="c1"># search for next placeholder</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">TEMPLATE_PLACE_HOLDER_P</span><span class="p">,</span> <span class="n">current_query</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">current_query</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
