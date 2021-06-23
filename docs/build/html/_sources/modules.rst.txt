@@ -1,5 +1,3 @@
-.. indirect hyperlink targets
-
 API docs
 =========
 
@@ -28,7 +26,6 @@ The :code:`engine` package contains the logic that powers the tool and the :code
 Engine
 ------
 
-The packages and modules in the :code:`engine` package are organized as described below:
 
 .. code-block:: bash
 
@@ -70,64 +67,15 @@ The packages and modules in the :code:`engine` package are organized as describe
        ├── __init__.py
        └── query_execution.py
 
-The class :code:`nlq2SqlTool` in the :code:`engine/pipeline.py` module centralizes the functionalities contained in the :code:`engine` package. Detailed documentaion of the :code:`pipeline` module can be found in :doc:`src.engine.pipeline` . The entry scripts and detailed documentation for each step package can be found below:
 
-.. list-table:: Step packages summary
-   :widths: 25 25 10 35
-   :header-rows: 1
-
-   * - Step
-     - Entry point
-     - Documentation
-     - Functionality
-   * - 1
-     - :code:`entity_extraction.py`
-     - :doc:`src.engine.step1`
-     - Entity detection
-   * - 2
-     - :code:`entity_processing.py`
-     - :doc:`src.engine.step2`
-     - Entity processing
-   * - 3
-     - :code:`nlq_processing.py`
-     - :doc:`src.engine.step3`
-     - NLQ pre-processing
-   * - 4
-     - :code:`model_dev.t5_inference.py
-     - :doc:`src.engine.step4`
-     - NLQ to SQL ML model
-   * - 5
-     - :code:`sql_processing.py`
-     - :doc:`src.engine.step5`
-     - SQL post-processing
-   * - 6
-     - :code:`query_execution.py`
-     - :doc:`src.engine.step6`
-     - SQL execution
-     
-
-Entry points functions can be found in the :code:`pipeline` script imports.
 
 UI
 ----
 
-The modules in the :code:`engine` package are organized as described below:
-
-.. code-block:: bash
-
-   ui
-   ├── detection_visualizer.py
-   ├── __init__.py
-   ├── layouts.py
-   └── ui.py
-
-The :code:`UI` class in the :code:`ui` module is the entry point of the package. Detailed documentaion of the :code:`ui` module can be found in :doc:`src.ui`. 
-
-The :code:`layouts` module contain the aspect ratio of the UI layers. The :code:`detectiion_visualizer` module contains the logic to highlight detected entites in the UI. 
 
 
-API
-----
+Overview
+---------
 
 .. toctree::
    :maxdepth: 4

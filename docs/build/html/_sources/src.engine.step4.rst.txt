@@ -1,5 +1,3 @@
-.. _ref-step-four: step 4
-
 src.engine.step4 package
 =========================
 

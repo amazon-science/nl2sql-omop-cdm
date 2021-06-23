@@ -88,12 +88,12 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../omop.html">Understanding OMOP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../problem.html">The problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tool.schema.html">Tool overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../data.creation.html">Data Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data.creation.html">Dataset Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data.creation.html#dataset-size">Dataset Size</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model.development.html">ML Model Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model.results.html">Model Performance Results</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../next.steps.html">Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next.steps.html">Moving forward</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API docs</a></li>
 </ul>
 
@@ -164,12 +164,38 @@
             
   <div class="section" id="tool-overview">
 <h1>Tool overview<a class="headerlink" href="#tool-overview" title="Permalink to this headline">¶</a></h1>
-<p>This page provides an overview of the tool design and computational process as illustrated in the following figure</p>
+<p>This page provides an overview of the tool design. The tool has a unique input and a unique output which are the Natural Language Query (NLQ) and the resulting table respectively. It is composed of 6 sequential steps illustrated in the figure below.</p>
 <div class="figure align-center" id="id1">
 <a class="reference internal image-reference" href=".ipynb_checkpoints/_static/tool_schema.png"><img alt=".ipynb_checkpoints/_static/tool_schema.png" src=".ipynb_checkpoints/_static/tool_schema.png" /></a>
 <p class="caption"><span class="caption-text">Tool’s engine diagram (click for full-size view)</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>[TODO: expand explanation]</p>
+<div class="section" id="steps">
+<h2>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">¶</a></h2>
+<p><strong>Step 1: Entity Detection</strong>
+* <em>Input</em>: Original NLQ
+* <em>Output</em>: First entity dictionary. Keys are categories and values are detected names and position in NLQ.
+* <em>Description</em>: Analyzes the NLQ to detect and classify the names corresponding to “TIMEDAYS”, “TIMEYEARS”, “DRUG”, “CONDITION”, “STATE”, “GENDER”, “ETHNICITY”, “RACE”.</p>
+<p><strong>Step 2: Entity Processing</strong>
+* <em>Input</em>: First entity dictionary
+* <em>Output</em>: Second entity dictionary
+* <em>Description</em>: Expands the first entity dictionary to include “Options”, “Query-arg” and “Placeholder” fields defining disambiguating options, assigned disambiguation and name placeholder for the generic NLQ respectively.</p>
+<p><strong>Step 3: NLQ pre-processing</strong>
+* <em>Input</em>: Original NLQ &amp; second entity dictionary
+* <em>Output</em>: Generic NLQ
+* <em>Description</em>: Name detected in the original NLQ are replaced for their placeholders using the information in second entity dictionary.</p>
+<p><strong>Step 4: NLQ to SQL ML model</strong>
+* <em>Input</em>: Generic NLQ
+* <em>Output</em>: Generic SQL query
+* <em>Description</em>: Maps a generic NLQ to a generic SQL query using Machine Learning.</p>
+<p><strong>Step 5: SQL post-processing</strong>
+* <em>Input</em>: Generic SQL query (&amp; pre-defined sub-query templates)
+* <em>Output</em>: Executable SQL query
+* <em>Description</em>: Renders the generic value by replacing template placeholders in the generic SQL query by their pre-defined sub-queries and the arguments placeholder by their corresponding “Query-arg” parameter in the Second entity dictionary.</p>
+<p><strong>Step 6: SQL execution</strong>
+* <em>Input</em>: Executable SQL query
+* <em>Output</em>: Table
+* <em>Description</em>: Executes the SQL query against the DataBase to return the information requested by the user.</p>
+</div>
 </div>
 
 

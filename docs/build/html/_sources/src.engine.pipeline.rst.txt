@@ -1,5 +1,3 @@
-.. _ref-pipeline-script: pipeline
-
 src.engine.pipeline module
 ==========================
 

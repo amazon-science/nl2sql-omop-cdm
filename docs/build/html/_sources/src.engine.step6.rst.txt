@@ -1,5 +1,3 @@
-.. _ref-step-six: step 6
-
 src.engine.step6 package
 ========================
 

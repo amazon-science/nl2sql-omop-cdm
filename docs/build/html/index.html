@@ -89,12 +89,12 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="omop.html">Understanding OMOP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problem.html">The problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tool.schema.html">Tool overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="data.creation.html">Data Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html">Dataset Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html#dataset-size">Dataset Size</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.development.html">ML Model Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.results.html">Model Performance Results</a></li>
-<li class="toctree-l1"><a class="reference internal" href="next.steps.html">Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="next.steps.html">Moving forward</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API docs</a></li>
 </ul>
 
@@ -175,41 +175,113 @@
 </ul>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>[Business problem here]</p>
+<p>Real-world data (RWD) are increasingly useful for healthcare providers, payors, regulators, and pharmaceutical companies to gather information and make decisions. However, the retrieval of such information requires specialized technical knowledge, resulting in delays and gaps. This work aims to increase information accessibility by creating a medical Natural Language to SQL (NL2SQL) tool that non-technical users can easily query RWD.</p>
 <div class="figure align-center" id="id1">
 <a class="reference internal image-reference" href="_images/problem_representation.png"><img alt="_images/problem_representation.png" src="_images/problem_representation.png" style="width: 626.05px; height: 275.5px;" /></a>
 <p class="caption"><span class="caption-text">Business use case diagram</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>[What we did]</p>
+</div>
+<div class="section" id="objectives">
+<h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this headline">¶</a></h2>
+<p>The high level goal of the project is to create a tool that enables researcher and healthcare specialists to query the OMOP CDM using Natural Language. PoC will be using the DeSynPUF data on OMOP CDM with approximately 23M people.</p>
+<p>The success criteria of this project is:</p>
+<ul class="simple">
+<li><p>Proof execution performance of key queries from Merck on the CMS DeSynPUF dataset (in the OMOP CDM).</p></li>
+</ul>
+<p>The deliverables are:</p>
+<ul class="simple">
+<li><p>Set-up a SageMaker UI demo environment in Merck’s internal account.</p></li>
+<li><p>Hand over tool to productionise → consistent with Merck pipeline</p></li>
+<li><p>Paper and open source dataset.</p></li>
+<li><p>Paper and/or blog on the tool</p></li>
+<li><p>Merck’s public reference</p></li>
+</ul>
+<p>Evaluation criteria: Given data limitations, the success will be evaluated based on the model performance on alternative ways to ask in-scope questions (seen during training) to their respective SQL query rather than its generalization capabilities to unseen questions.</p>
 <div class="figure align-center" id="id2">
 <a class="reference internal image-reference" href="_images/ui.png"><img alt="_images/ui.png" src="_images/ui.png" style="width: 759.05px; height: 932.9px;" /></a>
 <p class="caption"><span class="caption-text">Graphical User Interface of the PoC</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 </div>
-<div class="section" id="objectives">
-<h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this headline">¶</a></h2>
-<p>[Fill objectives]</p>
+<div class="section" id="scope">
+<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h2>
+<p>The scope is defined by the following constraints:</p>
+<ul class="simple">
+<li><p>English language only</p></li>
+<li><p>Questions must be specific. For example, “Patients with condition and some observation criteria some number of days prior to or after initial condition” should specify the exact number of days permitted.</p></li>
+<li><p>We can cohort patients by gender, year of birth, race or ethnicity.</p></li>
+<li><dl class="simple">
+<dt>Concepts:</dt><dd><ul>
+<li><dl class="simple">
+<dt>We will consider the following concept domains:</dt><dd><ul>
+<li><p>Gender</p></li>
+<li><p>Race</p></li>
+<li><p>Ethnicity</p></li>
+<li><p>Condition</p></li>
+<li><p>Drug</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Include condition/drug concept and all its descendents during query.</p></li>
+<li><p>Query only standard concepts. If a standard concept for a medication/condition can’t be found we will not consider it. [MLSL to check: For concepts, is there a relation in concept_relations to standard concept? To check with Greg: Can we assume this always?]</p></li>
+<li><dl class="simple">
+<dt>Drugs:</dt><dd><ul>
+<li><p>only consider drugs (not drug products, ingredients, … etc)</p></li>
+<li><p>disambiguated into RxNorm vocabulary/ontology (standard drug vocab for OMOP).</p></li>
+<li><p>Won’t be querying dosage.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Conditions:</dt><dd><ul>
+<li><p>Disambiguated into ICD10 and then mapped to SNOMED (standard drug vocab. for OMOP)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Users can query patients by year of birth.</p></li>
+<li><p>Time windows (e.g. having taking 2 drugs in less than 60 days) will only support day units.</p></li>
+</ul>
 </div>
 <div class="section" id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="what-are-the-key-technical-decisions-and-challenges-of-the-project">
 <h3>What are the key technical decisions and challenges of the project?<a class="headerlink" href="#what-are-the-key-technical-decisions-and-challenges-of-the-project" title="Permalink to this headline">¶</a></h3>
+<p>The OMOP CDM presents a series of complexities that prevent traditional out of the shelf NL2SQL models to be applied. While we are aware of other complexities, for this PoC we are considering the following central complexities to draft a tool to address them.</p>
+<ol class="arabic simple">
+<li><p>Medical terms can be classified in multiple vocabularies/ontologies. The OMOP CDM contains a stack of vocabularies and users are not required to use concepts in a specific vocabulary.</p></li>
+<li><p>OMOP contain standard and non-standard concepts. Standard concepts can be used to query other tables in the DataBase. For this PoC we will limit ourselves to query using standard concepts.</p></li>
+<li><p>All medical concepts are contained on the “concept” table. They appear in the “concept_name” column and relate them to a “concept_id” which is unique across OMOP and are used across tables. The concept id is required to create queries.</p></li>
+<li><p>When querying for a drug we can not only query for the general drug but also for any format of this drug (e.g. aspirin, aspirin 500g, aspirin 500g in tablets, etc.). A similar problem arises with conditions.</p></li>
+</ol>
+<p>Three modeling approaches were drafted to overcome those complexities. The one outlined as main approach in the following section was selected based on:</p>
+<ul class="simple">
+<li><p>ML task simplicity: Simplicity the task for the ML model helps improve overall performance on use case.</p></li>
+<li><p>Generalization capabilities: The power of the ML model to convert unseen questions to unseen queries.</p></li>
+</ul>
 </div>
 <div class="section" id="what-data-processing-decisions-did-the-team-make-based-on-the-business-objectives-and-customer-data-quality-type-size">
 <h3>What data processing decisions did the team make based on the business objectives and customer data quality, type, size?<a class="headerlink" href="#what-data-processing-decisions-did-the-team-make-based-on-the-business-objectives-and-customer-data-quality-type-size" title="Permalink to this headline">¶</a></h3>
+<p>56 Natural Language Queries (NLQ) and their corresponding OMOP CDM were created in base of Merck’s highest value queries. Alternative ways in which those can be asked were then delivered by Odysseus, a customer vendor specialized in OMOP CDM.</p>
 </div>
 <div class="section" id="what-models-and-methodologies-are-the-team-exploring-and-why">
 <h3>What models and methodologies are the team exploring and why?<a class="headerlink" href="#what-models-and-methodologies-are-the-team-exploring-and-why" title="Permalink to this headline">¶</a></h3>
+<p>Based on literature research the team explored transformers-based models: Base BERT, T5, T5 finetunned on WikiSQL. Given the high similarity of the NLQs, we observed that all three models had similar performance. We decided to move fowrard with T5 finetunned on WikiSQL given a higher performance for out of scope questions (SQL queries not seen during training) which pointed to higher generalization power to unseen SQL queries.</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="omop.html">Understanding OMOP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problem.html">The problem</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tool.schema.html">Tool overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="data.creation.html">Data Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html">Dataset Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html#dataset-size">Dataset Size</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.development.html">ML Model Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.results.html">Model Performance Results</a></li>
-<li class="toctree-l1"><a class="reference internal" href="next.steps.html">Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="next.steps.html">Moving forward</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API docs</a></li>
 </ul>
 </div>
