@@ -1,2 +1,0 @@
-Add logic for state detection and replacement.
-Add logic for age detection and replacement.
