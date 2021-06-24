@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Tool overview &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dataset Creation" href="data.creation.html" />
+    <link rel="prev" title="Understanding OMOP" href="omop.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="omop.html">Understanding OMOP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tool overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#steps">Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html">Dataset Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html#dataset-size">Dataset Size</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.development.html">ML Model Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.results.html">Model Performance Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="next.steps.html">Moving forward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API docs</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Tool overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/tool.schema.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tool-overview">
+<h1>Tool overview<a class="headerlink" href="#tool-overview" title="Permalink to this headline">¶</a></h1>
+<p>This page provides an overview of the tool design. The tool has a unique input and a unique output which are the Natural Language Query (NLQ) and the resulting table respectively. It is composed of 6 sequential steps illustrated in the figure below.</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/tool_schema.png"><img alt="_images/tool_schema.png" src="_images/tool_schema.png" style="width: 494.6px; height: 183.60000000000002px;" /></a>
+<p class="caption"><span class="caption-text">Tool’s engine diagram (click for full-size view)</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="steps">
+<h2>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">¶</a></h2>
+<p><strong>Step 1: Entity Detection</strong>
+* <em>Input</em>: Original NLQ
+* <em>Output</em>: First entity dictionary. Keys are categories and values are detected names and position in NLQ.
+* <em>Description</em>: Analyzes the NLQ to detect and classify the names corresponding to “TIMEDAYS”, “TIMEYEARS”, “DRUG”, “CONDITION”, “STATE”, “GENDER”, “ETHNICITY”, “RACE”.</p>
+<p><strong>Step 2: Entity Processing</strong>
+* <em>Input</em>: First entity dictionary
+* <em>Output</em>: Second entity dictionary
+* <em>Description</em>: Expands the first entity dictionary to include “Options”, “Query-arg” and “Placeholder” fields defining disambiguating options, assigned disambiguation and name placeholder for the generic NLQ respectively.</p>
+<p><strong>Step 3: NLQ pre-processing</strong>
+* <em>Input</em>: Original NLQ &amp; second entity dictionary
+* <em>Output</em>: Generic NLQ
+* <em>Description</em>: Name detected in the original NLQ are replaced for their placeholders using the information in second entity dictionary.</p>
+<p><strong>Step 4: NLQ to SQL ML model</strong>
+* <em>Input</em>: Generic NLQ
+* <em>Output</em>: Generic SQL query
+* <em>Description</em>: Maps a generic NLQ to a generic SQL query using Machine Learning.</p>
+<p><strong>Step 5: SQL post-processing</strong>
+* <em>Input</em>: Generic SQL query (&amp; pre-defined sub-query templates)
+* <em>Output</em>: Executable SQL query
+* <em>Description</em>: Renders the generic value by replacing template placeholders in the generic SQL query by their pre-defined sub-queries and the arguments placeholder by their corresponding “Query-arg” parameter in the Second entity dictionary.</p>
+<p><strong>Step 6: SQL execution</strong>
+* <em>Input</em>: Executable SQL query
+* <em>Output</em>: Table
+* <em>Description</em>: Executes the SQL query against the DataBase to return the information requested by the user.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="data.creation.html" class="btn btn-neutral float-right" title="Dataset Creation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="omop.html" class="btn btn-neutral float-left" title="Understanding OMOP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

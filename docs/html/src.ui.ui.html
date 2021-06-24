@@ -1,0 +1,704 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>src.ui.ui module &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="src.config module" href="src.config.html" />
+    <link rel="prev" title="src.ui.layouts module" href="src.ui.layouts.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="omop.html">Understanding OMOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tool.schema.html">Tool overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html">Dataset Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html#dataset-size">Dataset Size</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.development.html">ML Model Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.results.html">Model Performance Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="next.steps.html">Moving forward</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API docs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="modules.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#engine">Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#ui">UI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#id1">Overview</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="src.html">src package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="src.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.html#module-src">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">API docs</a> &raquo;</li>
+        
+          <li><a href="src.html">src package</a> &raquo;</li>
+        
+          <li><a href="src.ui.html">src.ui package</a> &raquo;</li>
+        
+      <li>src.ui.ui module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/src.ui.ui.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-src.ui.ui">
+<span id="src-ui-ui-module"></span><h1>src.ui.ui module<a class="headerlink" href="#module-src.ui.ui" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="src.ui.ui.UI">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">src.ui.ui.</span></code><code class="sig-name descname"><span class="pre">UI</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="src.ui.ui.UI.__init__">
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores underlying tool to be used and initialize the GUI widgets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tool</strong> (<a class="reference internal" href="src.engine.pipeline.html#src.engine.pipeline.nlq2SqlTool" title="src.engine.pipeline.nlq2SqlTool"><em>nlq2SqlTool</em></a>) – Instantiation of the Natural Language to SQL tool.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_clear_credentials">
+<code class="sig-name descname"><span class="pre">_button_helper_clear_credentials</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_clear_credentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_clear_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to clear the credentials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_clear_output">
+<code class="sig-name descname"><span class="pre">_button_helper_clear_output</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_clear_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_clear_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to clear the outputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_condition_info">
+<code class="sig-name descname"><span class="pre">_button_helper_condition_info</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_condition_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_condition_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to visualize information on condition disambiguation option.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_condition_update">
+<code class="sig-name descname"><span class="pre">_button_helper_condition_update</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_condition_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_condition_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to manually update the disambiguation mapping of a condition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_detect_button">
+<code class="sig-name descname"><span class="pre">_button_helper_detect_button</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_detect_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_detect_button" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to detect the entities in the input NLQ.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_drug_info">
+<code class="sig-name descname"><span class="pre">_button_helper_drug_info</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_drug_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_drug_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to visualize information on drug disambiguation option.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_drug_update">
+<code class="sig-name descname"><span class="pre">_button_helper_drug_update</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_drug_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_drug_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to manually update the disambiguation mapping of a drug.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_execute_button">
+<code class="sig-name descname"><span class="pre">_button_helper_execute_button</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_execute_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_execute_button" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to triggers the ML model prediction
+and execute the SQL query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_log_feedback">
+<code class="sig-name descname"><span class="pre">_button_helper_log_feedback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_log_feedback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_log_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to log the feedback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_record_db_credentials">
+<code class="sig-name descname"><span class="pre">_button_helper_record_db_credentials</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_record_db_credentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_record_db_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to record the DB credentials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_record_name">
+<code class="sig-name descname"><span class="pre">_button_helper_record_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_record_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_record_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to manually detect a name (highlight).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._button_helper_remove_name">
+<code class="sig-name descname"><span class="pre">_button_helper_remove_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._button_helper_remove_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._button_helper_remove_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper method defining the button’s action to manually remove a detection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>b</strong> – Required argument on action functions for buttons.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._display_main">
+<code class="sig-name descname"><span class="pre">_display_main</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sql_query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rendered_sql</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._display_main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._display_main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the main output</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>results</strong> (<em>pd.DataFrame</em>) – Results from the execute query. Default None for not printing.</p></li>
+<li><p><strong>sql_query</strong> (<em>str</em>) – Predicted general SQL query. Default None for not printing.</p></li>
+<li><p><strong>rendered_sql</strong> (<em>str</em>) – Rendered SQL query. Default None for not printing.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._display_name_info">
+<code class="sig-name descname"><span class="pre">_display_name_info</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._display_name_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._display_name_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispaly <cite>text</cite> in the disambiguation info output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – Detected entities in a NLQ.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._initialize_condition_disambiguation_correction_widgets">
+<code class="sig-name descname"><span class="pre">_initialize_condition_disambiguation_correction_widgets</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._initialize_condition_disambiguation_correction_widgets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._initialize_condition_disambiguation_correction_widgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the widgets of the condition disambiguation correction
+in the disambiguation correction tab in the general input vertical section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._initialize_credentials_vsection">
+<code class="sig-name descname"><span class="pre">_initialize_credentials_vsection</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._initialize_credentials_vsection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._initialize_credentials_vsection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the widgets of the credentials vertical section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._initialize_detection_correction_tab">
+<code class="sig-name descname"><span class="pre">_initialize_detection_correction_tab</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._initialize_detection_correction_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._initialize_detection_correction_tab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the widgets of the detection correction tab in the general input vertical section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._initialize_disambiguation_correction_tab">
+<code class="sig-name descname"><span class="pre">_initialize_disambiguation_correction_tab</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._initialize_disambiguation_correction_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._initialize_disambiguation_correction_tab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the widgets of the disambiguation correction tab in the general input vertical section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._initialize_disambiguation_info_output_widget">
+<code class="sig-name descname"><span class="pre">_initialize_disambiguation_info_output_widget</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._initialize_disambiguation_info_output_widget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._initialize_disambiguation_info_output_widget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the widgets of the disambiguation correction info output
+in the disambiguation correction tab in the general input vertical section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._initialize_drug_disambiguation_correction_widgets">
+<code class="sig-name descname"><span class="pre">_initialize_drug_disambiguation_correction_widgets</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._initialize_drug_disambiguation_correction_widgets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._initialize_drug_disambiguation_correction_widgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the widgets of the drug disambiguation correction
+in the disambiguation correction tab in the general input vertical section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._initialize_feedback_vsection">
+<code class="sig-name descname"><span class="pre">_initialize_feedback_vsection</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._initialize_feedback_vsection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._initialize_feedback_vsection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the widgets of the feedback vertical section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._initialize_genearl_input_vsection">
+<code class="sig-name descname"><span class="pre">_initialize_genearl_input_vsection</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._initialize_genearl_input_vsection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._initialize_genearl_input_vsection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the widgets of the general input vertical section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._initialize_general_output_vsection">
+<code class="sig-name descname"><span class="pre">_initialize_general_output_vsection</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._initialize_general_output_vsection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._initialize_general_output_vsection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the widgets of the general output vertical section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._initialize_main_input_tab">
+<code class="sig-name descname"><span class="pre">_initialize_main_input_tab</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._initialize_main_input_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._initialize_main_input_tab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the widgets of the main input tab in the general input vertical section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._initialize_widgets">
+<code class="sig-name descname"><span class="pre">_initialize_widgets</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._initialize_widgets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._initialize_widgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize all the UI widgets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._triger_no_input_warning">
+<code class="sig-name descname"><span class="pre">_triger_no_input_warning</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._triger_no_input_warning"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._triger_no_input_warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a warning message for missing nlq input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._update_options">
+<code class="sig-name descname"><span class="pre">_update_options</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._update_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._update_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update options of available drugs and conditions in the disambiguation tab.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._visualize_condition_info">
+<code class="sig-name descname"><span class="pre">_visualize_condition_info</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._visualize_condition_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._visualize_condition_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispaly condition information in the disambiguation output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI._visualize_drug_info">
+<code class="sig-name descname"><span class="pre">_visualize_drug_info</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI._visualize_drug_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI._visualize_drug_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispaly drug information in the disambiguation output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI.main">
+<code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI.main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to layout and start the UI in a SageMaker Notebook.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.ui.ui.UI.visualize_entities">
+<code class="sig-name descname"><span class="pre">visualize_entities</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">converter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/ui.html#UI.visualize_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.ui.UI.visualize_entities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show the detected entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entities</strong> (<em>dict</em>) – Detected entities in a NLQ.</p></li>
+<li><p><strong>converter</strong> (<em>function</em>) – Function reformatting the NLQ and entities for the detection visualizer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>HTML that will be passed for display and show the detected entities.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>IPython.core.display.HTML</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="src.config.html" class="btn btn-neutral float-right" title="src.config module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="src.ui.layouts.html" class="btn btn-neutral float-left" title="src.ui.layouts module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

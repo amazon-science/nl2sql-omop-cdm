@@ -1,0 +1,360 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>src.engine.step4.model_dev.utils.dataset module &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="src.engine.step4.model_dev.utils.metrics module" href="src.engine.step4.model_dev.utils.metrics.html" />
+    <link rel="prev" title="src.engine.step4.model_dev.utils.callback module" href="src.engine.step4.model_dev.utils.callback.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="omop.html">Understanding OMOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tool.schema.html">Tool overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html">Dataset Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html#dataset-size">Dataset Size</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.development.html">ML Model Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.results.html">Model Performance Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="next.steps.html">Moving forward</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API docs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="modules.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#engine">Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#ui">UI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#id1">Overview</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="src.html">src package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="src.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.html#module-src">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">API docs</a> &raquo;</li>
+        
+          <li><a href="src.html">src package</a> &raquo;</li>
+        
+          <li><a href="src.engine.html">src.engine package</a> &raquo;</li>
+        
+          <li><a href="src.engine.step4.html">src.engine.step4 package</a> &raquo;</li>
+        
+          <li><a href="src.engine.step4.model_dev.html">src.engine.step4.model_dev package</a> &raquo;</li>
+        
+          <li><a href="src.engine.step4.model_dev.utils.html">src.engine.step4.model_dev.utils package</a> &raquo;</li>
+        
+      <li>src.engine.step4.model_dev.utils.dataset module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/src.engine.step4.model_dev.utils.dataset.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-src.engine.step4.model_dev.utils.dataset">
+<span id="src-engine-step4-model-dev-utils-dataset-module"></span><h1>src.engine.step4.model_dev.utils.dataset module<a class="headerlink" href="#module-src.engine.step4.model_dev.utils.dataset" title="Permalink to this headline">¶</a></h1>
+<p>The module implements a custom dataset class to prepare it for model training.</p>
+<dl class="simple">
+<dt>Adapted from:</dt><dd><p><a class="reference external" href="https://github.com/DorBernsohn/CodeLM/tree/main/SQLM">https://github.com/DorBernsohn/CodeLM/tree/main/SQLM</a></p>
+</dd>
+</dl>
+<dl class="py class">
+<dt id="src.engine.step4.model_dev.utils.dataset.NL2SQLDataset">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.dataset.</span></code><code class="sig-name descname"><span class="pre">NL2SQLDataset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_split</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_length</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_length</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PreTrainedTokenizer(name_or_path='t5-small',</span> <span class="pre">vocab_size=32100,</span> <span class="pre">model_max_len=512,</span> <span class="pre">is_fast=False,</span> <span class="pre">padding_side='right',</span> <span class="pre">special_tokens={'eos_token':</span> <span class="pre">'&lt;/s&gt;',</span> <span class="pre">'unk_token':</span> <span class="pre">'&lt;unk&gt;',</span> <span class="pre">'pad_token':</span> <span class="pre">'&lt;pad&gt;',</span> <span class="pre">'additional_special_tokens':</span> <span class="pre">['&lt;extra_id_0&gt;',</span> <span class="pre">'&lt;extra_id_1&gt;',</span> <span class="pre">'&lt;extra_id_2&gt;',</span> <span class="pre">'&lt;extra_id_3&gt;',</span> <span class="pre">'&lt;extra_id_4&gt;',</span> <span class="pre">'&lt;extra_id_5&gt;',</span> <span class="pre">'&lt;extra_id_6&gt;',</span> <span class="pre">'&lt;extra_id_7&gt;',</span> <span class="pre">'&lt;extra_id_8&gt;',</span> <span class="pre">'&lt;extra_id_9&gt;',</span> <span class="pre">'&lt;extra_id_10&gt;',</span> <span class="pre">'&lt;extra_id_11&gt;',</span> <span class="pre">'&lt;extra_id_12&gt;',</span> <span class="pre">'&lt;extra_id_13&gt;',</span> <span class="pre">'&lt;extra_id_14&gt;',</span> <span class="pre">'&lt;extra_id_15&gt;',</span> <span class="pre">'&lt;extra_id_16&gt;',</span> <span class="pre">'&lt;extra_id_17&gt;',</span> <span class="pre">'&lt;extra_id_18&gt;',</span> <span class="pre">'&lt;extra_id_19&gt;',</span> <span class="pre">'&lt;extra_id_20&gt;',</span> <span class="pre">'&lt;extra_id_21&gt;',</span> <span class="pre">'&lt;extra_id_22&gt;',</span> <span class="pre">'&lt;extra_id_23&gt;',</span> <span class="pre">'&lt;extra_id_24&gt;',</span> <span class="pre">'&lt;extra_id_25&gt;',</span> <span class="pre">'&lt;extra_id_26&gt;',</span> <span class="pre">'&lt;extra_id_27&gt;',</span> <span class="pre">'&lt;extra_id_28&gt;',</span> <span class="pre">'&lt;extra_id_29&gt;',</span> <span class="pre">'&lt;extra_id_30&gt;',</span> <span class="pre">'&lt;extra_id_31&gt;',</span> <span class="pre">'&lt;extra_id_32&gt;',</span> <span class="pre">'&lt;extra_id_33&gt;',</span> <span class="pre">'&lt;extra_id_34&gt;',</span> <span class="pre">'&lt;extra_id_35&gt;',</span> <span class="pre">'&lt;extra_id_36&gt;',</span> <span class="pre">'&lt;extra_id_37&gt;',</span> <span class="pre">'&lt;extra_id_38&gt;',</span> <span class="pre">'&lt;extra_id_39&gt;',</span> <span class="pre">'&lt;extra_id_40&gt;',</span> <span class="pre">'&lt;extra_id_41&gt;',</span> <span class="pre">'&lt;extra_id_42&gt;',</span> <span class="pre">'&lt;extra_id_43&gt;',</span> <span class="pre">'&lt;extra_id_44&gt;',</span> <span class="pre">'&lt;extra_id_45&gt;',</span> <span class="pre">'&lt;extra_id_46&gt;',</span> <span class="pre">'&lt;extra_id_47&gt;',</span> <span class="pre">'&lt;extra_id_48&gt;',</span> <span class="pre">'&lt;extra_id_49&gt;',</span> <span class="pre">'&lt;extra_id_50&gt;',</span> <span class="pre">'&lt;extra_id_51&gt;',</span> <span class="pre">'&lt;extra_id_52&gt;',</span> <span class="pre">'&lt;extra_id_53&gt;',</span> <span class="pre">'&lt;extra_id_54&gt;',</span> <span class="pre">'&lt;extra_id_55&gt;',</span> <span class="pre">'&lt;extra_id_56&gt;',</span> <span class="pre">'&lt;extra_id_57&gt;',</span> <span class="pre">'&lt;extra_id_58&gt;',</span> <span class="pre">'&lt;extra_id_59&gt;',</span> <span class="pre">'&lt;extra_id_60&gt;',</span> <span class="pre">'&lt;extra_id_61&gt;',</span> <span class="pre">'&lt;extra_id_62&gt;',</span> <span class="pre">'&lt;extra_id_63&gt;',</span> <span class="pre">'&lt;extra_id_64&gt;',</span> <span class="pre">'&lt;extra_id_65&gt;',</span> <span class="pre">'&lt;extra_id_66&gt;',</span> <span class="pre">'&lt;extra_id_67&gt;',</span> <span class="pre">'&lt;extra_id_68&gt;',</span> <span class="pre">'&lt;extra_id_69&gt;',</span> <span class="pre">'&lt;extra_id_70&gt;',</span> <span class="pre">'&lt;extra_id_71&gt;',</span> <span class="pre">'&lt;extra_id_72&gt;',</span> <span class="pre">'&lt;extra_id_73&gt;',</span> <span class="pre">'&lt;extra_id_74&gt;',</span> <span class="pre">'&lt;extra_id_75&gt;',</span> <span class="pre">'&lt;extra_id_76&gt;',</span> <span class="pre">'&lt;extra_id_77&gt;',</span> <span class="pre">'&lt;extra_id_78&gt;',</span> <span class="pre">'&lt;extra_id_79&gt;',</span> <span class="pre">'&lt;extra_id_80&gt;',</span> <span class="pre">'&lt;extra_id_81&gt;',</span> <span class="pre">'&lt;extra_id_82&gt;',</span> <span class="pre">'&lt;extra_id_83&gt;',</span> <span class="pre">'&lt;extra_id_84&gt;',</span> <span class="pre">'&lt;extra_id_85&gt;',</span> <span class="pre">'&lt;extra_id_86&gt;',</span> <span class="pre">'&lt;extra_id_87&gt;',</span> <span class="pre">'&lt;extra_id_88&gt;',</span> <span class="pre">'&lt;extra_id_89&gt;',</span> <span class="pre">'&lt;extra_id_90&gt;',</span> <span class="pre">'&lt;extra_id_91&gt;',</span> <span class="pre">'&lt;extra_id_92&gt;',</span> <span class="pre">'&lt;extra_id_93&gt;',</span> <span class="pre">'&lt;extra_id_94&gt;',</span> <span class="pre">'&lt;extra_id_95&gt;',</span> <span class="pre">'&lt;extra_id_96&gt;',</span> <span class="pre">'&lt;extra_id_97&gt;',</span> <span class="pre">'&lt;extra_id_98&gt;',</span> <span class="pre">'&lt;extra_id_99&gt;']})</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/dataset.html#NL2SQLDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.dataset.NL2SQLDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.dataset.Dataset</span></code></p>
+<p>Class to implement a custom dataset class.</p>
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.dataset.NL2SQLDataset.__getitem__">
+<code class="sig-name descname"><span class="pre">__getitem__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/dataset.html#NL2SQLDataset.__getitem__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.dataset.NL2SQLDataset.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a single tokenized example from the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – Example index in the dataset.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary of source token ids, source masks, target ids, and target masks.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.dataset.NL2SQLDataset.__init__">
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_split</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_length</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_length</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PreTrainedTokenizer(name_or_path='t5-small',</span> <span class="pre">vocab_size=32100,</span> <span class="pre">model_max_len=512,</span> <span class="pre">is_fast=False,</span> <span class="pre">padding_side='right',</span> <span class="pre">special_tokens={'eos_token':</span> <span class="pre">'&lt;/s&gt;',</span> <span class="pre">'unk_token':</span> <span class="pre">'&lt;unk&gt;',</span> <span class="pre">'pad_token':</span> <span class="pre">'&lt;pad&gt;',</span> <span class="pre">'additional_special_tokens':</span> <span class="pre">['&lt;extra_id_0&gt;',</span> <span class="pre">'&lt;extra_id_1&gt;',</span> <span class="pre">'&lt;extra_id_2&gt;',</span> <span class="pre">'&lt;extra_id_3&gt;',</span> <span class="pre">'&lt;extra_id_4&gt;',</span> <span class="pre">'&lt;extra_id_5&gt;',</span> <span class="pre">'&lt;extra_id_6&gt;',</span> <span class="pre">'&lt;extra_id_7&gt;',</span> <span class="pre">'&lt;extra_id_8&gt;',</span> <span class="pre">'&lt;extra_id_9&gt;',</span> <span class="pre">'&lt;extra_id_10&gt;',</span> <span class="pre">'&lt;extra_id_11&gt;',</span> <span class="pre">'&lt;extra_id_12&gt;',</span> <span class="pre">'&lt;extra_id_13&gt;',</span> <span class="pre">'&lt;extra_id_14&gt;',</span> <span class="pre">'&lt;extra_id_15&gt;',</span> <span class="pre">'&lt;extra_id_16&gt;',</span> <span class="pre">'&lt;extra_id_17&gt;',</span> <span class="pre">'&lt;extra_id_18&gt;',</span> <span class="pre">'&lt;extra_id_19&gt;',</span> <span class="pre">'&lt;extra_id_20&gt;',</span> <span class="pre">'&lt;extra_id_21&gt;',</span> <span class="pre">'&lt;extra_id_22&gt;',</span> <span class="pre">'&lt;extra_id_23&gt;',</span> <span class="pre">'&lt;extra_id_24&gt;',</span> <span class="pre">'&lt;extra_id_25&gt;',</span> <span class="pre">'&lt;extra_id_26&gt;',</span> <span class="pre">'&lt;extra_id_27&gt;',</span> <span class="pre">'&lt;extra_id_28&gt;',</span> <span class="pre">'&lt;extra_id_29&gt;',</span> <span class="pre">'&lt;extra_id_30&gt;',</span> <span class="pre">'&lt;extra_id_31&gt;',</span> <span class="pre">'&lt;extra_id_32&gt;',</span> <span class="pre">'&lt;extra_id_33&gt;',</span> <span class="pre">'&lt;extra_id_34&gt;',</span> <span class="pre">'&lt;extra_id_35&gt;',</span> <span class="pre">'&lt;extra_id_36&gt;',</span> <span class="pre">'&lt;extra_id_37&gt;',</span> <span class="pre">'&lt;extra_id_38&gt;',</span> <span class="pre">'&lt;extra_id_39&gt;',</span> <span class="pre">'&lt;extra_id_40&gt;',</span> <span class="pre">'&lt;extra_id_41&gt;',</span> <span class="pre">'&lt;extra_id_42&gt;',</span> <span class="pre">'&lt;extra_id_43&gt;',</span> <span class="pre">'&lt;extra_id_44&gt;',</span> <span class="pre">'&lt;extra_id_45&gt;',</span> <span class="pre">'&lt;extra_id_46&gt;',</span> <span class="pre">'&lt;extra_id_47&gt;',</span> <span class="pre">'&lt;extra_id_48&gt;',</span> <span class="pre">'&lt;extra_id_49&gt;',</span> <span class="pre">'&lt;extra_id_50&gt;',</span> <span class="pre">'&lt;extra_id_51&gt;',</span> <span class="pre">'&lt;extra_id_52&gt;',</span> <span class="pre">'&lt;extra_id_53&gt;',</span> <span class="pre">'&lt;extra_id_54&gt;',</span> <span class="pre">'&lt;extra_id_55&gt;',</span> <span class="pre">'&lt;extra_id_56&gt;',</span> <span class="pre">'&lt;extra_id_57&gt;',</span> <span class="pre">'&lt;extra_id_58&gt;',</span> <span class="pre">'&lt;extra_id_59&gt;',</span> <span class="pre">'&lt;extra_id_60&gt;',</span> <span class="pre">'&lt;extra_id_61&gt;',</span> <span class="pre">'&lt;extra_id_62&gt;',</span> <span class="pre">'&lt;extra_id_63&gt;',</span> <span class="pre">'&lt;extra_id_64&gt;',</span> <span class="pre">'&lt;extra_id_65&gt;',</span> <span class="pre">'&lt;extra_id_66&gt;',</span> <span class="pre">'&lt;extra_id_67&gt;',</span> <span class="pre">'&lt;extra_id_68&gt;',</span> <span class="pre">'&lt;extra_id_69&gt;',</span> <span class="pre">'&lt;extra_id_70&gt;',</span> <span class="pre">'&lt;extra_id_71&gt;',</span> <span class="pre">'&lt;extra_id_72&gt;',</span> <span class="pre">'&lt;extra_id_73&gt;',</span> <span class="pre">'&lt;extra_id_74&gt;',</span> <span class="pre">'&lt;extra_id_75&gt;',</span> <span class="pre">'&lt;extra_id_76&gt;',</span> <span class="pre">'&lt;extra_id_77&gt;',</span> <span class="pre">'&lt;extra_id_78&gt;',</span> <span class="pre">'&lt;extra_id_79&gt;',</span> <span class="pre">'&lt;extra_id_80&gt;',</span> <span class="pre">'&lt;extra_id_81&gt;',</span> <span class="pre">'&lt;extra_id_82&gt;',</span> <span class="pre">'&lt;extra_id_83&gt;',</span> <span class="pre">'&lt;extra_id_84&gt;',</span> <span class="pre">'&lt;extra_id_85&gt;',</span> <span class="pre">'&lt;extra_id_86&gt;',</span> <span class="pre">'&lt;extra_id_87&gt;',</span> <span class="pre">'&lt;extra_id_88&gt;',</span> <span class="pre">'&lt;extra_id_89&gt;',</span> <span class="pre">'&lt;extra_id_90&gt;',</span> <span class="pre">'&lt;extra_id_91&gt;',</span> <span class="pre">'&lt;extra_id_92&gt;',</span> <span class="pre">'&lt;extra_id_93&gt;',</span> <span class="pre">'&lt;extra_id_94&gt;',</span> <span class="pre">'&lt;extra_id_95&gt;',</span> <span class="pre">'&lt;extra_id_96&gt;',</span> <span class="pre">'&lt;extra_id_97&gt;',</span> <span class="pre">'&lt;extra_id_98&gt;',</span> <span class="pre">'&lt;extra_id_99&gt;']})</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/dataset.html#NL2SQLDataset.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.dataset.NL2SQLDataset.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>It initialize the class object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_dir</strong> (<em>str</em>) – Directory where the data is located.</p></li>
+<li><p><strong>data_split</strong> (<em>str</em>) – Dataset split name (train/validation/test).</p></li>
+<li><p><strong>input_length</strong> (<em>int</em>) – Input sequence length of the model to be fine-tuned.</p></li>
+<li><p><strong>output_length</strong> (<em>int</em>) – Output sequence length of the model.</p></li>
+<li><p><strong>num_samples</strong> (<em>int</em>) – Number of samples used to create the dataset or all. Defaults to None for all.</p></li>
+<li><p><strong>tokenizer</strong> (<em>T5Tokenizer</em>) – Pretrained Tokenizer to be loaded.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.dataset.NL2SQLDataset.__len__">
+<code class="sig-name descname"><span class="pre">__len__</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/dataset.html#NL2SQLDataset.__len__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.dataset.NL2SQLDataset.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the number of samples in the dataset.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.dataset.NL2SQLDataset.convert_to_features">
+<code class="sig-name descname"><span class="pre">convert_to_features</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">example_batch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/dataset.html#NL2SQLDataset.convert_to_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.dataset.NL2SQLDataset.convert_to_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes/tokenizes a single example (source and targets).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>example_batch</strong> (<em>pd.Series</em>) – A single example of the dataset[at least two columns: unfolded_questions(source) &amp; query(target)]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tuple of source and targets (Tokenized/encoded versions).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="src.engine.step4.model_dev.utils.dataset.get_dataset">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.dataset.</span></code><code class="sig-name descname"><span class="pre">get_dataset</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_split</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#src.engine.step4.model_dev.utils.dataset.NL2SQLDataset" title="src.engine.step4.model_dev.utils.dataset.NL2SQLDataset"><span class="pre">src.engine.step4.model_dev.utils.dataset.NL2SQLDataset</span></a><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/dataset.html#get_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.dataset.get_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates NL2SQLDataset object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tokenizer</strong> (<em>T5Tokenizer</em>) – Tokenizer object.</p></li>
+<li><p><strong>data_split</strong> (<em>str</em>) – Dataset split name (train/validation/test).</p></li>
+<li><p><strong>num_samples</strong> (<em>int</em>) – Number of samples selected (or None for all data).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>NL2SQLDataset object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="src.engine.step4.model_dev.utils.dataset.preprocess_data">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.dataset.</span></code><code class="sig-name descname"><span class="pre">preprocess_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/dataset.html#preprocess_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.dataset.preprocess_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads data, cleans and saves it in csv format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_path</strong> (<em>str</em>) – Path of the json data.</p></li>
+<li><p><strong>csv_data</strong> (<em>str</em>) – Output path for the csv data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pandas Dataframe of the cleaned data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="src.engine.step4.model_dev.utils.dataset.split_data">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.dataset.</span></code><code class="sig-name descname"><span class="pre">split_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/dataset.html#split_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.dataset.split_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits data into train/validation/test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>csv_path</strong> (<em>str</em>) – Path of the csv data.</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Output directory for the split data.</p></li>
+<li><p><strong>val_size</strong> (<em>float</em>) – Validation set split size. Defaults to 0.1.</p></li>
+<li><p><strong>test_size</strong> (<em>float</em>) – Test set split size. Defaults to 0.1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tuple of train, validation and test dataframes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="src.engine.step4.model_dev.utils.metrics.html" class="btn btn-neutral float-right" title="src.engine.step4.model_dev.utils.metrics module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="src.engine.step4.model_dev.utils.callback.html" class="btn btn-neutral float-left" title="src.engine.step4.model_dev.utils.callback module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

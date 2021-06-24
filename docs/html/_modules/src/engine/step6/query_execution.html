@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>src.engine.step6.query_execution &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../omop.html">Understanding OMOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tool.schema.html">Tool overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../data.creation.html">Dataset Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../data.creation.html#dataset-size">Dataset Size</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model.development.html">ML Model Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../model.results.html">Model Performance Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../next.steps.html">Moving forward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API docs</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>src.engine.step6.query_execution</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for src.engine.step6.query_execution</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">psycopg2</span>
+
+<span class="c1"># import boto3</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="connect_to_db"><a class="viewcode-back" href="../../../../src.engine.step6.query_execution.html#src.engine.step6.query_execution.connect_to_db">[docs]</a><span class="k">def</span> <span class="nf">connect_to_db</span><span class="p">(</span><span class="n">redshift_parameters</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+    <span class="c1">#     client = boto3.client(&#39;redshift&#39;,region_name=redshift_parameters[&#39;region&#39;])</span>
+
+    <span class="c1">#     cluster_creds = client.get_cluster_credentials(DbUser=redshift_parameters[&#39;user&#39;],</span>
+    <span class="c1">#                                                 DbName=redshift_parameters[&#39;database&#39;],</span>
+    <span class="c1">#                                                 ClusterIdentifier=redshift_parameters[&#39;cluster_id&#39;],</span>
+    <span class="c1">#                                                 AutoCreate=False)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+            <span class="n">host</span><span class="o">=</span><span class="n">redshift_parameters</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">],</span>
+            <span class="n">port</span><span class="o">=</span><span class="n">redshift_parameters</span><span class="p">[</span><span class="s2">&quot;port&quot;</span><span class="p">],</span>
+            <span class="c1">#             user=cluster_creds[&#39;DbUser&#39;],</span>
+            <span class="c1">#             password=cluster_creds[&#39;DbPassword&#39;],</span>
+            <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
+            <span class="n">database</span><span class="o">=</span><span class="n">redshift_parameters</span><span class="p">[</span><span class="s2">&quot;database&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">conn</span>
+
+    <span class="k">except</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">Error</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Failed to open database connection.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="execute_query"><a class="viewcode-back" href="../../../../src.engine.step6.query_execution.html#src.engine.step6.query_execution.execute_query">[docs]</a><span class="k">def</span> <span class="nf">execute_query</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">description</span><span class="p">]</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">limit</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="p">[:</span><span class="n">limit</span><span class="p">]</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">__init__</span> <span class="kn">import</span> <span class="o">*</span>
+    <span class="kn">import</span> <span class="nn">config</span>
+
+    <span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;SELECT COUNT(person_id) FROM cmsdesynpuf23m.person JOIN  ( SELECT concept_id FROM cmsdesynpuf23m.concept WHERE concept_name=&#39;FEMALE&#39; AND domain_id=&#39;Gender&#39; AND standard_concept=&#39;S&#39; )  ON gender_concept_id=concept_id;&quot;</span>
+
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">connect_to_db</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">REDSHIFT_PARM</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">out_df</span> <span class="o">=</span> <span class="n">execute_query</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">sql_query</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">out_df</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>src.engine.step4.model_dev.t5_training &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../omop.html">Understanding OMOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tool.schema.html">Tool overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../data.creation.html">Dataset Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../data.creation.html#dataset-size">Dataset Size</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model.development.html">ML Model Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../model.results.html">Model Performance Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../next.steps.html">Moving forward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">API docs</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>src.engine.step4.model_dev.t5_training</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for src.engine.step4.model_dev.t5_training</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains a function to fine-tune a T5-based pretrained model with a custom dataset.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">from</span> <span class="nn">pytorch_lightning</span> <span class="kn">import</span> <span class="n">loggers</span> <span class="k">as</span> <span class="n">pl_loggers</span>
+<span class="kn">from</span> <span class="nn">utils.model</span> <span class="kn">import</span> <span class="n">T5FineTuner</span><span class="p">,</span> <span class="n">set_seed</span>
+<span class="kn">from</span> <span class="nn">utils.callback</span> <span class="kn">import</span> <span class="n">LoggingCallback</span><span class="p">,</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">t5_config</span> <span class="kn">import</span> <span class="n">model_params</span>
+
+
+<div class="viewcode-block" id="train"><a class="viewcode-back" href="../../../../../src.engine.step4.model_dev.t5_training.html#src.engine.step4.model_dev.t5_training.train">[docs]</a><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fine-tunes a pretrained T5 models based on the given parameters.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        args(argparse.Namespace): Model parameters and other input arguments.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">T5FineTuner</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="n">checkpoint_callback</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span>
+        <span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_loss&quot;</span><span class="p">,</span>
+        <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;model_checkpoint-</span><span class="si">{epoch:02d}</span><span class="s2">-</span><span class="si">{val_loss:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">save_top_k</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">save_last</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">tb_logger</span> <span class="o">=</span> <span class="n">pl_loggers</span><span class="o">.</span><span class="n">TensorBoardLogger</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)</span>
+
+    <span class="n">train_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">accumulate_grad_batches</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">gradient_accumulation_steps</span><span class="p">,</span>
+        <span class="n">gpus</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">max_epochs</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">num_train_epochs</span><span class="p">,</span>
+        <span class="n">precision</span><span class="o">=</span><span class="mi">16</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">fp_16</span> <span class="k">else</span> <span class="mi">32</span><span class="p">,</span>
+        <span class="n">amp_level</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">opt_level</span><span class="p">,</span>
+        <span class="n">resume_from_checkpoint</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">resume_from_checkpoint</span><span class="p">,</span>
+        <span class="n">gradient_clip_val</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">max_grad_norm</span><span class="p">,</span>
+        <span class="n">checkpoint_callback</span><span class="o">=</span><span class="n">checkpoint_callback</span><span class="p">,</span>
+        <span class="n">val_check_interval</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">val_check_interval</span><span class="p">,</span>
+        <span class="n">logger</span><span class="o">=</span><span class="n">tb_logger</span><span class="p">,</span>
+        <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">LoggingCallback</span><span class="p">()],</span>
+        <span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;dp&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="o">**</span><span class="n">train_params</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="c1"># After model has been trained, save its state into output_data_dir</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;model_</span><span class="si">{0}</span><span class="s2">.pth&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">-%H%M%S&quot;</span><span class="p">))</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;wb&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">f</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">model_params</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">model_params</span><span class="p">[</span><span class="s2">&quot;seed&quot;</span><span class="p">]:</span>
+        <span class="n">set_seed</span><span class="p">(</span><span class="n">model_params</span><span class="p">[</span><span class="s2">&quot;seed&quot;</span><span class="p">])</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">(</span><span class="o">**</span><span class="n">model_params</span><span class="p">)</span>
+
+    <span class="n">train</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

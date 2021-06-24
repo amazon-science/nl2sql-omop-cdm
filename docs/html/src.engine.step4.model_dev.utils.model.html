@@ -1,0 +1,486 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>src.engine.step4.model_dev.utils.model module &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="src.engine.step4.model_dev.t5_config module" href="src.engine.step4.model_dev.t5_config.html" />
+    <link rel="prev" title="src.engine.step4.model_dev.utils.metrics module" href="src.engine.step4.model_dev.utils.metrics.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="omop.html">Understanding OMOP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tool.schema.html">Tool overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html">Dataset Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.creation.html#dataset-size">Dataset Size</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.development.html">ML Model Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.results.html">Model Performance Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="next.steps.html">Moving forward</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API docs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="modules.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#engine">Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#ui">UI</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#id1">Overview</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="src.html">src package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="src.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.html#module-src">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">API docs</a> &raquo;</li>
+        
+          <li><a href="src.html">src package</a> &raquo;</li>
+        
+          <li><a href="src.engine.html">src.engine package</a> &raquo;</li>
+        
+          <li><a href="src.engine.step4.html">src.engine.step4 package</a> &raquo;</li>
+        
+          <li><a href="src.engine.step4.model_dev.html">src.engine.step4.model_dev package</a> &raquo;</li>
+        
+          <li><a href="src.engine.step4.model_dev.utils.html">src.engine.step4.model_dev.utils package</a> &raquo;</li>
+        
+      <li>src.engine.step4.model_dev.utils.model module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/src.engine.step4.model_dev.utils.model.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-src.engine.step4.model_dev.utils.model">
+<span id="src-engine-step4-model-dev-utils-model-module"></span><h1>src.engine.step4.model_dev.utils.model module<a class="headerlink" href="#module-src.engine.step4.model_dev.utils.model" title="Permalink to this headline">¶</a></h1>
+<p>The module creates a class to fine-tune T5-based pretrained model.</p>
+<dl class="simple">
+<dt>Adapted from:</dt><dd><p><a class="reference external" href="https://github.com/DorBernsohn/CodeLM/tree/main/SQLM">https://github.com/DorBernsohn/CodeLM/tree/main/SQLM</a></p>
+</dd>
+</dl>
+<dl class="py class">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.model.</span></code><code class="sig-name descname"><span class="pre">T5FineTuner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hparams</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pytorch_lightning.core.lightning.LightningModule</span></code></p>
+<p>Class to create T5-based fine-tuner object.</p>
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.__init__">
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hparams</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates fine-tuner object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hparams</strong> (<em>argparse.Namespace</em>) – Hyperparamters of the model object to be created.</p></li>
+<li><p><strong>added_tokens</strong> (<em>list</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner._generative_step">
+<code class="sig-name descname"><span class="pre">_generative_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner._generative_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner._generative_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get metrics(val_loss) from a given step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch</strong> (<em>dict</em>) – Batch of examples.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary of metric values (validation loss)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner._step">
+<code class="sig-name descname"><span class="pre">_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner._step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner._step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get loss for a given train step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch</strong> (<em>dict</em>) – Batch of examples.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Model loss.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.added_tokens">
+<code class="sig-name descname"><span class="pre">added_tokens</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.added_tokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.added_tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tokens to be added to the pretrained tokenizer/vocab.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.assert_all_frozen">
+<code class="sig-name descname"><span class="pre">assert_all_frozen</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.assert_all_frozen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.assert_all_frozen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check all model frozen params.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.configure_optimizers">
+<code class="sig-name descname"><span class="pre">configure_optimizers</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.configure_optimizers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.configure_optimizers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare optimizer and schedule (linear warmup and decay)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tuple of optimizer and scheduler.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoder_input_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoder_attention_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for model’s forward method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_embeds">
+<code class="sig-name descname"><span class="pre">freeze_embeds</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.freeze_embeds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_embeds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Freeze token embeddings and positional embeddings for bart, just token embeddings for t5.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_params">
+<code class="sig-name descname"><span class="pre">freeze_params</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.freeze_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Freezes model paramters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>T5ForConditionalGeneration</em>) – T5ForConditionalGeneration model object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.ids_to_clean_text">
+<code class="sig-name descname"><span class="pre">ids_to_clean_text</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generated_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.ids_to_clean_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.ids_to_clean_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get text from the generated token ids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>generated_ids</strong> (<em>Tensor</em>) – Token ids.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Corresponding text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.is_logger">
+<code class="sig-name descname"><span class="pre">is_logger</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.is_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.is_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check model copy used for logging.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.lmap">
+<code class="sig-name descname"><span class="pre">lmap</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.lmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.lmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>list(map(f, x))</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.parse_score">
+<code class="sig-name descname"><span class="pre">parse_score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.parse_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.parse_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses all scores and rounds the values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.test_dataloader">
+<code class="sig-name descname"><span class="pre">test_dataloader</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.test_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.test_dataloader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test data loader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataLoader object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.train_dataloader">
+<code class="sig-name descname"><span class="pre">train_dataloader</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.train_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.train_dataloader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train data loader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataLoader object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.training_step">
+<code class="sig-name descname"><span class="pre">training_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.training_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.training_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get loss and tensorboard logs from a training step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch</strong> (<em>dict</em>) – Dictionary of batch examples.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Training loss and tensorboard logs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.val_dataloader">
+<code class="sig-name descname"><span class="pre">val_dataloader</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.val_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.val_dataloader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validation data loader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataLoader object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.validation_epoch_end">
+<code class="sig-name descname"><span class="pre">validation_epoch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.validation_epoch_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.validation_epoch_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets loss and log at the end of validation epoch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>outputs</strong> (<em>Tensor</em>) – Model outputs</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary of validation loss and logs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.validation_step">
+<code class="sig-name descname"><span class="pre">validation_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.validation_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.validation_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get validation loss from a validation step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch</strong> (<em>dict</em>) – Dictionary of batch examples.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Validation loss.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="src.engine.step4.model_dev.utils.model.load_model">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.model.</span></code><code class="sig-name descname"><span class="pre">load_model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.load_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads trained T5 models from a checkpoint file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fp</strong> (<em>str</em>) – Checkpoint file path.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>T5FineTuner object with the loaded weights.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="src.engine.step4.model_dev.utils.model.set_seed">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.model.</span></code><code class="sig-name descname"><span class="pre">set_seed</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#set_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.set_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Seed random seed if needed.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="src.engine.step4.model_dev.t5_config.html" class="btn btn-neutral float-right" title="src.engine.step4.model_dev.t5_config module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="src.engine.step4.model_dev.utils.metrics.html" class="btn btn-neutral float-left" title="src.engine.step4.model_dev.utils.metrics module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
