@@ -12,7 +12,6 @@ source activate $KERNEL_NAME
 pip install --quiet ipykernel
 
 source activate nl2sql_environment
-conda env update --file environment.yml
 
 echo "Installing dependencies in nl2sql_environment ...."
 pip install -r pip_requirements.txt
