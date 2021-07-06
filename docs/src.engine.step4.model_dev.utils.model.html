@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -97,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="modules.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#engine">Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#ui">UI</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="modules.html#id1">Overview</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#api">API</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="src.html">src package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="src.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.html#submodules">Submodules</a></li>
@@ -195,13 +198,13 @@
 </dd>
 </dl>
 <dl class="py class">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.model.</span></code><code class="sig-name descname"><span class="pre">T5FineTuner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hparams</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.model.</span></span><span class="sig-name descname"><span class="pre">T5FineTuner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hparams</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pytorch_lightning.core.lightning.LightningModule</span></code></p>
 <p>Class to create T5-based fine-tuner object.</p>
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hparams</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hparams</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates fine-tuner object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -214,8 +217,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner._generative_step">
-<code class="sig-name descname"><span class="pre">_generative_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner._generative_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner._generative_step" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner._generative_step">
+<span class="sig-name descname"><span class="pre">_generative_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner._generative_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner._generative_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get metrics(val_loss) from a given step</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -228,8 +231,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner._step">
-<code class="sig-name descname"><span class="pre">_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner._step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner._step" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner._step">
+<span class="sig-name descname"><span class="pre">_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner._step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner._step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get loss for a given train step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -242,20 +245,20 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.added_tokens">
-<code class="sig-name descname"><span class="pre">added_tokens</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.added_tokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.added_tokens" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.added_tokens">
+<span class="sig-name descname"><span class="pre">added_tokens</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.added_tokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.added_tokens" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tokens to be added to the pretrained tokenizer/vocab.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.assert_all_frozen">
-<code class="sig-name descname"><span class="pre">assert_all_frozen</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.assert_all_frozen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.assert_all_frozen" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.assert_all_frozen">
+<span class="sig-name descname"><span class="pre">assert_all_frozen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.assert_all_frozen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.assert_all_frozen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check all model frozen params.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.configure_optimizers">
-<code class="sig-name descname"><span class="pre">configure_optimizers</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.configure_optimizers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.configure_optimizers" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.configure_optimizers">
+<span class="sig-name descname"><span class="pre">configure_optimizers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.configure_optimizers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.configure_optimizers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare optimizer and schedule (linear warmup and decay)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -268,20 +271,20 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.forward">
-<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoder_input_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoder_attention_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.forward" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoder_input_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoder_attention_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for model’s forward method.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_embeds">
-<code class="sig-name descname"><span class="pre">freeze_embeds</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.freeze_embeds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_embeds" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_embeds">
+<span class="sig-name descname"><span class="pre">freeze_embeds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.freeze_embeds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_embeds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Freeze token embeddings and positional embeddings for bart, just token embeddings for t5.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_params">
-<code class="sig-name descname"><span class="pre">freeze_params</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.freeze_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_params" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_params">
+<span class="sig-name descname"><span class="pre">freeze_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.freeze_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.freeze_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Freezes model paramters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -291,8 +294,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.ids_to_clean_text">
-<code class="sig-name descname"><span class="pre">ids_to_clean_text</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generated_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.ids_to_clean_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.ids_to_clean_text" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.ids_to_clean_text">
+<span class="sig-name descname"><span class="pre">ids_to_clean_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generated_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.ids_to_clean_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.ids_to_clean_text" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get text from the generated token ids.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -305,26 +308,26 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.is_logger">
-<code class="sig-name descname"><span class="pre">is_logger</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.is_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.is_logger" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.is_logger">
+<span class="sig-name descname"><span class="pre">is_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.is_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.is_logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check model copy used for logging.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.lmap">
-<code class="sig-name descname"><span class="pre">lmap</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.lmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.lmap" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.lmap">
+<span class="sig-name descname"><span class="pre">lmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.lmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.lmap" title="Permalink to this definition">¶</a></dt>
 <dd><p>list(map(f, x))</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.parse_score">
-<code class="sig-name descname"><span class="pre">parse_score</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.parse_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.parse_score" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.parse_score">
+<span class="sig-name descname"><span class="pre">parse_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.parse_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.parse_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parses all scores and rounds the values.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.test_dataloader">
-<code class="sig-name descname"><span class="pre">test_dataloader</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.test_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.test_dataloader" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.test_dataloader">
+<span class="sig-name descname"><span class="pre">test_dataloader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.test_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.test_dataloader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test data loader.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -337,8 +340,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.train_dataloader">
-<code class="sig-name descname"><span class="pre">train_dataloader</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.train_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.train_dataloader" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.train_dataloader">
+<span class="sig-name descname"><span class="pre">train_dataloader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.train_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.train_dataloader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train data loader.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -351,13 +354,13 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.training_step">
-<code class="sig-name descname"><span class="pre">training_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.training_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.training_step" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.training_step">
+<span class="sig-name descname"><span class="pre">training_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.training_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.training_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get loss and tensorboard logs from a training step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -370,8 +373,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.val_dataloader">
-<code class="sig-name descname"><span class="pre">val_dataloader</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.val_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.val_dataloader" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.val_dataloader">
+<span class="sig-name descname"><span class="pre">val_dataloader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.val_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.val_dataloader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validation data loader.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -384,8 +387,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.validation_epoch_end">
-<code class="sig-name descname"><span class="pre">validation_epoch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.validation_epoch_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.validation_epoch_end" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.validation_epoch_end">
+<span class="sig-name descname"><span class="pre">validation_epoch_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.validation_epoch_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.validation_epoch_end" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets loss and log at the end of validation epoch.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -398,8 +401,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.model.T5FineTuner.validation_step">
-<code class="sig-name descname"><span class="pre">validation_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.validation_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.validation_step" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.T5FineTuner.validation_step">
+<span class="sig-name descname"><span class="pre">validation_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#T5FineTuner.validation_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.T5FineTuner.validation_step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get validation loss from a validation step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -414,8 +417,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step4.model_dev.utils.model.load_model">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.model.</span></code><code class="sig-name descname"><span class="pre">load_model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.load_model" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.load_model">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.model.</span></span><span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.load_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads trained T5 models from a checkpoint file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -428,8 +431,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step4.model_dev.utils.model.set_seed">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.model.</span></code><code class="sig-name descname"><span class="pre">set_seed</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#set_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.set_seed" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.model.set_seed">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.model.</span></span><span class="sig-name descname"><span class="pre">set_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/model.html#set_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.model.set_seed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Seed random seed if needed.</p>
 </dd></dl>
 

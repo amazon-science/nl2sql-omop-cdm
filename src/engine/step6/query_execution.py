@@ -10,19 +10,22 @@ logger = logging.getLogger(__name__)
 
 
 def connect_to_db(redshift_parameters, user, password):
-    #     client = boto3.client('redshift',region_name=redshift_parameters['region'])
+    """Connect to database and returns connection
 
-    #     cluster_creds = client.get_cluster_credentials(DbUser=redshift_parameters['user'],
-    #                                                 DbName=redshift_parameters['database'],
-    #                                                 ClusterIdentifier=redshift_parameters['cluster_id'],
-    #                                                 AutoCreate=False)
+    Args:
+        redshift_parameters (dict): Redshift connection parameters.
+        user (str): Redshift user required to connect. 
+        password (str): Password associated to the user
+
+    Returns:
+        Connection: boto3 redshift connection 
+
+    """
 
     try:
         conn = psycopg2.connect(
             host=redshift_parameters["url"],
             port=redshift_parameters["port"],
-            #             user=cluster_creds['DbUser'],
-            #             password=cluster_creds['DbPassword'],
             user=user,
             password=password,
             database=redshift_parameters["database"],
@@ -36,6 +39,17 @@ def connect_to_db(redshift_parameters, user, password):
 
 
 def execute_query(cursor, query, limit=None):
+    """Execute query
+
+    Args:
+        cursor (boto3 cursor): boto3 object pointing and with established connection to Redshift.
+        query (str): SQL query.
+        limit (int): Limit of rows returned by the data frame. Default to "None" for no limit
+
+    Returns:
+        pd.DataFrame: Data Frame with the query results.
+
+    """
     try:
         cursor.execute(query)
     except:

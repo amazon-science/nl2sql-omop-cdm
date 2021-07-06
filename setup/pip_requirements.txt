@@ -1,5 +1,8 @@
 ipywidgets
-setuptools 
+sklearn
+boto3
+psycopg2
+setuptools
 wheel
 spacy[cuda110]
 pytorch_lightning==1.2.10

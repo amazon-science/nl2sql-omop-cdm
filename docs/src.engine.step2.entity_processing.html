@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -97,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="modules.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#engine">Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#ui">UI</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="modules.html#id1">Overview</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#api">API</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="src.html">src package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="src.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.html#submodules">Submodules</a></li>
@@ -186,8 +189,8 @@
   <div class="section" id="module-src.engine.step2.entity_processing">
 <span id="src-engine-step2-entity-processing-module"></span><h1>src.engine.step2.entity_processing module<a class="headerlink" href="#module-src.engine.step2.entity_processing" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="src.engine.step2.entity_processing.add_omop_disambiguation_options">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step2.entity_processing.</span></code><code class="sig-name descname"><span class="pre">add_omop_disambiguation_options</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step2/entity_processing.html#add_omop_disambiguation_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step2.entity_processing.add_omop_disambiguation_options" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step2.entity_processing.add_omop_disambiguation_options">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step2.entity_processing.</span></span><span class="sig-name descname"><span class="pre">add_omop_disambiguation_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step2/entity_processing.html#add_omop_disambiguation_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step2.entity_processing.add_omop_disambiguation_options" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provide options for each name depending on it’s category using the CATEGORY2PROC_FUN mapping.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -203,8 +206,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step2.entity_processing.add_placeholders">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step2.entity_processing.</span></code><code class="sig-name descname"><span class="pre">add_placeholders</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_entities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step2/entity_processing.html#add_placeholders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step2.entity_processing.add_placeholders" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step2.entity_processing.add_placeholders">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step2.entity_processing.</span></span><span class="sig-name descname"><span class="pre">add_placeholders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_entities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step2/entity_processing.html#add_placeholders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step2.entity_processing.add_placeholders" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assigns placeholder to each entity in <cite>all_entities</cite> based on category and arbitrary order within each category.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

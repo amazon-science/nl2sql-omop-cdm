@@ -46,7 +46,6 @@ def add_cm_entities(
     for entity in result["Entities"]:
         complement = None
 
-        # TODO add logic to handle more than one attribute that should go into the name
         for attribute in entity.get("Attributes", []):
             if attribute["Score"] > entity_detection_score_thr:
                 if (

@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -97,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="modules.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#engine">Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#ui">UI</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="modules.html#id1">Overview</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#api">API</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="src.html">src package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="src.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.html#submodules">Submodules</a></li>
@@ -184,8 +187,8 @@
   <div class="section" id="module-src.ui.detection_visualizer">
 <span id="src-ui-detection-visualizer-module"></span><h1>src.ui.detection_visualizer module<a class="headerlink" href="#module-src.ui.detection_visualizer" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="src.ui.detection_visualizer.get_reformatted_nlq">
-<code class="sig-prename descclassname"><span class="pre">src.ui.detection_visualizer.</span></code><code class="sig-name descname"><span class="pre">get_reformatted_nlq</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/detection_visualizer.html#get_reformatted_nlq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.detection_visualizer.get_reformatted_nlq" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.ui.detection_visualizer.get_reformatted_nlq">
+<span class="sig-prename descclassname"><span class="pre">src.ui.detection_visualizer.</span></span><span class="sig-name descname"><span class="pre">get_reformatted_nlq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/detection_visualizer.html#get_reformatted_nlq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.detection_visualizer.get_reformatted_nlq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace the <cite>entities</cite> names in <cite>text</cite> by their disambiguation option.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -204,8 +207,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.ui.detection_visualizer.get_reformatted_proc_entities">
-<code class="sig-prename descclassname"><span class="pre">src.ui.detection_visualizer.</span></code><code class="sig-name descname"><span class="pre">get_reformatted_proc_entities</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/detection_visualizer.html#get_reformatted_proc_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.detection_visualizer.get_reformatted_proc_entities" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.ui.detection_visualizer.get_reformatted_proc_entities">
+<span class="sig-prename descclassname"><span class="pre">src.ui.detection_visualizer.</span></span><span class="sig-name descname"><span class="pre">get_reformatted_proc_entities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/detection_visualizer.html#get_reformatted_proc_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.detection_visualizer.get_reformatted_proc_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reformat processed entities to be ingested in the HTML visualization feature.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -224,8 +227,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.ui.detection_visualizer.prepare_visuazliation_input_for_processed_entities">
-<code class="sig-prename descclassname"><span class="pre">src.ui.detection_visualizer.</span></code><code class="sig-name descname"><span class="pre">prepare_visuazliation_input_for_processed_entities</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/detection_visualizer.html#prepare_visuazliation_input_for_processed_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.detection_visualizer.prepare_visuazliation_input_for_processed_entities" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.ui.detection_visualizer.prepare_visuazliation_input_for_processed_entities">
+<span class="sig-prename descclassname"><span class="pre">src.ui.detection_visualizer.</span></span><span class="sig-name descname"><span class="pre">prepare_visuazliation_input_for_processed_entities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/detection_visualizer.html#prepare_visuazliation_input_for_processed_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.detection_visualizer.prepare_visuazliation_input_for_processed_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepares processed entities and text to be ingested into the HTML visualization feature.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -244,8 +247,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.ui.detection_visualizer.prepare_visuazliation_input_for_raw_entities">
-<code class="sig-prename descclassname"><span class="pre">src.ui.detection_visualizer.</span></code><code class="sig-name descname"><span class="pre">prepare_visuazliation_input_for_raw_entities</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/detection_visualizer.html#prepare_visuazliation_input_for_raw_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.detection_visualizer.prepare_visuazliation_input_for_raw_entities" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.ui.detection_visualizer.prepare_visuazliation_input_for_raw_entities">
+<span class="sig-prename descclassname"><span class="pre">src.ui.detection_visualizer.</span></span><span class="sig-name descname"><span class="pre">prepare_visuazliation_input_for_raw_entities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/detection_visualizer.html#prepare_visuazliation_input_for_raw_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.detection_visualizer.prepare_visuazliation_input_for_raw_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepares detected entities and text to be ingested into the HTML visualization feature.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -264,8 +267,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.ui.detection_visualizer.reformat_raw_entities">
-<code class="sig-prename descclassname"><span class="pre">src.ui.detection_visualizer.</span></code><code class="sig-name descname"><span class="pre">reformat_raw_entities</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/detection_visualizer.html#reformat_raw_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.detection_visualizer.reformat_raw_entities" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.ui.detection_visualizer.reformat_raw_entities">
+<span class="sig-prename descclassname"><span class="pre">src.ui.detection_visualizer.</span></span><span class="sig-name descname"><span class="pre">reformat_raw_entities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/ui/detection_visualizer.html#reformat_raw_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.ui.detection_visualizer.reformat_raw_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reformat raw entities into an orderd list of names based
 on starting position rather than ordered by category.</p>
 <dl class="field-list simple">

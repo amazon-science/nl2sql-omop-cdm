@@ -13,7 +13,7 @@ MAIN_DISPLAY_LAYOUT = widgets.Layout(
 )
 MAIN_FEEDBACK_LAYOUT = widgets.Layout(
     flex="0 1 auto", height="5%", width="90%"
-)  # , border='1px solid black')
+)
 
 INPUT_BOX_LAYOUT = widgets.Layout(
     flex="1 1 auto", height="100%", min_height="50px", width="auto"

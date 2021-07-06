@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -97,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="modules.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#engine">Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#ui">UI</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="modules.html#id1">Overview</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#api">API</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="src.html">src package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="src.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.html#submodules">Submodules</a></li>
@@ -186,8 +189,8 @@
   <div class="section" id="module-src.engine.step1.entity_extraction">
 <span id="src-engine-step1-entity-extraction-module"></span><h1>src.engine.step1.entity_extraction module<a class="headerlink" href="#module-src.engine.step1.entity_extraction" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="src.engine.step1.entity_extraction.add_cm_entities">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step1.entity_extraction.</span></code><code class="sig-name descname"><span class="pre">add_cm_entities</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seen_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity_detection_score_thr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drug_relationship_score_thr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step1/entity_extraction.html#add_cm_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step1.entity_extraction.add_cm_entities" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step1.entity_extraction.add_cm_entities">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step1.entity_extraction.</span></span><span class="sig-name descname"><span class="pre">add_cm_entities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seen_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity_detection_score_thr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drug_relationship_score_thr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step1/entity_extraction.html#add_cm_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step1.entity_extraction.add_cm_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detects entities in the NLQ using CM and adds them to the dicionary of seen entities by category.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -209,8 +212,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step1.entity_extraction.add_ethnicity_entities">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step1.entity_extraction.</span></code><code class="sig-name descname"><span class="pre">add_ethnicity_entities</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seen_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step1/entity_extraction.html#add_ethnicity_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step1.entity_extraction.add_ethnicity_entities" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step1.entity_extraction.add_ethnicity_entities">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step1.entity_extraction.</span></span><span class="sig-name descname"><span class="pre">add_ethnicity_entities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seen_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step1/entity_extraction.html#add_ethnicity_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step1.entity_extraction.add_ethnicity_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detect and add ethnicity entities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -230,8 +233,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step1.entity_extraction.add_gender_entities">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step1.entity_extraction.</span></code><code class="sig-name descname"><span class="pre">add_gender_entities</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seen_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step1/entity_extraction.html#add_gender_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step1.entity_extraction.add_gender_entities" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step1.entity_extraction.add_gender_entities">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step1.entity_extraction.</span></span><span class="sig-name descname"><span class="pre">add_gender_entities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seen_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step1/entity_extraction.html#add_gender_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step1.entity_extraction.add_gender_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detect and add gender entities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -251,8 +254,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step1.entity_extraction.add_race_entities">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step1.entity_extraction.</span></code><code class="sig-name descname"><span class="pre">add_race_entities</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seen_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step1/entity_extraction.html#add_race_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step1.entity_extraction.add_race_entities" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step1.entity_extraction.add_race_entities">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step1.entity_extraction.</span></span><span class="sig-name descname"><span class="pre">add_race_entities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seen_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step1/entity_extraction.html#add_race_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step1.entity_extraction.add_race_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detect and add race entities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -272,8 +275,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step1.entity_extraction.detect_entities">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step1.entity_extraction.</span></code><code class="sig-name descname"><span class="pre">detect_entities</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity_detection_score_thr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drug_relationship_score_thr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step1/entity_extraction.html#detect_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step1.entity_extraction.detect_entities" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step1.entity_extraction.detect_entities">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step1.entity_extraction.</span></span><span class="sig-name descname"><span class="pre">detect_entities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity_detection_score_thr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drug_relationship_score_thr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step1/entity_extraction.html#detect_entities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step1.entity_extraction.detect_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main function: Detect and categorize entities with CM and regex.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

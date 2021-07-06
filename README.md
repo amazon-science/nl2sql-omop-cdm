@@ -14,7 +14,7 @@ In the following sections we will cover:
 
 ## 1. Environment setup
 
-Note: The pipeline has been tested in Amazon's SageMaker `pytorch_latest_p36` conda environment. It assumes that:
+Note: The pipeline has been tested in Amazon's SageMaker Linux instance. It assumes that:
 
 * You are in a GPU instance with CUDA 11.0, especially for model training. To setup the conda environment and install the remaining python packages, please change the directory to `setup/` and run `setup.sh` script. You first need to change the bash file mode if needed. Instructions to complete setup are as follows:
 
@@ -24,6 +24,8 @@ $ /bin/bash chmod +x setup.sh
 $ /bin/bash ./setup.sh
 ```
 
+The set-up can take a few minutes. Once finalized, you will have the `nl2sql_environment` conda environment to run this repo.
+
 ## 2. Getting started
 
 This section covers how this repo is intended to be used. 
@@ -32,7 +34,7 @@ This section covers how this repo is intended to be used.
 
 To run the UI tool and test the pipeline, it's assumed that you already have the trained model ready and your notebook instance is already connected to the Redshift database. To run the tool, follow the steps below:
 * Open `src/config.py` and update the model path and Redshift database information.
-* open `merck_main.ipynb` and change the python kernel into `pytorch_latest_p36`.
+* open `merck_main.ipynb` and change the python kernel into `nl2sql_environment`.
 * Follow the instructions provided in the notebook.
 
 

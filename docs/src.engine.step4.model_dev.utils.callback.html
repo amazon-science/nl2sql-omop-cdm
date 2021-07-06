@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -97,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="modules.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#engine">Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#ui">UI</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="modules.html#id1">Overview</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#api">API</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="src.html">src package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="src.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.html#submodules">Submodules</a></li>
@@ -191,24 +194,24 @@
 <span id="src-engine-step4-model-dev-utils-callback-module"></span><h1>src.engine.step4.model_dev.utils.callback module<a class="headerlink" href="#module-src.engine.step4.model_dev.utils.callback" title="Permalink to this headline">¶</a></h1>
 <p>Module to create Logging Callback Class.</p>
 <dl class="py class">
-<dt id="src.engine.step4.model_dev.utils.callback.LoggingCallback">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.callback.</span></code><code class="sig-name descname"><span class="pre">LoggingCallback</span></code><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/callback.html#LoggingCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.callback.LoggingCallback" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.callback.LoggingCallback">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.callback.</span></span><span class="sig-name descname"><span class="pre">LoggingCallback</span></span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/callback.html#LoggingCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.callback.LoggingCallback" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pytorch_lightning.callbacks.base.Callback</span></code></p>
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.callback.LoggingCallback.on_test_end">
-<code class="sig-name descname"><span class="pre">on_test_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/callback.html#LoggingCallback.on_test_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.callback.LoggingCallback.on_test_end" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.callback.LoggingCallback.on_test_end">
+<span class="sig-name descname"><span class="pre">on_test_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/callback.html#LoggingCallback.on_test_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.callback.LoggingCallback.on_test_end" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called when the test ends.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.callback.LoggingCallback.on_train_end">
-<code class="sig-name descname"><span class="pre">on_train_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/callback.html#LoggingCallback.on_train_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.callback.LoggingCallback.on_train_end" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.callback.LoggingCallback.on_train_end">
+<span class="sig-name descname"><span class="pre">on_train_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/callback.html#LoggingCallback.on_train_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.callback.LoggingCallback.on_train_end" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called when the train ends.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="src.engine.step4.model_dev.utils.callback.LoggingCallback.on_validation_end">
-<code class="sig-name descname"><span class="pre">on_validation_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/callback.html#LoggingCallback.on_validation_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.callback.LoggingCallback.on_validation_end" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.callback.LoggingCallback.on_validation_end">
+<span class="sig-name descname"><span class="pre">on_validation_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/callback.html#LoggingCallback.on_validation_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.callback.LoggingCallback.on_validation_end" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called when the validation loop ends.</p>
 </dd></dl>
 

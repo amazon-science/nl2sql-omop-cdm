@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -97,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="modules.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#engine">Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#ui">UI</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="modules.html#id1">Overview</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#api">API</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="src.html">src package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="src.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.html#submodules">Submodules</a></li>
@@ -195,8 +198,8 @@
 </dd>
 </dl>
 <dl class="py function">
-<dt id="src.engine.step4.model_dev.t5_evaluation.do_inference">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.t5_evaluation.</span></code><code class="sig-name descname"><span class="pre">do_inference</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/t5_evaluation.html#do_inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.t5_evaluation.do_inference" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.t5_evaluation.do_inference">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.t5_evaluation.</span></span><span class="sig-name descname"><span class="pre">do_inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/t5_evaluation.html#do_inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.t5_evaluation.do_inference" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get inferences of input questions based on the given args (for parallel inference).
 :param args: Tuple model, dataframe and gpu device number.
 :type args: tuple</p>
@@ -208,8 +211,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step4.model_dev.t5_evaluation.inference_wrapper">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.t5_evaluation.</span></code><code class="sig-name descname"><span class="pre">inference_wrapper</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query2args_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/t5_evaluation.html#inference_wrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.t5_evaluation.inference_wrapper" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.t5_evaluation.inference_wrapper">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.t5_evaluation.</span></span><span class="sig-name descname"><span class="pre">inference_wrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query2args_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/t5_evaluation.html#inference_wrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.t5_evaluation.inference_wrapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Multi-GPU Model Inference Wrapper with computing accuracies.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -225,8 +228,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step4.model_dev.t5_evaluation.multi_proc_inference">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.t5_evaluation.</span></code><code class="sig-name descname"><span class="pre">multi_proc_inference</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/t5_evaluation.html#multi_proc_inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.t5_evaluation.multi_proc_inference" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step4.model_dev.t5_evaluation.multi_proc_inference">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.t5_evaluation.</span></span><span class="sig-name descname"><span class="pre">multi_proc_inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/t5_evaluation.html#multi_proc_inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.t5_evaluation.multi_proc_inference" title="Permalink to this definition">¶</a></dt>
 <dd><p>Multi-GPU Model Inference.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

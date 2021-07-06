@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -97,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="modules.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#engine">Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#ui">UI</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="modules.html#id1">Overview</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#api">API</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="src.html">src package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="src.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.html#submodules">Submodules</a></li>
@@ -186,8 +189,8 @@
   <div class="section" id="module-src.engine.step5.rendering_functions">
 <span id="src-engine-step5-rendering-functions-module"></span><h1>src.engine.step5.rendering_functions module<a class="headerlink" href="#module-src.engine.step5.rendering_functions" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="src.engine.step5.rendering_functions.render_condition_template">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></code><code class="sig-name descname"><span class="pre">render_condition_template</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition_code</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_condition_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_condition_template" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step5.rendering_functions.render_condition_template">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></span><span class="sig-name descname"><span class="pre">render_condition_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition_code</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_condition_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_condition_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders and returns the condition template with a column <cite>concept_id</cite>
 with the OMOP CDM standard code for <cite>condition_code</cite> and its descendents.</p>
 <dl class="field-list simple">
@@ -207,8 +210,8 @@ with the OMOP CDM standard code for <cite>condition_code</cite> and its descende
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step5.rendering_functions.render_drug_template">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></code><code class="sig-name descname"><span class="pre">render_drug_template</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drug_code</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_drug_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_drug_template" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step5.rendering_functions.render_drug_template">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></span><span class="sig-name descname"><span class="pre">render_drug_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drug_code</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_drug_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_drug_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders and returns the drug template with a column <cite>concept_id</cite>
 with the OMOP CDM standard code for <cite>drug_code</cite> and its descendents.</p>
 <dl class="field-list simple">
@@ -228,8 +231,8 @@ with the OMOP CDM standard code for <cite>drug_code</cite> and its descendents.<
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step5.rendering_functions.render_ethnicity_template">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></code><code class="sig-name descname"><span class="pre">render_ethnicity_template</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ethnicity_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_ethnicity_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_ethnicity_template" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step5.rendering_functions.render_ethnicity_template">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></span><span class="sig-name descname"><span class="pre">render_ethnicity_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ethnicity_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_ethnicity_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_ethnicity_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders and returns the ethnicity template with a column <cite>concept_id</cite>
 with the OMOP CDM standard code for <cite>ethnicity_name</cite>.</p>
 <dl class="field-list simple">
@@ -249,8 +252,8 @@ with the OMOP CDM standard code for <cite>ethnicity_name</cite>.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step5.rendering_functions.render_gender_template">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></code><code class="sig-name descname"><span class="pre">render_gender_template</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gender_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_gender_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_gender_template" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step5.rendering_functions.render_gender_template">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></span><span class="sig-name descname"><span class="pre">render_gender_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gender_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_gender_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_gender_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders and returns the gender template with a column <cite>concept_id</cite>
 with the OMOP CDM standard code for <cite>gender_name</cite>.</p>
 <dl class="field-list simple">
@@ -270,8 +273,8 @@ with the OMOP CDM standard code for <cite>gender_name</cite>.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step5.rendering_functions.render_race_template">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></code><code class="sig-name descname"><span class="pre">render_race_template</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">race_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_race_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_race_template" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step5.rendering_functions.render_race_template">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></span><span class="sig-name descname"><span class="pre">render_race_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">race_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_race_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_race_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders and returns the race template with a column <cite>concept_id</cite>
 with the OMOP CDM standard code for <cite>race_name</cite>.</p>
 <dl class="field-list simple">
@@ -291,8 +294,8 @@ with the OMOP CDM standard code for <cite>race_name</cite>.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="src.engine.step5.rendering_functions.render_state_template">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></code><code class="sig-name descname"><span class="pre">render_state_template</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_acronym</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_state_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_state_template" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step5.rendering_functions.render_state_template">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step5.rendering_functions.</span></span><span class="sig-name descname"><span class="pre">render_state_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_acronym</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/rendering_functions.html#render_state_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.rendering_functions.render_state_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders and returns the ethnicity template with a column <cite>concept_id</cite>
 with the OMOP CDM standard code for <cite>ethnicity_name</cite>.</p>
 <dl class="field-list simple">

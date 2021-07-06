@@ -156,21 +156,12 @@ def inference_wrapper(df, model_path, tool, query2args_dict):
     print("Computing the exact-matching and execution accuracies...")
     df = get_metrics(tool, df, query2args_dict)
 
-    #     print('Getting exact-matching accuracy grouped by base questions...')
-    #     df_mean = df.groupby('base_question')[['exact_match_wiki']].mean().reset_index().rename(columns={'exact_match_wiki': 'avg_exact_wiki'})
-    #     df = pd.merge(df, df_mean, how='inner', left_on='base_question', right_on='base_question')
-
-    #     print('Getting execution accuracy grouped by base questions...')
-    #     df_mean = df.groupby('base_question')[['exec_match_wiki']].mean().reset_index().rename(columns={'exec_match_wiki': 'avg_exec_wiki'})
-    #     df = pd.merge(df, df_mean, how='inner', left_on='base_question', right_on='base_question')
-
     return df
 
 
 if __name__ == "__main__":
 
     # Data Dir
-    # DATA_DIR = '/home/ec2-user/SageMaker/efs/data/pilot_nl2sql_dev/0607_final_data/splits/In-Scope/all/'
     DATA_DIR = "/home/ec2-user/SageMaker/efs/data/pilot_nl2sql_dev/0607_final_data/splits/In-Scope/sample_sizes/sampling_number_1/150/"
 
     # Trained T5 model checkpoint

@@ -27,7 +27,6 @@ DRUG_RELATIONSHIP_SCORE_THR = 0.7
 
 
 # Step 4:
-# MODEL_PATH = '/home/ec2-user/SageMaker/efs/deliverable_models/0517_wikisql_all_v0e2.ckpt'
 MODEL_PATH = (
     "/home/ec2-user/SageMaker/efs/deliverable_models/0607_wikisql_all_v0e4.ckpt"
 )

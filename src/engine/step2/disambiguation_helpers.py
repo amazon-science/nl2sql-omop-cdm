@@ -125,23 +125,6 @@ def _use_function_for_options(entities, fun=IDENTITY):
     return entities
 
 
-# def _use_text_as_options(entities):
-#     """Sets name as
-
-#     Args:
-
-
-#     Returns:
-
-
-#     """
-#     for entity in entities:
-#         entity["Options"] = [{"Code": entity["Text"]}]
-#         entity["Query-arg"] = entity["Options"][0]["Code"]
-
-#     return entities
-
-
 def add_gender_options(entities):
     """Add option on entities in the category "gender"
 

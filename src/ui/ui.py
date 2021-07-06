@@ -447,8 +447,8 @@ class UI(object):
         record = {
             "time": now,
             "input": self.nlq,
-            "args original": self.original_proc_entities,  # make a copy on "detect"
-            "args corrected": self.proc_entities,  # last version of args
+            "args original": self.original_proc_entities,
+            "args corrected": self.proc_entities,
             "correct": True if self.feedback_options.value == "Successful" else False,
         }
 

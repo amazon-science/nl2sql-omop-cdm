@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -97,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="modules.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#engine">Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#ui">UI</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="modules.html#id1">Overview</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html#api">API</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="src.html">src package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="src.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.html#submodules">Submodules</a></li>
@@ -186,8 +189,8 @@
   <div class="section" id="module-src.engine.step5.sql_processing">
 <span id="src-engine-step5-sql-processing-module"></span><h1>src.engine.step5.sql_processing module<a class="headerlink" href="#module-src.engine.step5.sql_processing" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="src.engine.step5.sql_processing.render_template_query">
-<code class="sig-prename descclassname"><span class="pre">src.engine.step5.sql_processing.</span></code><code class="sig-name descname"><span class="pre">render_template_query</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">general_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/sql_processing.html#render_template_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.sql_processing.render_template_query" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.engine.step5.sql_processing.render_template_query">
+<span class="sig-prename descclassname"><span class="pre">src.engine.step5.sql_processing.</span></span><span class="sig-name descname"><span class="pre">render_template_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">general_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/sql_processing.html#render_template_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.sql_processing.render_template_query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main function of the step. Renders a general SQL query with arguments placeholders and
 template placeholders with their corresponding values and subqueries respectively.</p>
 <dl class="field-list simple">

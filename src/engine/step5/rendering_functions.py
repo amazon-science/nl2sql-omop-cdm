@@ -2,8 +2,6 @@
 # The mapping placeholder -> template is specified in src/config & the rendered sub-queries in template_definitions.
 
 
-# TODO: use get_descendent_concepts_template_from_vocab_code when using ICD10 codes or rxnorm codes.
-
 from __init__ import *
 from template_definitions import (
     #     get_descendent_concepts_template_from_concept_name,
@@ -25,7 +23,6 @@ def render_condition_template(schema, condition_code):
     Returns:
         str: Rendered subquery with input arguments.
     """
-    #     out = get_descendent_concepts_template_from_concept_name(schema, 'Condition', condition_name)
     out = get_descendent_concepts_template_from_vocab_code(
         schema, "ICD10CM", condition_code
     )
@@ -43,7 +40,6 @@ def render_drug_template(schema, drug_code):
     Returns:
         str: Rendered subquery with input arguments.
     """
-    #     out = get_descendent_concepts_template_from_concept_name(schema, 'Drug', drug_name)
     out = get_descendent_concepts_template_from_vocab_code(schema, "RxNorm", drug_code)
     return out
 
