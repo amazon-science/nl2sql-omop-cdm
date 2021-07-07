@@ -1,4 +1,7 @@
 # Merck: Natural Languge Queries to SQL queries
+
+IMPORTANT: READ SECTION 2.1.
+
 This repo contains the UI tool and ML model development process developed as part of the ML Solutions Lab PoC for Merck. At the root level it contains the following folders/files:
 
 * `setup`: Directory that contains scripts/files to setup the development environment.
@@ -33,7 +36,7 @@ This section covers how this repo is intended to be used.
 ### 2.1. Using the UI
 
 To run the UI tool and test the pipeline, it's assumed that you already have the trained model ready and your notebook instance is already connected to the Redshift database. To run the tool, follow the steps below:
-* Open `src/config.py` and <span style="color:red">.update the model path and Redshift database information</span>.
+* Open `src/config.py` and UPDATE THE MODEL PATH AND REDSHIFT DATABASE CONFIGURATION.
 * Open `merck_main.ipynb` and change the python kernel into `conda_nl2sql_environment`.
 * Follow the instructions provided in the notebook.
 
