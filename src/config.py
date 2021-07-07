@@ -27,9 +27,7 @@ DRUG_RELATIONSHIP_SCORE_THR = 0.7
 
 
 # Step 4:
-MODEL_PATH = (
-    "/home/ec2-user/SageMaker/efs/deliverable_models/0607_wikisql_all_v0e4.ckpt"
-)
+MODEL_PATH = "SPECIFY YOUR MODEL PATH. E.G. /home/ec2-user/SageMaker/efs/models/wikisql_pretrained_model.ckpt"
 
 # Model maximum input and output length (for input questions and output query templates)
 INPUT_MAX_LENGTH = 256
@@ -59,9 +57,9 @@ placeholder2template = {
 
 # Step 6: SQL query executing
 REDSHIFT_PARM = {
-    "port": "5439",
-    "database": "mycdm",
-    "cluster_id": "ohdsi-mlsl-databasesstack-zur0dbb-redshiftcluster-1k8l8baxanql2",
-    "url": "ohdsi-mlsl-databasesstack-zur0dbb-redshiftcluster-1k8l8baxanql2.conbvq6av2ta.us-east-1.redshift.amazonaws.com",
-    "region": "us-east-1",
+    "port": "SPECIFY THE PORT TO CONNECT TO REDSHIFT.",
+    "database": "SPECIFY THE DATABASE NAME.",
+    "cluster_id": "SPECIFY THE CLUSTER ID",
+    "url": "SPECIFY THE DATA BASE URL",
+    "region": "SPECIFY THE AWS REGION. E.G. us-east-1",
 }

@@ -24,7 +24,7 @@ $ /bin/bash chmod +x setup.sh
 $ /bin/bash ./setup.sh
 ```
 
-The set-up can take a few minutes. Once finalized, you will have the `nl2sql_environment` conda environment to run this repo.
+The set-up can take a few minutes. Once finalized, you will have the `conda_nl2sql_environment` conda environment to run this repo.
 
 ## 2. Getting started
 
@@ -33,8 +33,8 @@ This section covers how this repo is intended to be used.
 ### 2.1. Using the UI
 
 To run the UI tool and test the pipeline, it's assumed that you already have the trained model ready and your notebook instance is already connected to the Redshift database. To run the tool, follow the steps below:
-* Open `src/config.py` and update the model path and Redshift database information.
-* open `merck_main.ipynb` and change the python kernel into `nl2sql_environment`.
+* Open `src/config.py` and <span style="color:red">.update the model path and Redshift database information</span>.
+* Open `merck_main.ipynb` and change the python kernel into `conda_nl2sql_environment`.
 * Follow the instructions provided in the notebook.
 
 
