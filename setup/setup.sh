@@ -11,8 +11,6 @@ source activate $KERNEL_NAME
 
 pip install --quiet ipykernel
 
-source activate nl2sql_environment
-
 echo "Installing dependencies in nl2sql_environment ...."
 pip install -r pip_requirements.txt
 python -m spacy download en_core_web_sm

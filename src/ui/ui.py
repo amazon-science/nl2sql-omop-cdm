@@ -15,8 +15,8 @@ import datetime
 import layouts
 from detection_visualizer import (
     renderer,
-    prepare_visuazliation_input_for_raw_entities,
-    prepare_visuazliation_input_for_processed_entities,
+    prepare_visualization_input_for_raw_entities,
+    prepare_visualization_input_for_processed_entities,
 )
 
 # create logs folder if it does not exist
@@ -721,10 +721,10 @@ class UI(object):
         """
         self.general_output_vsection.clear_output()
         html_detected_entities = self.visualize_entities(
-            self.entities, prepare_visuazliation_input_for_raw_entities
+            self.entities, prepare_visualization_input_for_raw_entities
         )
         html_replaced_entities = self.visualize_entities(
-            self.proc_entities, prepare_visuazliation_input_for_processed_entities
+            self.proc_entities, prepare_visualization_input_for_processed_entities
         )
 
         with self.general_output_vsection:

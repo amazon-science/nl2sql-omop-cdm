@@ -42,7 +42,7 @@ def reformat_raw_entities(entities):
     return out
 
 
-def prepare_visuazliation_input_for_raw_entities(text, entities):
+def prepare_visualization_input_for_raw_entities(text, entities):
     """Prepares detected entities and text to be ingested into the HTML visualization feature.
 
 
@@ -109,7 +109,7 @@ def get_reformatted_nlq(text, entities):
     return out_text
 
 
-def prepare_visuazliation_input_for_processed_entities(text, entities):
+def prepare_visualization_input_for_processed_entities(text, entities):
     """Prepares processed entities and text to be ingested into the HTML visualization feature.
 
 
