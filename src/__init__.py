@@ -13,5 +13,5 @@ while len(folder_list)>0:
     for fn in os.listdir(folder):
         fp = osp.join(folder, fn)
         if (fn not in ('.ipynb_checkpoints', '__pycache__')) and (osp.isdir(fp)):
-                folder_list.append(fp)
+            folder_list.append(fp)
                 
