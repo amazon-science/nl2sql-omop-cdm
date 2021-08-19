@@ -18,8 +18,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 # -- Project information -----------------------------------------------------
 
 project = 'NL2SQL: Natural Language to SQL Queries in the OMOP CDM'
-copyright = '2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS)'
-author = 'Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS)'
+copyright = 'Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.'
 
 # The full version, including alpha/beta/rc tags
 release = '06/30/2021'
