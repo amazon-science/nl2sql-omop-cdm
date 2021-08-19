@@ -1,19 +1,19 @@
-# Merck: Natural Languge Queries to SQL queries
+# NL2SQL: Natural Languge to SQL Queries Tool
 
-IMPORTANT: READ SECTION 2.1.
+IMPORTANT: READ SECTION 2.1 TO USE THE UI.
 
-This repo contains the UI tool and ML model development process developed as part of the ML Solutions Lab PoC for Merck. At the root level it contains the following folders/files:
+This repo contains the UI tool and ML model development process to convert natural language questions to SQL queries. At the root level, it contains the following folders/files:
 
 * `setup`: Directory that contains scripts/files to setup the development environment.
 * `src`: All the source code related to the development of the end-to-end ML pipeline for the NL2SQL project. 
-* `merck_main.ipynb`: The UI tool (notebook) to run the model inference and query execution graphically.
+* `nl2sql_main.ipynb`: The UI tool (notebook) to run the model inference and query execution graphically.
 
-In the following sections we will cover:
+In the following sections, we will cover:
 
-&nbsp;1. Environment setup  
-&nbsp;2. Getting started  
-&nbsp;&nbsp;2.1 Using the UI  
-&nbsp;&nbsp;2.2 Iterating on the underlying ML model
+1. Environment setup  
+2. Getting started  
+    2.1 Using the UI  
+    2.2 Iterating on the underlying ML model
 
 ## 1. Environment setup
 
@@ -27,7 +27,7 @@ $ /bin/bash chmod +x setup.sh
 $ /bin/bash ./setup.sh
 ```
 
-The set-up can take a few minutes. Once finalized, you will have the `conda_nl2sql_environment` conda environment to run this repo.
+The setup can take a few minutes. Once finalized, you will have the `conda_nl2sql_environment` conda environment to run this repo.
 
 ## 2. Getting started
 
@@ -37,7 +37,7 @@ This section covers how this repo is intended to be used.
 
 To run the UI tool and test the pipeline, it's assumed that you already have the trained model ready and your notebook instance is already connected to the Redshift database. To run the tool, follow the steps below:
 * Open `src/config.py` and UPDATE THE MODEL PATH AND REDSHIFT DATABASE CONFIGURATION.
-* Open `merck_main.ipynb` and change the python kernel into `conda_nl2sql_environment`.
+* Open `nl2sql_main.ipynb` and change the python kernel into `conda_nl2sql_environment`.
 * Follow the instructions provided in the notebook.
 
 
@@ -52,13 +52,15 @@ $ /bin/bash cd src/engine/step4/model_dev/
 ```
 
 ### Data Preparation
+**Note:** The dataset used in this project is hosted [here](https://github.com/OHDSI/Nostos). Please download the csv files and save them under the `data/folded_questions` path. In addition to the csv files, don't also forget to download [nonzero_args_by_query.json](nonzero_args_by_query.json) and save it in `data/` directory. This file contains sample values for the argumenents in the csv files.
+
 Before you start model training, you need to have the data splits (train/validation/test) ready in CSV format. Each split has at least two columns (`unfolded_questions` for the input questions and `query` for the model's output query template.
 
-The dataset splits used in this POC are provided in this repo at the root directory under `data/folded_questions`. However these csv data contain the folded version of the equivalent questions. So, you will need to unfold all the input equivalent questions for it to be ready for model development. Please open the `prepare_data.ipynb`, update the input and output data paths and run it.
+The data csv files that were downloaded from the provided link contain the folded (compressed) version of the equivalent questions. So, you will need to unfold all the input equivalent questions for it to be ready for model development. Please open the `prepare_data.ipynb`, update the input and output data paths and run it.
 
 
 ### Model Training
-To fine-tune the WikiSQL pretrained T5 model, you first need to update the model configuration file `t5_config.py`. Especially, you need to specify the input `data_dir` and `output_dir` for input data and model output directory respectively. At least, you need update the following:
+In this project, T5 model that was pretrained with [WikiSQL dataset](https://github.com/salesforce/WikiSQL) was used for model fine-tuning. To fine-tune the [WikiSQL pretrained T5 model](https://huggingface.co/mrm8488/t5-small-finetuned-wikiSQL), you first need to update the model configuration file `t5_config.py`. Especially, you need to specify the input `data_dir` and `output_dir` for input data and model output directory respectively. At least, you need to update the following:
 * model path
 * database schema name
 * Redshift database information (e.g., endpoint, database name, etc.)
