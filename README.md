@@ -1,4 +1,4 @@
-# NL2SQL: Natural Languge to SQL Queries Tool
+# NL2SQL: Natural Language to SQL Queries Tool
 
 IMPORTANT: READ SECTION 2.1 TO USE THE UI.
 
