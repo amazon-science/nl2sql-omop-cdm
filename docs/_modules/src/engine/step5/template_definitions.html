@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>src.engine.step5.template_definitions &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  <title>src.engine.step5.template_definitions &mdash; NL2SQL: Natural Language to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
   
 
   
@@ -51,7 +51,7 @@
           
 
           
-            <a href="../../../../index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+            <a href="../../../../index.html" class="icon icon-home"> NL2SQL: Natural Language to SQL Queries in the OMOP CDM
           
 
           
@@ -107,7 +107,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+          <a href="../../../../index.html">NL2SQL: Natural Language to SQL Queries in the OMOP CDM</a>
         
       </nav>
 
@@ -192,19 +192,20 @@
 
     <span class="n">join_codes_condition</span> <span class="o">=</span> <span class="s2">&quot;( &quot;</span> <span class="o">+</span> <span class="s2">&quot; OR &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">concept_codes_conditions</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; )&quot;</span>
 
-    <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;( SELECT descendant_concept_id AS concept_id FROM </span><span class="se">\</span>
-<span class="s2">(SELECT * FROM </span><span class="se">\</span>
-<span class="s2">(SELECT concept_id_2 FROM </span><span class="se">\</span>
-<span class="s2">( </span><span class="se">\</span>
-<span class="s2">(SELECT concept_id FROM  </span><span class="se">\</span>
-<span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept WHERE vocabulary_id=&#39;</span><span class="si">{</span><span class="n">vocab</span><span class="si">}</span><span class="s2">&#39; AND </span><span class="si">{</span><span class="n">join_codes_condition</span><span class="si">}</span><span class="s2">) </span><span class="se">\</span>
-<span class="s2">JOIN  </span><span class="se">\</span>
-<span class="s2">( SELECT concept_id_1, concept_id_2 FROM  </span><span class="se">\</span>
-<span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept_relationship WHERE relationship_id=&#39;Maps to&#39; )  </span><span class="se">\</span>
-<span class="s2">ON concept_id=concept_id_1) </span><span class="se">\</span>
-<span class="s2">) JOIN </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept ON concept_id_2=concept_id) </span><span class="se">\</span>
-<span class="s2">JOIN </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept_ancestor ON concept_id=ancestor_concept_id </span><span class="se">\</span>
-<span class="s2">) &quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;( SELECT descendant_concept_id AS concept_id FROM &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;(SELECT * FROM &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;(SELECT concept_id_2 FROM &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;( &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;(SELECT concept_id FROM &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept WHERE vocabulary_id=&#39;</span><span class="si">{</span><span class="n">vocab</span><span class="si">}</span><span class="s2">&#39; AND </span><span class="si">{</span><span class="n">join_codes_condition</span><span class="si">}</span><span class="s2">) &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;JOIN &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;( SELECT concept_id_1, concept_id_2 FROM &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept_relationship WHERE relationship_id=&#39;Maps to&#39; ) &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;ON concept_id=concept_id_1) &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;) JOIN </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept ON concept_id_2=concept_id) &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;JOIN </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept_ancestor ON concept_id=ancestor_concept_id &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;) &quot;</span>
+          <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">out</span></div>
 
@@ -222,13 +223,14 @@
 <span class="sd">        str: Rendered subquery with input arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; ( </span><span class="se">\</span>
-<span class="s2">SELECT concept_id </span><span class="se">\</span>
-<span class="s2">FROM </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept </span><span class="se">\</span>
-<span class="s2">WHERE concept_name=&#39;</span><span class="si">{</span><span class="n">concept_name</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\</span>
-<span class="s2">AND domain_id=&#39;</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\</span>
-<span class="s2">AND standard_concept=&#39;S&#39; </span><span class="se">\</span>
-<span class="s2">) &quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ( &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;SELECT concept_id &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;FROM </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;WHERE concept_name=&#39;</span><span class="si">{</span><span class="n">concept_name</span><span class="si">}</span><span class="s2">&#39; &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;AND domain_id=&#39;</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">&#39; &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;AND standard_concept=&#39;S&#39; &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;) &quot;</span>
+          <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">out</span></div>
 
@@ -245,12 +247,12 @@
 <span class="sd">        str: Rendered subquery with input arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; ( </span><span class="se">\</span>
-<span class="s2">SELECT concept_id, concept_name AS </span><span class="si">{</span><span class="n">domain</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="se">\</span>
-<span class="s2">FROM </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept </span><span class="se">\</span>
-<span class="s2">WHERE domain_id=&#39;</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\</span>
-<span class="s2">AND standard_concept=&#39;S&#39; </span><span class="se">\</span>
-<span class="s2">) &quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ( &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;SELECT concept_id, concept_name AS </span><span class="si">{</span><span class="n">domain</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;FROM </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.concept &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;WHERE domain_id=&#39;</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">&#39; &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;AND standard_concept=&#39;S&#39; &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;) &quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">out</span></div>
 
@@ -266,11 +268,12 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        str: Rendered subquery with input arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; ( </span><span class="se">\</span>
-<span class="s2">SELECT location_id </span><span class="se">\</span>
-<span class="s2">FROM </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.location </span><span class="se">\</span>
-<span class="s2">WHERE state=&#39;</span><span class="si">{</span><span class="n">state_acronym</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\</span>
-<span class="s2">) &quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ( &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;SELECT location_id &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;FROM </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.location &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;WHERE state=&#39;</span><span class="si">{</span><span class="n">state_acronym</span><span class="si">}</span><span class="s2">&#39; &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;) &quot;</span>
+          <span class="p">)</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 
@@ -284,10 +287,11 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        str: Rendered subquery with input arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; ( </span><span class="se">\</span>
-<span class="s2">SELECT location_id, state </span><span class="se">\</span>
-<span class="s2">FROM </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.location </span><span class="se">\</span>
-<span class="s2">) &quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ( &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;SELECT location_id, state &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;FROM </span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">.location &quot;</span> <span class="o">+</span>
+           <span class="sa">f</span><span class="s2">&quot;) &quot;</span>
+          <span class="p">)</span>
     <span class="k">return</span> <span class="n">out</span></div>
 </pre></div>
 
@@ -300,7 +304,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+        &#169; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved..
 
     </p>
   </div>

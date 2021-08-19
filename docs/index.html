@@ -7,14 +7,12 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Completion doc: Natural Language Queries to SQL Queries in the OMOP CDM &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  <title>NL2SQL: Natural Language Queries to SQL Queries in the OMOP CDM &mdash; NL2SQL: Natural Language to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -31,7 +29,6 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -55,7 +52,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+            <a href="#" class="icon icon-home"> NL2SQL: Natural Language to SQL Queries in the OMOP CDM
           
 
           
@@ -111,7 +108,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+          <a href="#">NL2SQL: Natural Language to SQL Queries in the OMOP CDM</a>
         
       </nav>
 
@@ -144,7 +141,7 @@
     
       <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Completion doc: Natural Language Queries to SQL Queries in the OMOP CDM</li>
+      <li>NL2SQL: Natural Language Queries to SQL Queries in the OMOP CDM</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -163,48 +160,27 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="completion-doc-natural-language-queries-to-sql-queries-in-the-omop-cdm">
-<h1>Completion doc: Natural Language Queries to SQL Queries in the OMOP CDM<a class="headerlink" href="#completion-doc-natural-language-queries-to-sql-queries-in-the-omop-cdm" title="Permalink to this headline">¶</a></h1>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/merck-logo.png"><img alt="_images/merck-logo.png" src="_images/merck-logo.png" style="width: 849.6px; height: 273.6px;" /></a>
-</div>
-<ul class="simple">
-<li><p><strong>Customer Division</strong>: Merck &amp; Co., Inc.</p></li>
-<li><p><strong>Customer location</strong>: Kenilworth, New Jersey, USA</p></li>
-<li><p><strong>POC start date, end date</strong>:  February 2021 – June 2021</p></li>
-</ul>
+  <div class="section" id="nl2sql-natural-language-queries-to-sql-queries-in-the-omop-cdm">
+<h1>NL2SQL: Natural Language Queries to SQL Queries in the OMOP CDM<a class="headerlink" href="#nl2sql-natural-language-queries-to-sql-queries-in-the-omop-cdm" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>Real-world data (RWD) are increasingly useful for healthcare providers, payors, regulators, and pharmaceutical companies to gather information and make decisions. However, the retrieval of such information requires specialized technical knowledge, resulting in delays and gaps. This work aims to increase information accessibility by creating a medical Natural Language to SQL (NL2SQL) tool that non-technical users can easily query RWD.</p>
 <div class="figure align-center" id="id1">
 <a class="reference internal image-reference" href="_images/problem_representation.png"><img alt="_images/problem_representation.png" src="_images/problem_representation.png" style="width: 626.05px; height: 275.5px;" /></a>
-<p class="caption"><span class="caption-text">Business use case diagram</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">NL2SQL tool use case diagram</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="objectives">
 <h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this headline">¶</a></h2>
-<p>The high level goal of the project is to create a tool that enables researcher and healthcare specialists to query the OMOP CDM using Natural Language. PoC will be using the DeSynPUF data on OMOP CDM with approximately 23M people.</p>
-<p>The success criteria of this project is:</p>
-<ul class="simple">
-<li><p>Proof execution performance of key queries from Merck on the CMS DeSynPUF dataset (in the OMOP CDM).</p></li>
-</ul>
-<p>The deliverables are:</p>
-<ul class="simple">
-<li><p>Set-up a SageMaker UI demo environment in Merck’s internal account.</p></li>
-<li><p>Hand over tool to productionise → consistent with Merck pipeline</p></li>
-<li><p>Paper and open source dataset.</p></li>
-<li><p>Paper and/or blog on the tool</p></li>
-<li><p>Merck’s public reference</p></li>
-</ul>
-<p>Evaluation criteria: Given data limitations, the success will be evaluated based on the model performance on alternative ways to ask in-scope questions (seen during training) to their respective SQL query rather than its generalization capabilities to unseen questions.</p>
+<p>The high level goal of the project is to create a tool that enables researcher and healthcare specialists to query the OMOP CDM using Natural Language. The project uses the <a class="reference external" href="https://www.cms.gov/Research-Statistics-Data-and-Systems/Downloadable-Public-Use-Files/SynPUFs/DE_Syn_PUF">DeSynPUF data</a> on OMOP CDM with approximately 23M people.</p>
 <div class="figure align-center" id="id2">
 <a class="reference internal image-reference" href="_images/ui.png"><img alt="_images/ui.png" src="_images/ui.png" style="width: 759.05px; height: 932.9px;" /></a>
-<p class="caption"><span class="caption-text">Graphical User Interface of the PoC</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Graphical User Interface of the NL2SQL Tool</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="scope">
 <h2>Scope<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h2>
-<p>The scope is defined by the following constraints:</p>
+<p>In this project, the scope is defined by the following constraints:</p>
 <ul class="simple">
 <li><p>English language only</p></li>
 <li><p>Questions must be specific. For example, “Patients with condition and some observation criteria some number of days prior to or after initial condition” should specify the exact number of days permitted.</p></li>
@@ -247,15 +223,16 @@
 <li><p>Users can query patients by year of birth.</p></li>
 <li><p>Time windows (e.g. having taking 2 drugs in less than 60 days) will only support day units.</p></li>
 </ul>
+<p>Note: The scope can easily be expanded by collecting more inclusive questions and their corresponding SQL queries for model training.</p>
 </div>
 <div class="section" id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="what-are-the-key-technical-decisions-and-challenges-of-the-project">
 <h3>What are the key technical decisions and challenges of the project?<a class="headerlink" href="#what-are-the-key-technical-decisions-and-challenges-of-the-project" title="Permalink to this headline">¶</a></h3>
-<p>The OMOP CDM presents a series of complexities that prevent traditional out of the shelf NL2SQL models to be applied. While we are aware of other complexities, for this PoC we are considering the following central complexities to draft a tool to address them.</p>
+<p>The OMOP CDM presents a series of complexities that prevent traditional out of the shelf NL2SQL models to be applied. While we are aware of other complexities, for this project we are considering the following central complexities to draft a tool to address them.</p>
 <ol class="arabic simple">
 <li><p>Medical terms can be classified in multiple vocabularies/ontologies. The OMOP CDM contains a stack of vocabularies and users are not required to use concepts in a specific vocabulary.</p></li>
-<li><p>OMOP contain standard and non-standard concepts. Standard concepts can be used to query other tables in the DataBase. For this PoC we will limit ourselves to query using standard concepts.</p></li>
+<li><p>OMOP contain standard and non-standard concepts. Standard concepts can be used to query other tables in the DataBase. For this project, we will limit ourselves to query using standard concepts.</p></li>
 <li><p>All medical concepts are contained on the “concept” table. They appear in the “concept_name” column and relate them to a “concept_id” which is unique across OMOP and are used across tables. The concept id is required to create queries.</p></li>
 <li><p>When querying for a drug we can not only query for the general drug but also for any format of this drug (e.g. aspirin, aspirin 500g, aspirin 500g in tablets, etc.). A similar problem arises with conditions.</p></li>
 </ol>
@@ -267,7 +244,7 @@
 </div>
 <div class="section" id="what-data-processing-decisions-did-the-team-make-based-on-the-business-objectives-and-customer-data-quality-type-size">
 <h3>What data processing decisions did the team make based on the business objectives and customer data quality, type, size?<a class="headerlink" href="#what-data-processing-decisions-did-the-team-make-based-on-the-business-objectives-and-customer-data-quality-type-size" title="Permalink to this headline">¶</a></h3>
-<p>56 Natural Language Queries (NLQ) and their corresponding OMOP CDM were created in base of Merck’s highest value queries. Alternative ways in which those can be asked were then delivered by Odysseus, a customer vendor specialized in OMOP CDM.</p>
+<p>56 Natural Language Queries (NLQ) and their corresponding OMOP CDM were created based on their highest value queries. Alternative ways in which those can be asked (equivalent questions) were also generated.</p>
 </div>
 <div class="section" id="what-models-and-methodologies-are-the-team-exploring-and-why">
 <h3>What models and methodologies are the team exploring and why?<a class="headerlink" href="#what-models-and-methodologies-are-the-team-exploring-and-why" title="Permalink to this headline">¶</a></h3>
@@ -310,7 +287,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+        &#169; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved..
 
     </p>
   </div>

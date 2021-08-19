@@ -7,14 +7,12 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>src.engine.step5.template_definitions module &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  <title>src.engine.step5.template_definitions module &mdash; NL2SQL: Natural Language to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -31,7 +29,6 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -56,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+            <a href="index.html" class="icon icon-home"> NL2SQL: Natural Language to SQL Queries in the OMOP CDM
           
 
           
@@ -126,7 +123,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+          <a href="index.html">NL2SQL: Natural Language to SQL Queries in the OMOP CDM</a>
         
       </nav>
 
@@ -189,8 +186,8 @@
   <div class="section" id="module-src.engine.step5.template_definitions">
 <span id="src-engine-step5-template-definitions-module"></span><h1>src.engine.step5.template_definitions module<a class="headerlink" href="#module-src.engine.step5.template_definitions" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step5.template_definitions.get_concept_name_template">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step5.template_definitions.</span></span><span class="sig-name descname"><span class="pre">get_concept_name_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/template_definitions.html#get_concept_name_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.template_definitions.get_concept_name_template" title="Permalink to this definition">¶</a></dt>
+<dt id="src.engine.step5.template_definitions.get_concept_name_template">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step5.template_definitions.</span></code><code class="sig-name descname"><span class="pre">get_concept_name_template</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/template_definitions.html#get_concept_name_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.template_definitions.get_concept_name_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders a pre-defined sub-sql query schema returning two columns: <cite>concept_id</cite> and <cite>concept_name</cite> with all the standard concept of <cite>domain</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -209,8 +206,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step5.template_definitions.get_descendent_concepts_template_from_vocab_code">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step5.template_definitions.</span></span><span class="sig-name descname"><span class="pre">get_descendent_concepts_template_from_vocab_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vocab</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concept_codes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/template_definitions.html#get_descendent_concepts_template_from_vocab_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.template_definitions.get_descendent_concepts_template_from_vocab_code" title="Permalink to this definition">¶</a></dt>
+<dt id="src.engine.step5.template_definitions.get_descendent_concepts_template_from_vocab_code">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step5.template_definitions.</span></code><code class="sig-name descname"><span class="pre">get_descendent_concepts_template_from_vocab_code</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vocab</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concept_codes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/template_definitions.html#get_descendent_concepts_template_from_vocab_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.template_definitions.get_descendent_concepts_template_from_vocab_code" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders a pre-defined sub-sql query schema returning a column of <cite>concept_id`s of a specific standard concept with OMOP CDM concept code and its
 descendents using the vocabulary `vocab</cite> and the vocab concept code.</p>
 <p>Assumption: ICD10 codes don’t have “;”</p>
@@ -238,8 +235,8 @@ concept_code = A97;G47.00</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step5.template_definitions.get_state_name_template">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step5.template_definitions.</span></span><span class="sig-name descname"><span class="pre">get_state_name_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/template_definitions.html#get_state_name_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.template_definitions.get_state_name_template" title="Permalink to this definition">¶</a></dt>
+<dt id="src.engine.step5.template_definitions.get_state_name_template">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step5.template_definitions.</span></code><code class="sig-name descname"><span class="pre">get_state_name_template</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/template_definitions.html#get_state_name_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.template_definitions.get_state_name_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders a pre-defined sub-sql query schema returning two columns: <cite>location_id</cite> and <cite>state</cite> with the OMOP CDM state id and it’s name respectively.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -255,8 +252,8 @@ concept_code = A97;G47.00</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step5.template_definitions.get_state_template">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step5.template_definitions.</span></span><span class="sig-name descname"><span class="pre">get_state_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_acronym</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/template_definitions.html#get_state_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.template_definitions.get_state_template" title="Permalink to this definition">¶</a></dt>
+<dt id="src.engine.step5.template_definitions.get_state_template">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step5.template_definitions.</span></code><code class="sig-name descname"><span class="pre">get_state_template</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_acronym</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/template_definitions.html#get_state_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.template_definitions.get_state_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders a pre-defined sub-sql query schema returning a columns <cite>location_id</cite> with the OMOP CDM state id of state <cite>state_acronym</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -275,8 +272,8 @@ concept_code = A97;G47.00</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step5.template_definitions.get_unique_concept_template">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step5.template_definitions.</span></span><span class="sig-name descname"><span class="pre">get_unique_concept_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concept_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/template_definitions.html#get_unique_concept_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.template_definitions.get_unique_concept_template" title="Permalink to this definition">¶</a></dt>
+<dt id="src.engine.step5.template_definitions.get_unique_concept_template">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step5.template_definitions.</span></code><code class="sig-name descname"><span class="pre">get_unique_concept_template</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concept_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step5/template_definitions.html#get_unique_concept_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step5.template_definitions.get_unique_concept_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders a pre-defined sub-sql query schema returning a column <cite>concept_id</cite> with the concept_id corresponding to the standard concept of <cite>concept_name</cite> in <cite>domain</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -311,7 +308,7 @@ concept_code = A97;G47.00</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+        &#169; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved..
 
     </p>
   </div>

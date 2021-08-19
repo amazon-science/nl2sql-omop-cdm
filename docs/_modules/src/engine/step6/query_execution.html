@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>src.engine.step6.query_execution &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  <title>src.engine.step6.query_execution &mdash; NL2SQL: Natural Language to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
   
 
   
@@ -51,7 +51,7 @@
           
 
           
-            <a href="../../../../index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+            <a href="../../../../index.html" class="icon icon-home"> NL2SQL: Natural Language to SQL Queries in the OMOP CDM
           
 
           
@@ -107,7 +107,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+          <a href="../../../../index.html">NL2SQL: Natural Language to SQL Queries in the OMOP CDM</a>
         
       </nav>
 
@@ -170,19 +170,22 @@
 
 
 <div class="viewcode-block" id="connect_to_db"><a class="viewcode-back" href="../../../../src.engine.step6.query_execution.html#src.engine.step6.query_execution.connect_to_db">[docs]</a><span class="k">def</span> <span class="nf">connect_to_db</span><span class="p">(</span><span class="n">redshift_parameters</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
-    <span class="c1">#     client = boto3.client(&#39;redshift&#39;,region_name=redshift_parameters[&#39;region&#39;])</span>
+    <span class="sd">&quot;&quot;&quot;Connect to database and returns connection</span>
 
-    <span class="c1">#     cluster_creds = client.get_cluster_credentials(DbUser=redshift_parameters[&#39;user&#39;],</span>
-    <span class="c1">#                                                 DbName=redshift_parameters[&#39;database&#39;],</span>
-    <span class="c1">#                                                 ClusterIdentifier=redshift_parameters[&#39;cluster_id&#39;],</span>
-    <span class="c1">#                                                 AutoCreate=False)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        redshift_parameters (dict): Redshift connection parameters.</span>
+<span class="sd">        user (str): Redshift user required to connect. </span>
+<span class="sd">        password (str): Password associated to the user</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Connection: boto3 redshift connection </span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
             <span class="n">host</span><span class="o">=</span><span class="n">redshift_parameters</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">],</span>
             <span class="n">port</span><span class="o">=</span><span class="n">redshift_parameters</span><span class="p">[</span><span class="s2">&quot;port&quot;</span><span class="p">],</span>
-            <span class="c1">#             user=cluster_creds[&#39;DbUser&#39;],</span>
-            <span class="c1">#             password=cluster_creds[&#39;DbPassword&#39;],</span>
             <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span>
             <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
             <span class="n">database</span><span class="o">=</span><span class="n">redshift_parameters</span><span class="p">[</span><span class="s2">&quot;database&quot;</span><span class="p">],</span>
@@ -196,6 +199,17 @@
 
 
 <div class="viewcode-block" id="execute_query"><a class="viewcode-back" href="../../../../src.engine.step6.query_execution.html#src.engine.step6.query_execution.execute_query">[docs]</a><span class="k">def</span> <span class="nf">execute_query</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Execute query</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cursor (boto3 cursor): boto3 object pointing and with established connection to Redshift.</span>
+<span class="sd">        query (str): SQL query.</span>
+<span class="sd">        limit (int): Limit of rows returned by the data frame. Default to &quot;None&quot; for no limit</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: Data Frame with the query results.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span>
@@ -233,7 +247,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+        &#169; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved..
 
     </p>
   </div>

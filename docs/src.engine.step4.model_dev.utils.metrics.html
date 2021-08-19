@@ -7,14 +7,12 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>src.engine.step4.model_dev.utils.metrics module &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  <title>src.engine.step4.model_dev.utils.metrics module &mdash; NL2SQL: Natural Language to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -31,7 +29,6 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -56,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+            <a href="index.html" class="icon icon-home"> NL2SQL: Natural Language to SQL Queries in the OMOP CDM
           
 
           
@@ -126,7 +123,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+          <a href="index.html">NL2SQL: Natural Language to SQL Queries in the OMOP CDM</a>
         
       </nav>
 
@@ -194,8 +191,8 @@
 <span id="src-engine-step4-model-dev-utils-metrics-module"></span><h1>src.engine.step4.model_dev.utils.metrics module<a class="headerlink" href="#module-src.engine.step4.model_dev.utils.metrics" title="Permalink to this headline">¶</a></h1>
 <p>The module contains util functions to compute the metrics of a trained model.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.metrics.correct_gt_query">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></span><span class="sig-name descname"><span class="pre">correct_gt_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#correct_gt_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.correct_gt_query" title="Permalink to this definition">¶</a></dt>
+<dt id="src.engine.step4.model_dev.utils.metrics.correct_gt_query">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></code><code class="sig-name descname"><span class="pre">correct_gt_query</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#correct_gt_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.correct_gt_query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Correct ground-truth query template.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -208,8 +205,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.metrics.exact_matching">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></span><span class="sig-name descname"><span class="pre">exact_matching</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#exact_matching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.exact_matching" title="Permalink to this definition">¶</a></dt>
+<dt id="src.engine.step4.model_dev.utils.metrics.exact_matching">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></code><code class="sig-name descname"><span class="pre">exact_matching</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#exact_matching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.exact_matching" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes exact matching accuracy for a single row (query).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -225,8 +222,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.metrics.execute_matching">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></span><span class="sig-name descname"><span class="pre">execute_matching</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#execute_matching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.execute_matching" title="Permalink to this definition">¶</a></dt>
+<dt id="src.engine.step4.model_dev.utils.metrics.execute_matching">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></code><code class="sig-name descname"><span class="pre">execute_matching</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#execute_matching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.execute_matching" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute the true and predicted query of a give row.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -243,8 +240,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.metrics.get_average_metrics">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></span><span class="sig-name descname"><span class="pre">get_average_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#get_average_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.get_average_metrics" title="Permalink to this definition">¶</a></dt>
+<dt id="src.engine.step4.model_dev.utils.metrics.get_average_metrics">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></code><code class="sig-name descname"><span class="pre">get_average_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#get_average_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.get_average_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the average accuracies of the model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -257,8 +254,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.metrics.get_metrics">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></span><span class="sig-name descname"><span class="pre">get_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query2args_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#get_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.get_metrics" title="Permalink to this definition">¶</a></dt>
+<dt id="src.engine.step4.model_dev.utils.metrics.get_metrics">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></code><code class="sig-name descname"><span class="pre">get_metrics</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query2args_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#get_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.get_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the exact matching and execution accuracies for each inferred query.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -275,8 +272,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step4.model_dev.utils.metrics.get_query_length">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></span><span class="sig-name descname"><span class="pre">get_query_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#get_query_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.get_query_length" title="Permalink to this definition">¶</a></dt>
+<dt id="src.engine.step4.model_dev.utils.metrics.get_query_length">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step4.model_dev.utils.metrics.</span></code><code class="sig-name descname"><span class="pre">get_query_length</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step4/model_dev/utils/metrics.html#get_query_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step4.model_dev.utils.metrics.get_query_length" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get output length of each query.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -308,7 +305,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+        &#169; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved..
 
     </p>
   </div>

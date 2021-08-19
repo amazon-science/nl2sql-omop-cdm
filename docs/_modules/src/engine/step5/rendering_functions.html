@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>src.engine.step5.rendering_functions &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  <title>src.engine.step5.rendering_functions &mdash; NL2SQL: Natural Language to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
   
 
   
@@ -51,7 +51,7 @@
           
 
           
-            <a href="../../../../index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+            <a href="../../../../index.html" class="icon icon-home"> NL2SQL: Natural Language to SQL Queries in the OMOP CDM
           
 
           
@@ -107,7 +107,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+          <a href="../../../../index.html">NL2SQL: Natural Language to SQL Queries in the OMOP CDM</a>
         
       </nav>
 
@@ -162,8 +162,6 @@
 <span class="c1"># The mapping placeholder -&gt; template is specified in src/config &amp; the rendered sub-queries in template_definitions.</span>
 
 
-<span class="c1"># TODO: use get_descendent_concepts_template_from_vocab_code when using ICD10 codes or rxnorm codes.</span>
-
 <span class="kn">from</span> <span class="nn">__init__</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">template_definitions</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="c1">#     get_descendent_concepts_template_from_concept_name,</span>
@@ -185,7 +183,6 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        str: Rendered subquery with input arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1">#     out = get_descendent_concepts_template_from_concept_name(schema, &#39;Condition&#39;, condition_name)</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">get_descendent_concepts_template_from_vocab_code</span><span class="p">(</span>
         <span class="n">schema</span><span class="p">,</span> <span class="s2">&quot;ICD10CM&quot;</span><span class="p">,</span> <span class="n">condition_code</span>
     <span class="p">)</span>
@@ -203,7 +200,6 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        str: Rendered subquery with input arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1">#     out = get_descendent_concepts_template_from_concept_name(schema, &#39;Drug&#39;, drug_name)</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">get_descendent_concepts_template_from_vocab_code</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="s2">&quot;RxNorm&quot;</span><span class="p">,</span> <span class="n">drug_code</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
@@ -279,7 +275,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+        &#169; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved..
 
     </p>
   </div>

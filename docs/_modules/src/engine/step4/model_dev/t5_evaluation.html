@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>src.engine.step4.model_dev.t5_evaluation &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  <title>src.engine.step4.model_dev.t5_evaluation &mdash; NL2SQL: Natural Language to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
   
 
   
@@ -51,7 +51,7 @@
           
 
           
-            <a href="../../../../../index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+            <a href="../../../../../index.html" class="icon icon-home"> NL2SQL: Natural Language to SQL Queries in the OMOP CDM
           
 
           
@@ -107,7 +107,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../../index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+          <a href="../../../../../index.html">NL2SQL: Natural Language to SQL Queries in the OMOP CDM</a>
         
       </nav>
 
@@ -316,21 +316,12 @@
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing the exact-matching and execution accuracies...&quot;</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">get_metrics</span><span class="p">(</span><span class="n">tool</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">query2args_dict</span><span class="p">)</span>
 
-    <span class="c1">#     print(&#39;Getting exact-matching accuracy grouped by base questions...&#39;)</span>
-    <span class="c1">#     df_mean = df.groupby(&#39;base_question&#39;)[[&#39;exact_match_wiki&#39;]].mean().reset_index().rename(columns={&#39;exact_match_wiki&#39;: &#39;avg_exact_wiki&#39;})</span>
-    <span class="c1">#     df = pd.merge(df, df_mean, how=&#39;inner&#39;, left_on=&#39;base_question&#39;, right_on=&#39;base_question&#39;)</span>
-
-    <span class="c1">#     print(&#39;Getting execution accuracy grouped by base questions...&#39;)</span>
-    <span class="c1">#     df_mean = df.groupby(&#39;base_question&#39;)[[&#39;exec_match_wiki&#39;]].mean().reset_index().rename(columns={&#39;exec_match_wiki&#39;: &#39;avg_exec_wiki&#39;})</span>
-    <span class="c1">#     df = pd.merge(df, df_mean, how=&#39;inner&#39;, left_on=&#39;base_question&#39;, right_on=&#39;base_question&#39;)</span>
-
     <span class="k">return</span> <span class="n">df</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
     <span class="c1"># Data Dir</span>
-    <span class="c1"># DATA_DIR = &#39;/home/ec2-user/SageMaker/efs/data/pilot_nl2sql_dev/0607_final_data/splits/In-Scope/all/&#39;</span>
     <span class="n">DATA_DIR</span> <span class="o">=</span> <span class="s2">&quot;/home/ec2-user/SageMaker/efs/data/pilot_nl2sql_dev/0607_final_data/splits/In-Scope/sample_sizes/sampling_number_1/150/&quot;</span>
 
     <span class="c1"># Trained T5 model checkpoint</span>
@@ -422,7 +413,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+        &#169; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved..
 
     </p>
   </div>

@@ -7,14 +7,12 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>src.engine.step6.query_execution module &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  <title>src.engine.step6.query_execution module &mdash; NL2SQL: Natural Language to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -31,7 +29,6 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -56,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+            <a href="index.html" class="icon icon-home"> NL2SQL: Natural Language to SQL Queries in the OMOP CDM
           
 
           
@@ -126,7 +123,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+          <a href="index.html">NL2SQL: Natural Language to SQL Queries in the OMOP CDM</a>
         
       </nav>
 
@@ -189,14 +186,46 @@
   <div class="section" id="module-src.engine.step6.query_execution">
 <span id="src-engine-step6-query-execution-module"></span><h1>src.engine.step6.query_execution module<a class="headerlink" href="#module-src.engine.step6.query_execution" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step6.query_execution.connect_to_db">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step6.query_execution.</span></span><span class="sig-name descname"><span class="pre">connect_to_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">redshift_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step6/query_execution.html#connect_to_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step6.query_execution.connect_to_db" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="src.engine.step6.query_execution.connect_to_db">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step6.query_execution.</span></code><code class="sig-name descname"><span class="pre">connect_to_db</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">redshift_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step6/query_execution.html#connect_to_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step6.query_execution.connect_to_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to database and returns connection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>redshift_parameters</strong> (<em>dict</em>) – Redshift connection parameters.</p></li>
+<li><p><strong>user</strong> (<em>str</em>) – Redshift user required to connect.</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – Password associated to the user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>boto3 redshift connection</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Connection</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.engine.step6.query_execution.execute_query">
-<span class="sig-prename descclassname"><span class="pre">src.engine.step6.query_execution.</span></span><span class="sig-name descname"><span class="pre">execute_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cursor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step6/query_execution.html#execute_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step6.query_execution.execute_query" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="src.engine.step6.query_execution.execute_query">
+<code class="sig-prename descclassname"><span class="pre">src.engine.step6.query_execution.</span></code><code class="sig-name descname"><span class="pre">execute_query</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cursor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/engine/step6/query_execution.html#execute_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.engine.step6.query_execution.execute_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute query</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cursor</strong> (<em>boto3 cursor</em>) – boto3 object pointing and with established connection to Redshift.</p></li>
+<li><p><strong>query</strong> (<em>str</em>) – SQL query.</p></li>
+<li><p><strong>limit</strong> (<em>int</em>) – Limit of rows returned by the data frame. Default to “None” for no limit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Data Frame with the query results.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 
@@ -214,7 +243,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+        &#169; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved..
 
     </p>
   </div>

@@ -1,7 +1,7 @@
 Model Performance Results
 =========================
 
-In this POC, there are two metrics used to evaluate the model:
+In this project, there are two metrics used to evaluate the model:
 
 1. Exact-matching (Logical-form) Accuracy: 
 The percentage of the predicted queries having the exact match with the ground truth queries.
@@ -25,4 +25,3 @@ The trained model performance is summarized in the table below.
      - 0.9999
      - 0.9999
      
-In addition, we also tested the model against similar input questions that were provided by the customer. We could get similar results on model performance.

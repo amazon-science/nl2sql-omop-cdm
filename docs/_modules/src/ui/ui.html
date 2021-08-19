@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>src.ui.ui &mdash; Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
+  <title>src.ui.ui &mdash; NL2SQL: Natural Language to SQL Queries in the OMOP CDM 06/30/2021 documentation</title>
   
 
   
@@ -51,7 +51,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home"> Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM
+            <a href="../../../index.html" class="icon icon-home"> NL2SQL: Natural Language to SQL Queries in the OMOP CDM
           
 
           
@@ -107,7 +107,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">Merck PoC: Natural Language Queries to SQL Queries in the OMOP CDM</a>
+          <a href="../../../index.html">NL2SQL: Natural Language to SQL Queries in the OMOP CDM</a>
         
       </nav>
 
@@ -175,8 +175,8 @@
 <span class="kn">import</span> <span class="nn">layouts</span>
 <span class="kn">from</span> <span class="nn">detection_visualizer</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">renderer</span><span class="p">,</span>
-    <span class="n">prepare_visuazliation_input_for_raw_entities</span><span class="p">,</span>
-    <span class="n">prepare_visuazliation_input_for_processed_entities</span><span class="p">,</span>
+    <span class="n">prepare_visualization_input_for_raw_entities</span><span class="p">,</span>
+    <span class="n">prepare_visualization_input_for_processed_entities</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># create logs folder if it does not exist</span>
@@ -607,8 +607,8 @@
         <span class="n">record</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">now</span><span class="p">,</span>
             <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nlq</span><span class="p">,</span>
-            <span class="s2">&quot;args original&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_proc_entities</span><span class="p">,</span>  <span class="c1"># make a copy on &quot;detect&quot;</span>
-            <span class="s2">&quot;args corrected&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">proc_entities</span><span class="p">,</span>  <span class="c1"># last version of args</span>
+            <span class="s2">&quot;args original&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_proc_entities</span><span class="p">,</span>
+            <span class="s2">&quot;args corrected&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">proc_entities</span><span class="p">,</span>
             <span class="s2">&quot;correct&quot;</span><span class="p">:</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">feedback_options</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;Successful&quot;</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
         <span class="p">}</span>
 
@@ -881,10 +881,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">general_output_vsection</span><span class="o">.</span><span class="n">clear_output</span><span class="p">()</span>
         <span class="n">html_detected_entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visualize_entities</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">,</span> <span class="n">prepare_visuazliation_input_for_raw_entities</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">,</span> <span class="n">prepare_visualization_input_for_raw_entities</span>
         <span class="p">)</span>
         <span class="n">html_replaced_entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visualize_entities</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">proc_entities</span><span class="p">,</span> <span class="n">prepare_visuazliation_input_for_processed_entities</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">proc_entities</span><span class="p">,</span> <span class="n">prepare_visualization_input_for_processed_entities</span>
         <span class="p">)</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">general_output_vsection</span><span class="p">:</span>
@@ -1034,7 +1034,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Yupeng Li (Merck), Weilin Meng (Merck), Miguel Romero (AWS), Tesfagabir Meharizghi (AWS), Selvan Senthivel (AWS), Saman Sarraf (AWS), Lin Lee Cheong (AWS).
+        &#169; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved..
 
     </p>
   </div>

@@ -1,16 +1,5 @@
-Completion doc: Natural Language Queries to SQL Queries in the OMOP CDM
-========================================================================
-
-.. figure:: _static/merck-logo.png
-   :scale: 40 %
-   :align: center
-   
-
-* **Customer Division**: Merck & Co., Inc.
-
-* **Customer location**: Kenilworth, New Jersey, USA 
-
-* **POC start date, end date**:  February 2021 – June 2021
+NL2SQL: Natural Language Queries to SQL Queries in the OMOP CDM
+================================================================
 
 Overview
 ---------
@@ -21,39 +10,25 @@ Real-world data (RWD) are increasingly useful for healthcare providers, payors, 
    :scale: 95 %
    :align: center
    
-   Business use case diagram
+   NL2SQL tool use case diagram
 
 
 Objectives
 ----------
 
-The high level goal of the project is to create a tool that enables researcher and healthcare specialists to query the OMOP CDM using Natural Language. PoC will be using the DeSynPUF data on OMOP CDM with approximately 23M people. 
-
-The success criteria of this project is:
-
-* Proof execution performance of key queries from Merck on the CMS DeSynPUF dataset (in the OMOP CDM).
-
-The deliverables are:
-
-* Set-up a SageMaker UI demo environment in Merck’s internal account. 
-* Hand over tool to productionise → consistent with Merck pipeline
-* Paper and open source dataset.
-* Paper and/or blog on the tool
-* Merck’s public reference 
-
-Evaluation criteria: Given data limitations, the success will be evaluated based on the model performance on alternative ways to ask in-scope questions (seen during training) to their respective SQL query rather than its generalization capabilities to unseen questions. 
+The high level goal of the project is to create a tool that enables researcher and healthcare specialists to query the OMOP CDM using Natural Language. The project uses the `DeSynPUF data <https://www.cms.gov/Research-Statistics-Data-and-Systems/Downloadable-Public-Use-Files/SynPUFs/DE_Syn_PUF>`_ on OMOP CDM with approximately 23M people. 
 
 .. figure:: _static/ui.png
    :scale: 95 %
    :align: center
    
-   Graphical User Interface of the PoC
+   Graphical User Interface of the NL2SQL Tool
 
 
 Scope
 ------
 
-The scope is defined by the following constraints:
+In this project, the scope is defined by the following constraints:
 
 * English language only
 * Questions must be specific. For example, “Patients with condition and some observation criteria some number of days prior to or after initial condition” should specify the exact number of days permitted. 
@@ -78,6 +53,7 @@ The scope is defined by the following constraints:
 * Users can query patients by year of birth.
 * Time windows (e.g. having taking 2 drugs in less than 60 days) will only support day units.
 
+Note: The scope can easily be expanded by collecting more inclusive questions and their corresponding SQL queries for model training.
 
 Summary
 --------
@@ -85,10 +61,10 @@ Summary
 What are the key technical decisions and challenges of the project?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The OMOP CDM presents a series of complexities that prevent traditional out of the shelf NL2SQL models to be applied. While we are aware of other complexities, for this PoC we are considering the following central complexities to draft a tool to address them.
+The OMOP CDM presents a series of complexities that prevent traditional out of the shelf NL2SQL models to be applied. While we are aware of other complexities, for this project we are considering the following central complexities to draft a tool to address them.
 
 1. Medical terms can be classified in multiple vocabularies/ontologies. The OMOP CDM contains a stack of vocabularies and users are not required to use concepts in a specific vocabulary.
-2. OMOP contain standard and non-standard concepts. Standard concepts can be used to query other tables in the DataBase. For this PoC we will limit ourselves to query using standard concepts.
+2. OMOP contain standard and non-standard concepts. Standard concepts can be used to query other tables in the DataBase. For this project, we will limit ourselves to query using standard concepts.
 3. All medical concepts are contained on the “concept” table. They appear in the “concept_name” column and relate them to a “concept_id” which is unique across OMOP and are used across tables. The concept id is required to create queries.
 4. When querying for a drug we can not only query for the general drug but also for any format of this drug (e.g. aspirin, aspirin 500g, aspirin 500g in tablets, etc.). A similar problem arises with conditions.
 
@@ -101,7 +77,7 @@ Three modeling approaches were drafted to overcome those complexities. The one o
 What data processing decisions did the team make based on the business objectives and customer data quality, type, size?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-56 Natural Language Queries (NLQ) and their corresponding OMOP CDM were created in base of Merck's highest value queries. Alternative ways in which those can be asked were then delivered by Odysseus, a customer vendor specialized in OMOP CDM. 
+56 Natural Language Queries (NLQ) and their corresponding OMOP CDM were created based on their highest value queries. Alternative ways in which those can be asked (equivalent questions) were also generated.
 
 What models and methodologies are the team exploring and why?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
