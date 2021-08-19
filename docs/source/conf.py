@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 # -- Project information -----------------------------------------------------
 
 project = 'NL2SQL: Natural Language to SQL Queries in the OMOP CDM'
-copyright = 'Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.'
+copyright = 'Amazon.com, Inc. or its affiliates. All Rights Reserved.'
 
 # The full version, including alpha/beta/rc tags
 release = '06/30/2021'
