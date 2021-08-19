@@ -1,4 +1,0 @@
-The problem
-===========
-
-[TODO: explanation]
