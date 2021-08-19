@@ -1,7 +1,7 @@
 Moving forward
 ===============
 
-The following ares will require additional work to extend the scope and improve the tool performance to an automated production level.
+The following area will require additional work to extend the scope and improve the tool performance to an automated production level.
 
 1. Extend the number of generic OMOP CDM NLQ used during training. 
 

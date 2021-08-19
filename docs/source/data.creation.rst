@@ -59,7 +59,7 @@ The dataset creation process is summarized in the diagram below.
 
 Dataset Size
 ============
-The dataset size used in the POC is shown below:
+The dataset size used in the project is shown below:
 
 .. list-table:: Dataset Size
    :widths: 50 50
