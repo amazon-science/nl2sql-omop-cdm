@@ -1,3 +1,9 @@
+"""
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+SPDX-License-Identifier: CC-BY-NC-4.0
+"""
+
 # This module contains the templates used to render the output of the ML model.
 # The mapping placeholder -> template is specified in src/config & the domain-specific rendering functions in rendering_functions.
 

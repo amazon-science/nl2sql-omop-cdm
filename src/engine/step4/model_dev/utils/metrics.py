@@ -1,4 +1,9 @@
 """
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.  
+
+SPDX-License-Identifier: CC-BY-NC-4.0
+
+
 The module contains util functions to compute the metrics of a trained model.
 """
 

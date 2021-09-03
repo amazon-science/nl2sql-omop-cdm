@@ -1,3 +1,9 @@
+"""
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+SPDX-License-Identifier: CC-BY-NC-4.0
+"""
+
 import boto3
 import re
 from _extraction_helpers import _add_cm_entity, _detect_entities_with_regex

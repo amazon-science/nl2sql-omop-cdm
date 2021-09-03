@@ -1,6 +1,13 @@
 """
 Module to load and infer query from the given input question.
+
+
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+SPDX-License-Identifier: CC-BY-NC-4.0
 """
+
+
 import re
 from os import path as osp
 import argparse

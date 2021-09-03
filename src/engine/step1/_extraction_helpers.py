@@ -1,3 +1,9 @@
+"""
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+SPDX-License-Identifier: CC-BY-NC-4.0
+"""
+
 # Notes
 #     Time has to be given in digits, not words. It can handle cases such as "24 days".
 #     For the time being we are not looking at extracting time unit even though it will be a relatively easy simple

@@ -1,3 +1,9 @@
+"""
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+SPDX-License-Identifier: CC-BY-NC-4.0
+"""
+
 # This module contains the rendering functions used to convert ML outputs into final queries.
 # The mapping placeholder -> template is specified in src/config & the rendered sub-queries in template_definitions.
 

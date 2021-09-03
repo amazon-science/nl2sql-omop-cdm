@@ -1,4 +1,9 @@
 """
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+SPDX-License-Identifier: CC-BY-NC-4.0
+
+
 This module contains a function to fine-tune a T5-based pretrained model with a custom dataset.
 """
 

@@ -1,4 +1,10 @@
 """
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+SPDX-License-Identifier: CC-BY-NC-4.0
+"""
+
+"""
 The module performs the following tasks:
     - Get model inference for validation and test sets.
     - Compute the model's exact-matching and execution accuracies
