@@ -102,3 +102,6 @@ The percentage of the predicted queries having the exact match with the ground t
 
 2. Execution Accuracy: 
 The percentage of the predicted queries, when executed, result in the correct result.
+
+
+To get more info about the NL2SQL tool, please refer to [this doc](nl2sql-tool.md).
