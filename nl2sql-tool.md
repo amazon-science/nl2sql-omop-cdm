@@ -4,7 +4,7 @@
 
 This page provides an overview of the tool design. The tool has a unique input and a unique output which are the Natural Language Query (NLQ) and the resulting table respectively. It is composed of 6 sequential steps illustrated in the figure below.
 
-[Tool's engine diagram (click for full-size view)](images/tool_schema.png)
+![Tool's engine diagram (click for full-size view)](images/tool_schema.png)
 
 
 ## NL2SQL Steps
@@ -73,11 +73,11 @@ And the SQL query template may look like the following:
 
 In the above case, the specific database name is replaced with `<SCHEMA>` to make it generalizable. The query part to select all races is also substitued with `<RACE-TEMPLATE>`. And finally, the specific race `White` is also replaced with its corresponding arg `<ARG-RACE><0>` which is the same as that of the input question template.
 
-Once the unwrapped equivalent question templates and SQL query templates are generated, they are fed into the model as its inputs and outputs respectively during its training and evaluation.
+Once the unwrapped equivalent question templates and SQL query templates are generated, they are fed into the model as its inputs and outputs respectively during its training and evaluation. Sample dataset for model training is found [here](https://github.com/OHDSI/Nostos). Feel free to download it and try out the NL2SQL pipeline.
 
 The dataset creation process is summarized in the diagram below.
 
-[The Dataset Creation Process](images/data_creation.png)
+![The Dataset Creation Process](images/data_creation.png)
 
 ## ML Model Development
 
@@ -89,4 +89,4 @@ You can also test trained model and run inference for a single input question. T
 
 The end-to-end model development process is summarized in the diagram below.
 
-[The ML Model Development Process](images/model_dev.png)
+![The ML Model Development Process](images/model_dev.png)
