@@ -104,4 +104,12 @@ The percentage of the predicted queries having the exact match with the ground t
 The percentage of the predicted queries, when executed, result in the correct result.
 
 
-To get more info about the NL2SQL tool, please refer to [this doc](nl2sql-tool.md).
+To get more info about the NL2SQL tool, please refer to [this nl2sql-tool doc](nl2sql-tool.md).
+
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This library is licensed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) License. See the [LICENSE](LICENSE) file.
