@@ -1,11 +1,5 @@
 """
 The module implements a custom dataset class to prepare it for model training.
-
-Code partially borrowed from
-    https://github.com/DorBernsohn/CodeLM/tree/main/SQLM/dataset.py
-
-License: Unknown
-[TODO]: Add more info
 """
 
 import os

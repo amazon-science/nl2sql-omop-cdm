@@ -1,11 +1,5 @@
 """
 The module creates a class to fine-tune T5-based pretrained model.
-
-Code partially borrowed from
-    https://github.com/DorBernsohn/CodeLM/tree/main/SQLM/model.py
-
-License: Unknown
-[TODO]: Add more info
 """
 
 import torch
