@@ -38,20 +38,21 @@ def get_descendent_concepts_template_from_vocab_code(schema, vocab, concept_code
 
     join_codes_condition = "( " + " OR ".join(concept_codes_conditions) + " )"
 
-    out = (f"( SELECT descendant_concept_id AS concept_id FROM " +
-           f"(SELECT * FROM " +
-           f"(SELECT concept_id_2 FROM " +
-           f"( " +
-           f"(SELECT concept_id FROM " +
-           f"{schema}.concept WHERE vocabulary_id='{vocab}' AND {join_codes_condition}) " +
-           f"JOIN " +
-           f"( SELECT concept_id_1, concept_id_2 FROM " +
-           f"{schema}.concept_relationship WHERE relationship_id='Maps to' ) " +
-           f"ON concept_id=concept_id_1) " +
-           f") JOIN {schema}.concept ON concept_id_2=concept_id) " +
-           f"JOIN {schema}.concept_ancestor ON concept_id=ancestor_concept_id " +
-           f") "
-          )
+    out = (
+        f"( SELECT descendant_concept_id AS concept_id FROM "
+        + f"(SELECT * FROM "
+        + f"(SELECT concept_id_2 FROM "
+        + f"( "
+        + f"(SELECT concept_id FROM "
+        + f"{schema}.concept WHERE vocabulary_id='{vocab}' AND {join_codes_condition}) "
+        + f"JOIN "
+        + f"( SELECT concept_id_1, concept_id_2 FROM "
+        + f"{schema}.concept_relationship WHERE relationship_id='Maps to' ) "
+        + f"ON concept_id=concept_id_1) "
+        + f") JOIN {schema}.concept ON concept_id_2=concept_id) "
+        + f"JOIN {schema}.concept_ancestor ON concept_id=ancestor_concept_id "
+        + f") "
+    )
 
     return out
 
@@ -69,14 +70,15 @@ def get_unique_concept_template(schema, domain, concept_name):
         str: Rendered subquery with input arguments.
     """
 
-    out = (f" ( " +
-           f"SELECT concept_id " +
-           f"FROM {schema}.concept " +
-           f"WHERE concept_name='{concept_name}' " +
-           f"AND domain_id='{domain}' " +
-           f"AND standard_concept='S' " +
-           f") "
-          )
+    out = (
+        f" ( "
+        + f"SELECT concept_id "
+        + f"FROM {schema}.concept "
+        + f"WHERE concept_name='{concept_name}' "
+        + f"AND domain_id='{domain}' "
+        + f"AND standard_concept='S' "
+        + f") "
+    )
 
     return out
 
@@ -93,12 +95,14 @@ def get_concept_name_template(schema, domain):
         str: Rendered subquery with input arguments.
     """
 
-    out = (f" ( " +
-           f"SELECT concept_id, concept_name AS {domain.lower()} " +
-           f"FROM {schema}.concept " +
-           f"WHERE domain_id='{domain}' " +
-           f"AND standard_concept='S' " +
-           f") ")
+    out = (
+        f" ( "
+        + f"SELECT concept_id, concept_name AS {domain.lower()} "
+        + f"FROM {schema}.concept "
+        + f"WHERE domain_id='{domain}' "
+        + f"AND standard_concept='S' "
+        + f") "
+    )
 
     return out
 
@@ -114,12 +118,13 @@ def get_state_template(schema, state_acronym):
     Returns:
         str: Rendered subquery with input arguments.
     """
-    out = (f" ( " +
-           f"SELECT location_id " +
-           f"FROM {schema}.location " +
-           f"WHERE state='{state_acronym}' " +
-           f") "
-          )
+    out = (
+        f" ( "
+        + f"SELECT location_id "
+        + f"FROM {schema}.location "
+        + f"WHERE state='{state_acronym}' "
+        + f") "
+    )
     return out
 
 
@@ -133,9 +138,5 @@ def get_state_name_template(schema):
     Returns:
         str: Rendered subquery with input arguments.
     """
-    out = (f" ( " +
-           f"SELECT location_id, state " +
-           f"FROM {schema}.location " +
-           f") "
-          )
+    out = f" ( " + f"SELECT location_id, state " + f"FROM {schema}.location " + f") "
     return out

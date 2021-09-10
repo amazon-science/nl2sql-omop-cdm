@@ -20,11 +20,11 @@ def connect_to_db(redshift_parameters, user, password):
 
     Args:
         redshift_parameters (dict): Redshift connection parameters.
-        user (str): Redshift user required to connect. 
+        user (str): Redshift user required to connect.
         password (str): Password associated to the user
 
     Returns:
-        Connection: boto3 redshift connection 
+        Connection: boto3 redshift connection
 
     """
 
@@ -75,7 +75,12 @@ if __name__ == "__main__":
     from __init__ import *
     import config
 
-    sql_query = "SELECT COUNT(person_id) FROM cmsdesynpuf23m.person JOIN  ( SELECT concept_id FROM cmsdesynpuf23m.concept WHERE concept_name='FEMALE' AND domain_id='Gender' AND standard_concept='S' )  ON gender_concept_id=concept_id;"
+    sql_query = (
+        "SELECT COUNT(person_id) FROM cmsdesynpuf23m.person "
+        + "JOIN  ( SELECT concept_id FROM cmsdesynpuf23m.concept "
+        + "WHERE concept_name='FEMALE' AND domain_id='Gender' AND "
+        + "standard_concept='S' )  ON gender_concept_id=concept_id;"
+    )
 
     conn = connect_to_db(config.REDSHIFT_PARM)
     cursor = conn.cursor()
