@@ -10,4 +10,4 @@ datasets==1.5.0
 nlp==0.4.0
 rouge-score==0.0.4
 sentencepiece==0.1.95
-transformers==4.5.1
+transformers==4.30.0
